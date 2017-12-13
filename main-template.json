@@ -222,7 +222,8 @@
             "sqlAuthenticationLogin": "[parameters('sqlAdministratorLogin')]",
             "sqlAuthenticationPassword": "[parameters('sqlAdministratorLoginPassword')]",
             "collation": "SQL_Latin1_General_CP1_CI_AS",
-            "databaseName": "azuredb",
+            "databaseName1": "iotdb",
+            "databaseName2": "webdb",
             "edition": "Standard",
             "requestedServiceObjectiveName": "S2",
             "maxSizeBytes": "268435456000",
@@ -267,10 +268,10 @@
             "notificationIcon": "./csu/Assets/logo.png",
             "anomalyThreshold": "0.6",
             "meterKWHCost": "0.04",
-            "databaseConnString": "[concat('data source=',variables('azureSQL').serverName,'.database.windows.net;initial catalog=',variables('azureSQL').databaseName,';persist security info=True;user id=',parameters('sqlAdministratorLogin'),';password=',parameters('sqlAdministratorLoginPassword'))]",
+            "databaseConnString": "[concat('data source=',variables('azureSQL').serverName,'.database.windows.net;initial catalog=',variables('azureSQL').databaseName1,';persist security info=True;user id=',parameters('sqlAdministratorLogin'),';password=',parameters('sqlAdministratorLoginPassword'))]",
             "notificationClickAction": "[variables('websiteFullAddress')]",
             "restServerPackageURI": "[concat(variables('restServerDeployPackageURI'), variables('sasToken'))]",
-            "powerGridEntities": "[concat('metadata=res://*/Entities.PowergridModel.csdl|res://*/Entities.PowergridModel.ssdl|res://*/Entities.PowergridModel.msl;provider=System.Data.SqlClient;provider connection string=\"data source=',variables('azureSQL').serverName,'.database.windows.net;initial catalog=',variables('azureSQL').databaseName,';persist security info=True;user id=',parameters('sqlAdministratorLogin'),';password=',parameters('sqlAdministratorLoginPassword'),';multipleactiveresultsets=True;application name=EntityFramework\"')]"
+            "powerGridEntities": "[concat('metadata=res://*/Entities.PowergridModel.csdl|res://*/Entities.PowergridModel.ssdl|res://*/Entities.PowergridModel.msl;provider=System.Data.SqlClient;provider connection string=\"data source=',variables('azureSQL').serverName,'.database.windows.net;initial catalog=',variables('azureSQL').databaseName1,';persist security info=True;user id=',parameters('sqlAdministratorLogin'),';password=',parameters('sqlAdministratorLoginPassword'),';multipleactiveresultsets=True;application name=EntityFramework\"')]"
         },
         "iotHubSettings": {
             "location": "[variables('location')]",
@@ -287,11 +288,32 @@
         "webAppDeployPackageURI": "https://projectiot.blob.core.windows.net/iotp2/CSUWebApp.zip",
         "restServerDeployPackageURI": "https://projectiot.blob.core.windows.net/iotp2/RestService.zip",
         "sasToken": "?",
-        "baseUrl": "https://raw.githubusercontent.com/sysgain/iot-automation/iot-automation/",
+        "baseUrl": "https://raw.githubusercontent.com/sysgain/iot-emsre/staging/",
         "deploymentApiVersion": "2016-02-01",
         "suffix": "[substring(uniqueString(resourceGroup().id), 0, 5)]"
     },
     "resources": [
+        {
+            "type": "Microsoft.Resources/deployments",
+            "name": "IotHub",
+            "apiVersion": "[variables('deploymentApiVersion')]",
+            "dependsOn": [],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUrl'), 'nested/iot-hub.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "iotHubSettings": {
+                        "value": "[variables('iotHubSettings')]"
+                    },
+                    "apiVersions": {
+                        "value": "[variables('apiVersions')]"
+                    }
+                }
+            }
+        },
         {
             "type": "Microsoft.Resources/deployments",
             "name": "AppComponents",

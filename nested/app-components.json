@@ -35,7 +35,7 @@
                         "[concat('Microsoft.Sql/servers/', parameters('azureSQL').serverName)]"
                     ],
                     "location": "[resourceGroup().location]",
-                    "name": "[parameters('azureSQL').databaseName]",
+                    "name": "[parameters('azureSQL').databaseName1]",
                     "properties": {
                         "collation": "[parameters('azureSQL').collation]",
                         "edition": "[parameters('azureSQL').edition]",
@@ -48,7 +48,7 @@
                             "type": "extensions",
                             "apiVersion": "[parameters('apiVersions').sqlDBApiVersion]",
                             "dependsOn": [
-                                "[concat('Microsoft.Sql/servers/',parameters('azureSQL').serverName, '/databases/', parameters('azureSQL').databaseName)]"
+                                "[concat('Microsoft.Sql/servers/',parameters('azureSQL').serverName, '/databases/', parameters('azureSQL').databaseName1)]"
                             ],
                             "properties": {
                                 "storageKeyType": "[parameters('azureSQL').storageKeyType]",
@@ -61,6 +61,7 @@
                         }
                     ]
                 },
+
                 {
                     "type": "firewallrules",
                     "location": "[parameters('azureSQL').location]",
@@ -413,7 +414,7 @@
         },
         "azureDBName":{
             "type": "string",
-            "value": "[parameters('azureSQL').databaseName]"
+            "value": "[parameters('azureSQL').databaseName1]"
         }
     }
 }
