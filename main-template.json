@@ -137,8 +137,6 @@
   "variables": {
     "apiVersions": {
       "deploymentApiVersion": "2016-02-01",
-      "computeApiVersion": "2016-04-30-preview",
-      "networkApiVersion": "2016-09-01",
       "storageApiVersion": "2016-01-01",
       "sqlServerApiVersion": "2015-05-01-preview",
       "sqlDBApiVersion": "2014-04-01-preview",
@@ -146,9 +144,7 @@
       "planApiVersion": "2016-05-01-preview",
       "webApiVersion": "2016-03-01",
       "webApiVersion1": "2015-08-01",
-      "webApiVersion2": "2014-08-01-preview",
-      "routtableApiVersion": "2015-06-15",
-      "vaultApiVersion": "2016-06-01"
+      "webApiVersion2": "2014-08-01-preview"
     },
     "azureSQL": {
       "location": "[variables('location')]",
