@@ -132,6 +132,76 @@
       "metadata": {
         "description": "Pricing tier for Workspace"
       }
+    },
+    "iotHubSkuName": {
+      "type": "string",
+      "allowedValues": [
+        "F1",
+        "S1",
+        "S2"
+      ],
+      "defaultValue": "F1",
+      "metadata": {
+        "description": "One of the supported SKUs: F1, S1 or S2"
+      }
+    },
+    "capacityUnits": {
+      "type": "int",
+      "minValue": 1,
+      "defaultValue": 1,
+      "metadata": {
+        "description": "Number of desired IoT Hub units. Restricted to 1 unit for F1. Can be set up to maximum number allowed for subscription."
+      }
+    },
+    "d2cMessageRetentionInDaysPeriod": {
+      "type": "int",
+      "minValue": 1,
+      "maxValue": 7,
+      "defaultValue": 1,
+      "metadata": {
+        "description": "Retention time in days for device-to-cloud messages."
+      }
+    },
+    "d2cPartitionCount": {
+      "type": "int",
+      "minValue": 2,
+      "defaultValue": 2,
+      "allowedValues": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32
+      ],
+      "metadata": {
+        "description": "Number of desired partitions for device-to-cloud event ingestion."
+      }
     }
   },
   "variables": {
@@ -144,7 +214,8 @@
       "planApiVersion": "2016-05-01-preview",
       "webApiVersion": "2016-03-01",
       "webApiVersion1": "2015-08-01",
-      "webApiVersion2": "2014-08-01-preview"
+      "webApiVersion2": "2014-08-01-preview",
+      "iotHubApiversion": "2016-02-03"
     },
     "azureSQL": {
       "location": "[variables('location')]",
@@ -164,7 +235,9 @@
       "location": "South Central US",
       "workspaceName": "workspace",
       "mlSkuName": "[parameters('MLskuName')]",
-      "mlStorageName": "[concat('mlstr', variables('suffix'))]"
+      "mlStorageName": "[concat('mlstr', variables('suffix'))]",
+      "d2cMessageRetentionInDaysPeriod":"[parameters('d2cMessageRetentionInDaysPeriod')]",
+      "d2cPartitionCount":"[parameters('d2cPartitionCount')]"
     },
     "webSiteSettings": {
       "location": "[variables('location')]",
@@ -198,6 +271,14 @@
       "notificationClickAction": "[variables('websiteFullAddress')]",
       "restServerPackageURI": "[concat(variables('restServerDeployPackageURI'), variables('sasToken'))]",
       "powerGridEntities": "[concat('metadata=res://*/Entities.PowergridModel.csdl|res://*/Entities.PowergridModel.ssdl|res://*/Entities.PowergridModel.msl;provider=System.Data.SqlClient;provider connection string=\"data source=',variables('azureSQL').serverName,'.database.windows.net;initial catalog=',variables('azureSQL').databaseName,';persist security info=True;user id=',parameters('sqlAdministratorLogin'),';password=',parameters('sqlAdministratorLoginPassword'),';multipleactiveresultsets=True;application name=EntityFramework\"')]"
+    },
+    "iotHubSettings":{
+      "location": "[variables('location')]",
+      "iotHubName":"[concat('iot-hub', variables('suffix'))]",
+      "skuName": "[parameters('iotHubSkuName')]",
+      "capacityUnits": "[parameters('capacityUnits')]",
+      "d2cMessageRetentionInDaysPeriod":"[parameters('d2cMessageRetentionInDaysPeriod')]",
+      "d2cPartitionCount":"[parameters('d2cPartitionCount')]"
     },
     "location": "[resourceGroup().location]",
     "websiteFullAddress": "[concat('https://',parameters('websiteName'),'.azurewebsites.net/')]",

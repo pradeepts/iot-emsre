@@ -1,0 +1,33 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "iotHubSettings": {
+            "type": "object"
+        },
+        "apiVersions": {
+            "type": "object"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "apiVersion": "[parameters('apiVersions').iotHubApiversion]",
+            "type": "Microsoft.Devices/IotHubs",
+            "location": "[parameters('iotHubSettings').location]",
+            "name": "[parameters('iotHubSettings').iotHubName]",
+            "sku": {
+                "name": "[parameters('iotHubSettings').skuName]",
+                "capacity": "[parameters('iotHubSettings').capacityUnits]"
+            },
+            "properties": {
+                "eventHubEndpoints": {
+                    "events": {
+                        "retentionTimeInDays": "[parameters('iotHubSettings').d2cMessageRetentionInDaysPeriod]",
+                        "partitionCount":"[parameters('iotHubSettings').d2cPartitionCount]"
+                    }
+                }
+            }
+        }
+    ]
+}
