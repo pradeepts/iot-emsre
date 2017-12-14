@@ -200,7 +200,7 @@
                 32
             ],
             "metadata": {
-                "description": "Number of desired partitions for device-to-cloud event ingestion."
+                "description": "Number of desired partitions for device-to-cloud event ingestion.Restricted to 1 unit for F1"
             }
         },
         "numberOfStreamingUnits": {
