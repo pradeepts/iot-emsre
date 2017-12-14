@@ -278,7 +278,7 @@
             "name": "[parameters('webSiteSettings').jobCollectionName]",
             "properties": {
                 "sku": {
-                    "name": "Standard"
+                    "name": "Free"
                 },
                 "quota": {
                     "maxJobCount": "10",

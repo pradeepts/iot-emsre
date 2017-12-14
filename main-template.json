@@ -25,8 +25,9 @@
         },
         "skuName": {
             "type": "string",
-            "defaultValue": "S1",
+            "defaultValue": "F1",
             "allowedValues": [
+                "F1",
                 "D1",
                 "B1",
                 "B2",
@@ -247,8 +248,8 @@
             "collation": "SQL_Latin1_General_CP1_CI_AS",
             "databaseName1": "iotdb",
             "databaseName2": "webdb",
-            "edition": "Standard",
-            "requestedServiceObjectiveName": "S2",
+            "edition": "Basic",
+            "requestedServiceObjectiveName": "Basic",
             "maxSizeBytes": "268435456000",
             "serverName": "[concat('sqlserver',variables('suffix'))]",
             "storageKeyType": "SharedAccessKey",
@@ -261,9 +262,7 @@
             "location": "South Central US",
             "workspaceName": "workspace",
             "mlSkuName": "[parameters('MlSkuName')]",
-            "mlStorageName": "[concat('mlstr', variables('suffix'))]",
-            "d2cMessageRetentionInDaysPeriod": "[parameters('d2cMessageRetentionInDaysPeriod')]",
-            "d2cPartitionCount": "[parameters('d2cPartitionCount')]"
+            "mlStorageName": "[concat('mlstr', variables('suffix'))]"
         },
         "webSiteSettings": {
             "location": "[variables('location')]",
