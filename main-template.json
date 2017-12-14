@@ -202,7 +202,28 @@
             "metadata": {
                 "description": "Number of desired partitions for device-to-cloud event ingestion."
             }
-        }
+        },
+        "numberOfStreamingUnits": {
+            "type": "int",
+            "minValue": 1,
+            "maxValue": 48,
+            "allowedValues": [
+              1,
+              3,
+              6,
+              12,
+              18,
+              24,
+              30,
+              36,
+              42,
+              48
+            ],
+            "metadata": {
+              "description": "Number of Streaming Units"
+            }
+          }
+        
     },
     "variables": {
         "apiVersions": {
@@ -215,7 +236,8 @@
             "webApiVersion": "2016-03-01",
             "webApiVersion1": "2015-08-01",
             "webApiVersion2": "2014-08-01-preview",
-            "iotHubApiversion": "2016-02-03"
+            "iotHubApiversion": "2016-02-03",
+            "saApiVersion":
         },
         "azureSQL": {
             "location": "[variables('location')]",
@@ -280,6 +302,13 @@
             "capacityUnits": "[parameters('capacityUnits')]",
             "d2cMessageRetentionInDaysPeriod": "[parameters('d2cMessageRetentionInDaysPeriod')]",
             "d2cPartitionCount": "[parameters('d2cPartitionCount')]"
+        },
+        "streamAnalyticsSettings":{
+            "location": "[variables('location')]",
+            "streamAnalyticsJobName":"[concat('stream-analytics', variables('suffix'))]",
+            "sku":"standard",
+            "numberOfStreamingUnits":"[parameters('numberOfStreamingUnits')]"
+
         },
         "location": "[resourceGroup().location]",
         "websiteFullAddress": "[concat('https://',parameters('websiteName'),'.azurewebsites.net/')]",
