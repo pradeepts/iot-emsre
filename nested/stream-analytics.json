@@ -10,6 +10,9 @@
         },
         "apiVersions":{
             "type": "object"
+        },
+        "azureSQL": {
+            "type": "object"
         }
     },
     "resources": [
@@ -54,32 +57,21 @@
                     "name": "Transformation",
                     "properties": {
                         "streamingUnits":"[parameters('streamAnalyticsSettings').numberOfStreamingUnits]",
-                        "query": "SELECT\r\n    *\r\nINTO\r\n    [YourOutputAlias]\r\nFROM\r\n    [IoTHub]"
+                        "query": "SELECT\r\n    *\r\nINTO\r\n    [DataBase]\r\nFROM\r\n    [IoTHub]"
                     }
                 },
                 "outputs": [
                     {
-                      "name": "PBI",
+                      "name": "DataBase",
                       "properties": {
                         "dataSource": {
-                          "type": "PowerBI",
-                          "outputPowerBISource": {
-                            "dataSet": "HeartDataSet",
-                            "table": "HeartDataTable",
-                            "groupId": "",
-                            "groupName": "My Workspace",
-                            "refreshToken": "dummytoken",
-                            "tokenUserDisplayName": "[parameters('userDisplayName')]",
-                            "tokenUserPrincipalName": "[parameters('userLoginName')]"
-                          },
+                          "type": "Microsoft.Sql/Server/Database",
                           "properties": {
-                            "dataSet": "HeartDataSet",
-                            "table": "HeartDataTable",
-                            "groupId": "",
-                            "groupName": "My Workspace",
-                            "refreshToken": "dummytoken",
-                            "tokenUserDisplayName": "[parameters('userDisplayName')]",
-                            "tokenUserPrincipalName": "[parameters('userLoginName')]"
+                            "server": "[parameters('azureSQL').serverName]",
+                            "database": "[parameters('azureSQL').databaseName1]",
+                            "user": "[parameters('azureSQL').sqlAuthenticationLogin]",
+                            "password": "[parameters('azureSQL').sqlAuthenticationPassword]",
+                            "table": "string"
                           }
                         },
                         "serialization": null,

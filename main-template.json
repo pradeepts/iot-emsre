@@ -237,7 +237,7 @@
             "webApiVersion1": "2015-08-01",
             "webApiVersion2": "2014-08-01-preview",
             "iotHubApiversion": "2016-02-03",
-            "saApiVersion":
+            "saApiVersion": "2016-03-01"
         },
         "azureSQL": {
             "location": "[variables('location')]",
@@ -252,7 +252,8 @@
             "serverName": "[concat('sqlserver',variables('suffix'))]",
             "storageKeyType": "SharedAccessKey",
             "storageKey": "?",
-            "storageUri": "https://projectiot.blob.core.windows.net/iotp2/EnergyManagement.bacpac"
+            "storageUri1": "https://projectiot.blob.core.windows.net/iothub/iotdb.bacpac",
+            "storageUri2": "https://projectiot.blob.core.windows.net/iothub/webdb.bacpac"
         },
         "mlSettings": {
             "location": "South Central US",
@@ -314,8 +315,8 @@
         "websiteFullAddress": "[concat('https://',parameters('websiteName'),'.azurewebsites.net/')]",
         "deployStorageAccountName": "releasemtr",
         "deployStorageAccountKey": "",
-        "webAppDeployPackageURI": "https://projectiot.blob.core.windows.net/iotp2/CSUWebApp.zip",
-        "restServerDeployPackageURI": "https://projectiot.blob.core.windows.net/iotp2/RestService.zip",
+        "webAppDeployPackageURI": "https://projectiot.blob.core.windows.net/iothub/CSUWebApp.zip",
+        "restServerDeployPackageURI": "https://projectiot.blob.core.windows.net/iothub/RestService.zip",
         "sasToken": "?",
         "baseUrl": "https://raw.githubusercontent.com/sysgain/iot-emsre/staging/",
         "deploymentApiVersion": "2016-02-01",
@@ -369,6 +370,33 @@
                     }
                 }
             }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "name": "StreamAnalytics",
+            "apiVersion": "[variables('deploymentApiVersion')]",
+            "dependsOn": [
+                "IotHub",
+                "AppComponents"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUrl'), 'nested/stream-analytics.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "streamAnalyticsSettings": {
+                        "value": "[variables('streamAnalyticsSettings')]"
+                    },
+                    "iotHubSettings": {
+                        "value": "[variables('iotHubSettings')]"
+                    },
+                    "apiVersions": {
+                        "value": "[variables('apiVersions')]"
+                    }
+                }
+            }
         }
     ],
     "outputs": {
@@ -376,9 +404,13 @@
             "type": "string",
             "value": "[reference('AppComponents').outputs.azureSQLServerName.value]"
         },
-        "azureSQLDBName": {
+        "azureSQLDB1Name": {
             "type": "string",
-            "value": "[reference('AppComponents').outputs.azureDBName.value]"
+            "value": "[reference('AppComponents').outputs.iotDBName.value]"
+        },
+        "azureSQLDB2Name": {
+            "type": "string",
+            "value": "[reference('AppComponents').outputs.webDBName.value]"
         },
         "azureSQLUsername": {
             "type": "string",

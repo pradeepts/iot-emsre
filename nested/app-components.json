@@ -53,7 +53,7 @@
                             "properties": {
                                 "storageKeyType": "[parameters('azureSQL').storageKeyType]",
                                 "storageKey": "[parameters('azureSQL').storageKey]",
-                                "storageUri": "[parameters('azureSQL').storageUri]",
+                                "storageUri": "[parameters('azureSQL').storageUri1]",
                                 "administratorLogin": "[parameters('azureSQL').sqlAuthenticationLogin]",
                                 "administratorLoginPassword": "[parameters('azureSQL').sqlAuthenticationPassword]",
                                 "operationMode": "Import"
@@ -61,7 +61,39 @@
                         }
                     ]
                 },
-
+                {
+                    "apiVersion": "[parameters('apiVersions').sqlDBApiVersion]",
+                    "type": "databases",
+                    "dependsOn": [
+                        "[concat('Microsoft.Sql/servers/', parameters('azureSQL').serverName)]"
+                    ],
+                    "location": "[resourceGroup().location]",
+                    "name": "[parameters('azureSQL').databaseName2]",
+                    "properties": {
+                        "collation": "[parameters('azureSQL').collation]",
+                        "edition": "[parameters('azureSQL').edition]",
+                        "maxSizeBytes": "[parameters('azureSQL').maxSizeBytes]",
+                        "requestedServiceObjectiveName": "[parameters('azureSQL').requestedServiceObjectiveName]"
+                    },
+                    "resources": [
+                        {
+                            "name": "myImport",
+                            "type": "extensions",
+                            "apiVersion": "[parameters('apiVersions').sqlDBApiVersion]",
+                            "dependsOn": [
+                                "[concat('Microsoft.Sql/servers/',parameters('azureSQL').serverName, '/databases/', parameters('azureSQL').databaseName2)]"
+                            ],
+                            "properties": {
+                                "storageKeyType": "[parameters('azureSQL').storageKeyType]",
+                                "storageKey": "[parameters('azureSQL').storageKey]",
+                                "storageUri": "[parameters('azureSQL').storageUri2]",
+                                "administratorLogin": "[parameters('azureSQL').sqlAuthenticationLogin]",
+                                "administratorLoginPassword": "[parameters('azureSQL').sqlAuthenticationPassword]",
+                                "operationMode": "Import"
+                            }
+                        }
+                    ]
+                },
                 {
                     "type": "firewallrules",
                     "location": "[parameters('azureSQL').location]",
@@ -412,9 +444,13 @@
             "type": "string",
             "value": "[concat(parameters('azureSQL').serverName,'.database.windows.net')]"
         },
-        "azureDBName":{
+        "iotDBName":{
             "type": "string",
             "value": "[parameters('azureSQL').databaseName1]"
+        },
+        "webDBName":{
+            "type": "string",
+            "value": "[parameters('azureSQL').databaseName2]"
         }
     }
 }
