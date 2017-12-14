@@ -71,7 +71,7 @@
                             "database": "[parameters('azureSQL').databaseName1]",
                             "user": "[parameters('azureSQL').sqlAuthenticationLogin]",
                             "password": "[parameters('azureSQL').sqlAuthenticationPassword]",
-                            "table": "string"
+                            "table": "[parameters('azureSQL').tableName]"
                           }
                         },
                         "serialization": null,

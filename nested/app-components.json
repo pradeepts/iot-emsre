@@ -65,7 +65,8 @@
                     "apiVersion": "[parameters('apiVersions').sqlDBApiVersion]",
                     "type": "databases",
                     "dependsOn": [
-                        "[concat('Microsoft.Sql/servers/', parameters('azureSQL').serverName)]"
+                        "[concat('Microsoft.Sql/servers/', parameters('azureSQL').serverName)]",
+                        "[concat('Microsoft.Sql/servers/',parameters('azureSQL').serverName, '/databases/', parameters('azureSQL').databaseName1)]"
                     ],
                     "location": "[resourceGroup().location]",
                     "name": "[parameters('azureSQL').databaseName2]",

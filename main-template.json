@@ -252,6 +252,7 @@
             "serverName": "[concat('sqlserver',variables('suffix'))]",
             "storageKeyType": "SharedAccessKey",
             "storageKey": "?",
+            "tableName":"dbo.PowergridView",
             "storageUri1": "https://projectiot.blob.core.windows.net/iothub/iotdb.bacpac",
             "storageUri2": "https://projectiot.blob.core.windows.net/iothub/webdb.bacpac"
         },
