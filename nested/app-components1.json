@@ -88,21 +88,21 @@
                             }
                         }
                     ]
-                },
-                {
-                    "type": "firewallrules",
-                    "location": "[parameters('azureSQL').location]",
-                    "name": "[concat(parameters('azureSQL').serverName,'/','allowall')]",
-                    "apiVersion": "[parameters('apiVersions').sqlDBApiVersion]",
-                    "dependsOn": [
-                        "[concat('Microsoft.Sql/servers/', parameters('azureSQL').serverName)]"
-                    ],
-                    "properties": {
-                        "endIpAddress": "0.0.0.0",
-                        "startIpAddress": "0.0.0.0"
-                    }
                 }
             ]
+        },
+        {
+            "type": "Microsoft.Sql/servers/firewallRules",
+            "location": "[parameters('azureSQL').location]",
+            "name": "[concat(parameters('azureSQL').serverName,'allowall')]",
+            "apiVersion": "[parameters('apiVersions').sqlDBApiVersion]",
+            "dependsOn": [
+                "[concat('Microsoft.Sql/servers/', parameters('azureSQL').serverName)]"
+            ],
+            "properties": {
+                "endIpAddress": "0.0.0.0",
+                "startIpAddress": "0.0.0.0"
+            }
         }
     ],
     "outputs": {
