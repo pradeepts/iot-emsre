@@ -250,7 +250,7 @@
             "databaseName2": "webdb",
             "edition": "Basic",
             "requestedServiceObjectiveName": "Basic",
-            "maxSizeBytes": "268435456000",
+            "maxSizeBytes": "2147483648",
             "serverName": "[concat('sqlserver',variables('suffix'))]",
             "storageKeyType": "SharedAccessKey",
             "storageKey": "?",

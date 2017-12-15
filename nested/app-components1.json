@@ -92,7 +92,7 @@
                 {
                     "type": "firewallrules",
                     "location": "[parameters('azureSQL').location]",
-                    "name": "AllowAllWindowsAzureIps",
+                    "name": "[concat(parameters('azureSQL').serverName,'/','AllowAllWindowsAzureIps')]",
                     "apiVersion": "[parameters('apiVersions').sqlDBApiVersion]",
                     "dependsOn": [
                         "[concat('Microsoft.Sql/servers/', parameters('azureSQL').serverName)]"
