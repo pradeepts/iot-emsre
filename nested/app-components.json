@@ -41,7 +41,7 @@
                     },
                     "resources": [
                         {
-                            "name": "myImport",
+                            "name": "myImport1",
                             "type": "extensions",
                             "apiVersion": "[parameters('apiVersions').sqlDBApiVersion]",
                             "dependsOn": [
@@ -74,7 +74,7 @@
                     },
                     "resources": [
                         {
-                            "name": "myImport",
+                            "name": "myImport2",
                             "type": "extensions",
                             "apiVersion": "[parameters('apiVersions').sqlDBApiVersion]",
                             "dependsOn": [
@@ -111,6 +111,10 @@
             "name": "[parameters('webSiteSettings').hostingPlanName]",
             "type": "Microsoft.Web/serverfarms",
             "location": "[parameters('webSiteSettings').location]",
+            "dependsOn": [
+                "[concat('Microsoft.Sql/servers/',parameters('azureSQL').serverName, '/databases/', parameters('azureSQL').databaseName1,'/extensions/myImport1')]",
+                "[concat('Microsoft.Sql/servers/',parameters('azureSQL').serverName, '/databases/', parameters('azureSQL').databaseName2,'/extensions/myImport2')]"
+            ],
             "sku": {
                 "name": "[parameters('webSiteSettings').skuName]",
                 "capacity": "[parameters('webSiteSettings').skuCapacity]"
