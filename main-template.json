@@ -2,13 +2,6 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "websiteName": {
-            "type": "string",
-            "defaultValue": "",
-            "metadata": {
-                "description": "Give the websitename used in the reditect URL during the webapplication creation(E.g : give 'iotwebsite' from https://iotwebsite.azurewebsites.net/redirect.html)"
-            }
-        },
         "sqlAdministratorLogin": {
             "type": "string",
             "defaultValue": "",
@@ -21,117 +14,6 @@
             "defaultValue": "",
             "metadata": {
                 "description": "The SQL authentication password of the admin user of the SQL Server, make a note of the Password this will be used further"
-            }
-        },
-        "skuName": {
-            "type": "string",
-            "defaultValue": "F1",
-            "allowedValues": [
-                "F1",
-                "D1",
-                "B1",
-                "B2",
-                "B3",
-                "S1",
-                "S2",
-                "S3",
-                "P1",
-                "P2",
-                "P3",
-                "P4"
-            ],
-            "metadata": {
-                "description": "Describes plan's pricing tier and instance size. Check details at https://azure.microsoft.com/en-us/pricing/details/app-service/"
-            }
-        },
-        "skuCapacity": {
-            "type": "int",
-            "defaultValue": 1,
-            "minValue": 1,
-            "metadata": {
-                "description": "Describes plan's instance count"
-            }
-        },
-        "emailHost": {
-            "type": "string",
-            "defaultValue": "",
-            "metadata": {
-                "description": "Describes the host name for sending email notifications"
-            }
-        },
-        "senderEmail": {
-            "type": "string",
-            "defaultValue": "",
-            "metadata": {
-                "description": "Describes the email ID of the sender for email notifications (e.g.: iot@onmicrosoft.com)"
-            }
-        },
-        "senderEmailPassword": {
-            "type": "securestring",
-            "defaultValue": "",
-            "metadata": {
-                "descrition": "Describes the password for sender email ID for email notifications"
-            }
-        },
-        "b2cTenant": {
-            "type": "string",
-            "defaultValue": "iotautomation1@onmicrosoft.com",
-            "metadata": {
-                "description": "Describes B2C Tenant Name Directory,refer the prereq section of deployment document for more info"
-            }
-        },
-        "b2cClientId": {
-            "type": "securestring",
-            "defaultValue": "",
-            "metadata": {
-                "description": "Describes the client Id of the application registered in B2C Directory,refer the prereq section of deployment document for more info"
-            }
-        },
-        "b2cClientSecret": {
-            "type": "securestring",
-            "defaultValue": "",
-            "metadata": {
-                "description": "Describes the Client secret of the application registered in B2C Directory,refer the prereq section of deployment document for more info"
-            }
-        },
-        "b2cSignUpPolicyId": {
-            "type": "string",
-            "defaultValue": "B2C_1_sign-up1",
-            "metadata": {
-                "description": "Describes the B2C Sign Up policy,refer the prereq section of deployment document for more info"
-            }
-        },
-        "b2cSignInPolicyId": {
-            "type": "string",
-            "defaultValue": "B2C_1_sign-in1",
-            "metadata": {
-                "description": "Describes the B2C Sign in policy,refer the prereq section of deployment document for more info"
-            }
-        },
-        "b2cEditProfilePolicyId": {
-            "type": "string",
-            "defaultValue": "B2C_1_profile-edit1",
-            "metadata": {
-                "description": "Describes the B2C Profile Editing policy,refer the prereq section of deployment document for more info"
-            }
-        },
-        "b2cChangePasswordPolicy": {
-            "type": "string",
-            "defaultValue": "B2C_1_password-change1",
-            "metadata": {
-                "description": "Describes the B2C Change Password policy,refer the prereq section of deployment document for more info"
-            }
-        },
-        "MlSkuName": {
-            "type": "string",
-            "defaultValue": "S1",
-            "allowedValues": [
-                "S1",
-                "S2",
-                "S3"
-            ],
-            "metadata": {
-                "description": "Pricing tier for Workspace"
             }
         },
         "iotHubSkuName": {
@@ -224,8 +106,36 @@
             "metadata": {
               "description": "Number of Streaming Units"
             }
-          }
-        
+          },
+          "skuName": {
+            "type": "string",
+            "defaultValue": "F1",
+            "allowedValues": [
+                "F1",
+                "D1",
+                "B1",
+                "B2",
+                "B3",
+                "S1",
+                "S2",
+                "S3",
+                "P1",
+                "P2",
+                "P3",
+                "P4"
+            ],
+            "metadata": {
+                "description": "Describes plan's pricing tier and instance size. Check details at https://azure.microsoft.com/en-us/pricing/details/app-service/"
+            }
+        },
+        "skuCapacity": {
+            "type": "int",
+            "defaultValue": 1,
+            "minValue": 1,
+            "metadata": {
+                "description": "Describes plan's instance count"
+            }
+        }        
     },
     "variables": {
         "apiVersions": {
@@ -235,9 +145,7 @@
             "sqlDBApiVersion": "2014-04-01-preview",
             "workspaceApiVersion": "2016-04-01",
             "planApiVersion": "2016-05-01-preview",
-            "webApiVersion": "2016-03-01",
-            "webApiVersion1": "2015-08-01",
-            "webApiVersion2": "2014-08-01-preview",
+            "webApiVersion": "2015-08-01",
             "iotHubApiversion": "2016-02-03",
             "saApiVersion": "2016-03-01"
         },
@@ -258,44 +166,15 @@
             "storageUri1": "https://projectiot.blob.core.windows.net/iothub/iotdb.bacpac",
             "storageUri2": "https://projectiot.blob.core.windows.net/iothub/webdb.bacpac"
         },
-        "mlSettings": {
-            "location": "South Central US",
-            "workspaceName": "workspace",
-            "mlSkuName": "[parameters('MlSkuName')]",
-            "mlStorageName": "[concat('mlstr', variables('suffix'))]"
-        },
-        "webSiteSettings": {
+        "webSiteSettings":{
             "location": "[variables('location')]",
-            "jobCollectionName": "[concat('myjob', variables('suffix'))]",
-            "webjobStorageName": "[concat('webjobstr',variables('suffix'))]",
-            "webjobStorageType": "Standard_LRS",
             "hostingPlanName": "AppServPlan",
             "skuName": "[parameters('skuName')]",
             "skuCapacity": "[parameters('skuCapacity')]",
-            "webSiteName": "[parameters('websiteName')]",
-            "WebAppPackageURI": "[concat(variables('webAppDeployPackageURI'), variables('sasToken'))]",
-            "blobconnectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('deployStorageAccountName'),';AccountKey=',variables('deployStorageAccountKey'))]",
-            "apiServerName": "[concat('apiserver',variables('suffix'))]",
-            "b2cClientId": "[parameters('b2cClientId')]",
-            "b2cSignInPolicyId": "[parameters('b2cSignInPolicyId')]",
-            "b2cSignUpPolicyId": "[parameters('b2cSignUpPolicyId')]",
-            "b2cEditProfilePolicyId": "[parameters('b2cEditProfilePolicyId')]",
-            "b2cTenant": "[parameters('b2cTenant')]",
-            "b2cClientSecret": "[parameters('b2cClientSecret')]",
-            "b2cChangePasswordPolicy": "[parameters('b2cChangePasswordPolicy')]",
-            "emailHost": "[parameters('emailHost')]",
-            "emailHostPort": 25,
-            "senderEmail": "[parameters('senderEmail')]",
-            "senderEmailPassword": "[parameters('senderEmailPassword')]",
-            "websiteFullAddress": "[variables('websiteFullAddress')]",
-            "b2cAadInstance": "https://login.microsoftonline.com/{0}/v2.0/.well-known/openid-configuration?p={1}",
-            "notificationIcon": "./csu/Assets/logo.png",
-            "anomalyThreshold": "0.6",
-            "meterKWHCost": "0.04",
-            "databaseConnString": "[concat('data source=',variables('azureSQL').serverName,'.database.windows.net;initial catalog=',variables('azureSQL').databaseName1,';persist security info=True;user id=',parameters('sqlAdministratorLogin'),';password=',parameters('sqlAdministratorLoginPassword'))]",
-            "notificationClickAction": "[variables('websiteFullAddress')]",
-            "restServerPackageURI": "[concat(variables('restServerDeployPackageURI'), variables('sasToken'))]",
-            "powerGridEntities": "[concat('metadata=res://*/Entities.PowergridModel.csdl|res://*/Entities.PowergridModel.ssdl|res://*/Entities.PowergridModel.msl;provider=System.Data.SqlClient;provider connection string=\"data source=',variables('azureSQL').serverName,'.database.windows.net;initial catalog=',variables('azureSQL').databaseName1,';persist security info=True;user id=',parameters('sqlAdministratorLogin'),';password=',parameters('sqlAdministratorLoginPassword'),';multipleactiveresultsets=True;application name=EntityFramework\"')]"
+            "webSiteName1":"[concat('Assetdetails', variables('suffix'))]",
+            "assetDetailsConnectionString":"[concat('Server=tcp:',variables('azureSQL').serverName,'.database.windows.net,1433;Initial Catalog=',variables('azureSQL').databaseName1,';Persist Security Info=False;User ID=',variables('azureSQL').sqlAuthenticationLogin,';Password=',variables('azureSQL').sqlAuthenticationPassword,';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;;')]",
+            "repoURL": "https://github.com/kmanish321/AssetDetailsWebApplication.git",
+            "branch": "master"
         },
         "iotHubSettings": {
             "location": "[variables('location')]",
@@ -313,12 +192,6 @@
 
         },
         "location": "[resourceGroup().location]",
-        "websiteFullAddress": "[concat('https://',parameters('websiteName'),'.azurewebsites.net/')]",
-        "deployStorageAccountName": "releasemtr",
-        "deployStorageAccountKey": "",
-        "webAppDeployPackageURI": "https://projectiot.blob.core.windows.net/iothub/CSUWebApp.zip",
-        "restServerDeployPackageURI": "https://projectiot.blob.core.windows.net/iothub/RestService.zip",
-        "sasToken": "?",
         "baseUrl": "https://raw.githubusercontent.com/sysgain/iot-emsre/staging/",
         "deploymentApiVersion": "2016-02-01",
         "suffix": "[substring(uniqueString(resourceGroup().id), 0, 5)]"
@@ -359,9 +232,6 @@
                 "parameters": {
                     "azureSQL": {
                         "value": "[variables('azureSQL')]"
-                    },
-                    "mlSettings": {
-                        "value": "[variables('mlSettings')]"
                     },
                     "webSiteSettings": {
                         "value": "[variables('webSiteSettings')]"
@@ -423,14 +293,6 @@
         "windowsSQLUsername": {
             "type": "string",
             "value": "[parameters('sqlAdministratorLogin')]"
-        },
-        "webjobStorageaccntName": {
-            "type": "string",
-            "value": "[variables('webSiteSettings').webjobStorageName]"
-        },
-        "webSiteUrl": {
-            "type": "string",
-            "value": "[variables('websiteFullAddress')]"
         }
     }
 }
