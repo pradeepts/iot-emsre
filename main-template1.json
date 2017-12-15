@@ -106,8 +106,36 @@
             "metadata": {
               "description": "Number of Streaming Units"
             }
-          }
-        
+          },
+          "skuName": {
+            "type": "string",
+            "defaultValue": "F1",
+            "allowedValues": [
+                "F1",
+                "D1",
+                "B1",
+                "B2",
+                "B3",
+                "S1",
+                "S2",
+                "S3",
+                "P1",
+                "P2",
+                "P3",
+                "P4"
+            ],
+            "metadata": {
+                "description": "Describes plan's pricing tier and instance size. Check details at https://azure.microsoft.com/en-us/pricing/details/app-service/"
+            }
+        },
+        "skuCapacity": {
+            "type": "int",
+            "defaultValue": 1,
+            "minValue": 1,
+            "metadata": {
+                "description": "Describes plan's instance count"
+            }
+        }        
     },
     "variables": {
         "apiVersions": {
@@ -117,9 +145,7 @@
             "sqlDBApiVersion": "2014-04-01-preview",
             "workspaceApiVersion": "2016-04-01",
             "planApiVersion": "2016-05-01-preview",
-            "webApiVersion": "2016-03-01",
-            "webApiVersion1": "2015-08-01",
-            "webApiVersion2": "2014-08-01-preview",
+            "webApiVersion": "2015-08-01",
             "iotHubApiversion": "2016-02-03",
             "saApiVersion": "2016-03-01"
         },
@@ -139,6 +165,16 @@
             "tableName":"dbo.PowergridView",
             "storageUri1": "https://projectiot.blob.core.windows.net/iothub/iotdb.bacpac",
             "storageUri2": "https://projectiot.blob.core.windows.net/iothub/webdb.bacpac"
+        },
+        "webSiteSettings":{
+            "location": "[variables('location')]",
+            "hostingPlanName": "AppServPlan",
+            "skuName": "[parameters('skuName')]",
+            "skuCapacity": "[parameters('skuCapacity')]",
+            "webSiteName1":"[concat('Assetdetails', variables('suffix'))]",
+            "assetDetailsConnectionString":"[concat('Server=tcp:',variables('azureSQL').serverName,'.database.windows.net,1433;Initial Catalog=',variables('azureSQL').databaseName1,';Persist Security Info=False;User ID=',variables('azureSQL').sqlAuthenticationLogin,';Password=',variables('azureSQL').sqlAuthenticationPassword,';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;;')]",
+            "repoURL": "https://github.com/kmanish321/AssetDetailsWebApplication.git",
+            "branch": "master"
         },
         "iotHubSettings": {
             "location": "[variables('location')]",
@@ -196,6 +232,9 @@
                 "parameters": {
                     "azureSQL": {
                         "value": "[variables('azureSQL')]"
+                    },
+                    "webSiteSettings": {
+                        "value": "[variables('webSiteSettings')]"
                     },
                     "apiVersions": {
                         "value": "[variables('apiVersions')]"

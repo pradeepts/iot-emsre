@@ -7,6 +7,9 @@
         },
         "apiVersions":{
             "type": "object"
+        },
+        "webSiteSettings":{
+            "type": "object"
         }
     },
     "variables": {},
@@ -103,7 +106,55 @@
                 "endIpAddress": "0.0.0.0",
                 "startIpAddress": "0.0.0.0"
             }
-        }
+        },
+        {
+            "apiVersion": "[parameters('apiVersions').webApiVersion]",
+            "name": "[parameters('webSiteSettings').hostingPlanName]",
+            "type": "Microsoft.Web/serverfarms",
+            "location": "[parameters('webSiteSettings').location]",
+            "sku": {
+                "name": "[parameters('webSiteSettings').skuName]",
+                "capacity": "[parameters('webSiteSettings').skuCapacity]"
+            },
+            "properties": {
+                "name": "[parameters('webSiteSettings').hostingPlanName]"
+            }
+        },
+        {
+            "apiVersion": "[parameters('apiVersions').webApiVersion]",
+            "name": "[parameters('webSiteSettings').webSiteName1]",
+            "type": "Microsoft.Web/sites",
+            "location": "[parameters('webSiteSettings').location]",
+            "dependsOn": [
+              "[resourceId('Microsoft.Web/serverfarms', parameters('webSiteSettings').hostingPlanName)]"
+            ],
+            "properties": {
+              "serverFarmId": "[parameters('webSiteSettings').hostingPlanName]",
+              "siteConfig": {
+                "connectionStrings": [
+                  {
+                    "name": "DBConnect",
+                    "connectionString": "[parameters('webSiteSettings').assetDetailsConnectionString]"
+                  }
+                ]
+              }
+            },
+            "resources": [
+              {
+                "apiVersion": "[parameters('apiVersions').webApiVersion]",
+                "name": "web",
+                "type": "sourcecontrols",
+                "dependsOn": [
+                  "[resourceId('Microsoft.Web/Sites', parameters('webSiteSettings').webSiteName1)]"
+                ],
+                "properties": {
+                  "RepoUrl": "[parameters('webSiteSettings').repoURL]",
+                  "branch": "[parameters('webSiteSettings').branch]",
+                  "IsManualIntegration": true
+                }
+              }
+            ]
+          }
     ],
     "outputs": {
         "azureSQLServerName":{
