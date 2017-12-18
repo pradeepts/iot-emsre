@@ -57,7 +57,7 @@
                     "name": "Transformation",
                     "properties": {
                         "streamingUnits":"[parameters('streamAnalyticsSettings').numberOfStreamingUnits]",
-                        "query": "SELECT\r\n    Device_Id AS PowerScout,\r\n    Amps_L1 AS [Amps L1],\r\n   Amps_L2 AS [Amps L2],\r\n   Amps_L3 AS [Amps L3],\r\n   AMPSAvg AS [Amps System Avg],\r\n   EventProcessedUtcTime AS [TimeStamp],\r\n   kWL1 AS [kW L1],\r\n   kWL2 AS [kW L2],\r\n    kWL3 AS [kW L3],\r\n    VoltsL1toNeutral AS [Volts L1 to Neutral],\r\n  VoltsL2toNeutral AS [Volts L2 to Neutral],\r\n  VoltsL3toNeutral AS [Volts L3 to Neutral],\r\n  kWSystem AS [kW System],\r\n    kWSystem *24 * 1.28 AS [Daily Electric Cost],\r\n   kWSystem *24 AS [Daily kWh System],\r\n    (AMPSAvg *24 *30 *1.28) AS [Monthly Electric Cost],\r\n   (kWSystem *24 *30) AS [Monthly kWh System],\r\n   ABS(kWL2 - kWL3) AS [Rolling Hourly kWh System]\r\nINTO\r\n    [DataBase]\r\nFROM\r\n    [IoTHub]"
+                        "query": "SELECT\r\n    Device_Id AS PowerScout,\r\n    Amps_L1 AS [Amps L1],\r\n   Amps_L2 AS [Amps L2],\r\n   Amps_L3 AS [Amps L3],\r\n   AMPSAvg AS [Amps System Avg],\r\n   EventProcessedUtcTime AS [TimeStamp],\r\n   kWL1 AS [kW L1],\r\n   kWL2 AS [kW L2],\r\n    kWL3 AS [kW L3],\r\n    VoltsL1toNeutral AS [Volts L1 to Neutral],\r\n  VoltsL2toNeutral AS [Volts L2 to Neutral],\r\n  VoltsL3toNeutral AS [Volts L3 to Neutral],\r\n  kWSystem AS [kW System]\r\nINTO\r\n    [DataBase]\r\nFROM\r\n    [IoTHub]"
                     }
                 },
                 "outputs": [
