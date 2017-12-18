@@ -151,13 +151,13 @@
         "organizationAccount":{
             "type": "string",
             "metadata": {
-                "description": "your github organization account name"
+                "description": "github organization account name"
             }
         },
         "repositoryName":{
             "type": "string",
             "metadata": {
-                "description": "your github repository name which contains .NET Web App"
+                "description": "github repository name which contains .NET Web App"
             }
         }        
     },
