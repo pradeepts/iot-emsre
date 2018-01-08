@@ -244,9 +244,32 @@
         },
         {
             "type": "Microsoft.Resources/deployments",
-            "name": "AppComponents",
+            "name": "SqlServer",
             "apiVersion": "[variables('deploymentApiVersion')]",
             "dependsOn": [],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUrl'), 'nested/sql-server.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "azureSQL": {
+                        "value": "[variables('azureSQL')]"
+                    },
+                    "apiVersions": {
+                        "value": "[variables('apiVersions')]"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "name": "AppComponents",
+            "apiVersion": "[variables('deploymentApiVersion')]",
+            "dependsOn": [
+                "SqlServer"
+            ],
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -300,15 +323,15 @@
     "outputs": {
         "azureSQLEndpoint": {
             "type": "string",
-            "value": "[reference('AppComponents').outputs.azureSQLServerName.value]"
+            "value": "[reference('SqlServer').outputs.azureSQLServerName.value]"
         },
         "azureSQLDB1Name": {
             "type": "string",
-            "value": "[reference('AppComponents').outputs.iotDBName.value]"
+            "value": "[reference('SqlServer').outputs.iotDBName.value]"
         },
         "azureSQLDB2Name": {
             "type": "string",
-            "value": "[reference('AppComponents').outputs.webDBName.value]"
+            "value": "[reference('SqlServer').outputs.webDBName.value]"
         },
         "azureSQLUsername": {
             "type": "string",
