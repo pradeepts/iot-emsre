@@ -145,7 +145,7 @@
             "sqlDBApiVersion": "2014-04-01-preview",
             "workspaceApiVersion": "2016-04-01",
             "planApiVersion": "2016-05-01-preview",
-            "webApiVersion": "2015-08-01",
+            "webApiVersion": "2016-03-01",
             "iotHubApiversion": "2016-02-03",
             "saApiVersion": "2016-03-01"
         },

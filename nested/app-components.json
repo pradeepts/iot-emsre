@@ -54,7 +54,7 @@
                         "dbType": "None",
                         "connectionString": "[parameters('webSiteSettings').connectionString]",
                         "setParameters": {
-                            "Application Path": "[parameters('webSiteSettings').webSiteName1]"
+                            "IIS Web Application Name": "[parameters('webSiteSettings').webSiteName1]"
                         }
                     }
                 }
@@ -106,11 +106,11 @@
                         "displayName": "webDeploy2"
                     },
                     "properties": {
-                        "packageUri": "[concat(parameters('webSiteSettings').webAppPackageURI, parameters('webSiteSettings').SasToken)]",
+                        "packageUri": "[concat(parameters('webSiteSettings').WeatherApiPackageURI, parameters('webSiteSettings').SasToken)]",
                         "dbType": "None",
                         "connectionString": "[parameters('webSiteSettings').connectionString]",
                         "setParameters": {
-                            "Application Path": "[parameters('webSiteSettings').webSiteName2]"
+                            "IIS Web Application Name": "[parameters('webSiteSettings').webSiteName2]"
                         }
                     }
                 }
@@ -139,7 +139,7 @@
             "resources": [
                 {
                     "apiVersion": "[parameters('apiVersions').webApiVersion]",
-                    "name": "DataUtilWebJob",
+                    "name": "WeatherWebJob",
                     "type": "jobs",
                     "dependsOn": [
                         "[resourceId('Microsoft.Scheduler/jobCollections',  parameters('webSiteSettings').jobCollectionName)]"
