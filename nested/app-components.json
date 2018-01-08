@@ -39,20 +39,57 @@
             },
             "resources": [
                 {
+                    "apiVersion": "[parameters('apiVersions').webApiVersion]",
+                    "name": "web",
+                    "type": "config",
+                    "dependsOn": [
+                        "[concat('Microsoft.Web/sites/', parameters('webSiteSettings').webSiteName1)]",
+                        "[concat('Microsoft.Web/sites/', parameters('webSiteSettings').webSiteName1, '/extensions/MSDeploy')]"
+                    ],
+                    "tags": {
+                        "displayName": "AssetDetailsConfig"
+                    },
+                    "properties": {
+                        "phpVersion": "5.6",
+                        "netFrameworkVersion": "v4.6",
+                        "use32BitWorkerProcess": false,
+                        "webSocketsEnabled": true,
+                        "alwaysOn": true,
+                        "remoteDebuggingEnabled": true,
+                        "remoteDebuggingVersion": "VS2015"
+                    }
+                },
+                {
                     "name": "MSDeploy",
                     "type": "extensions",
-                    "location": "[resourceGroup().location]",
+                    "location": "[parameters('webSiteSettings').location]",
                     "apiVersion": "[parameters('apiVersions').webApiVersion]",
                     "dependsOn": [
                         "[concat('Microsoft.Web/sites/', parameters('webSiteSettings').webSiteName1)]"
                     ],
                     "tags": {
-                        "displayName": "webDeploy1"
+                        "displayName": "AssetDetails"
                     },
                     "properties": {
-                        "packageUri": "[concat(parameters('webSiteSettings').AssetdetailsPackageURI, parameters('webSiteSettings').SasToken)]",
-                        "dbType": "None",
-                        "connectionString": "[parameters('webSiteSettings').connectionString]"
+                        "packageUri": "[concat(parameters('webSiteSettings').AssetdetailsPackageURI, parameters('webSiteSettings').SasToken)]"
+                    }
+                },
+                {
+                    "name": "connectionstrings",
+                    "type": "config",
+                    "apiVersion": "[parameters('apiVersions').webApiVersion]",
+                    "dependsOn": [
+                        "[concat('Microsoft.Web/sites/', parameters('webSiteSettings').webSiteName1)]",
+                        "[concat('Microsoft.Web/sites/', parameters('webSiteSettings').webSiteName1, '/extensions/MSDeploy')]"
+                    ],
+                    "tags": {
+                        "displayName": "AssetDetailConnectionStrings"
+                    },
+                    "properties": {
+                        "BlobConnection": {
+                            "value": "[parameters('webSiteSettings').connectionString]",
+                            "type": "Custom"
+                        }
                     }
                 }
             ]
@@ -79,7 +116,7 @@
                         "[concat('Microsoft.Web/sites/', parameters('webSiteSettings').webSiteName2, '/extensions/MSDeploy')]"
                     ],
                     "tags": {
-                        "displayName": "WebAppConfig"
+                        "displayName": "WeatherAPIConfig"
                     },
                     "properties": {
                         "phpVersion": "5.6",
@@ -94,18 +131,34 @@
                 {
                     "name": "MSDeploy",
                     "type": "extensions",
-                    "location": "[resourceGroup().location]",
+                    "location": "[parameters('webSiteSettings').location]",
                     "apiVersion": "[parameters('apiVersions').webApiVersion]",
                     "dependsOn": [
                         "[concat('Microsoft.Web/sites/', parameters('webSiteSettings').webSiteName2)]"
                     ],
                     "tags": {
-                        "displayName": "webDeploy2"
+                        "displayName": "WeatherAPI"
                     },
                     "properties": {
-                        "packageUri": "[concat(parameters('webSiteSettings').WeatherApiPackageURI, parameters('webSiteSettings').SasToken)]",
-                        "dbType": "None",
-                        "connectionString": "[parameters('webSiteSettings').connectionString]"
+                        "packageUri": "[concat(parameters('webSiteSettings').WeatherApiPackageURI, parameters('webSiteSettings').SasToken)]"
+                    }
+                },
+                {
+                    "name": "connectionstrings",
+                    "type": "config",
+                    "apiVersion": "[parameters('apiVersions').webApiVersion]",
+                    "dependsOn": [
+                        "[concat('Microsoft.Web/sites/', parameters('webSiteSettings').webSiteName2)]",
+                        "[concat('Microsoft.Web/sites/', parameters('webSiteSettings').webSiteName2, '/extensions/MSDeploy')]"
+                    ],
+                    "tags": {
+                        "displayName": "WeatherAPIConnectionStrings"
+                    },
+                    "properties": {
+                        "BlobConnection": {
+                            "value": "[parameters('webSiteSettings').connectionString]",
+                            "type": "Custom"
+                        }
                     }
                 },
                 {
@@ -117,12 +170,12 @@
                         "[concat('Microsoft.Web/sites/', parameters('webSiteSettings').webSiteName2, '/extensions/MSDeploy')]"
                     ],
                     "tags": {
-                        "displayName": "webAppSettings"
+                        "displayName": "WeatherAPISettings"
                     },
                     "properties": {
-                        "cityName":"Hyderabad",
-                        "countryCode":"IN",
-                        "appID":"036d85216b22dfaa823302e354748c1d"
+                        "cityName": "Hyderabad",
+                        "countryCode": "IN",
+                        "appID": "036d85216b22dfaa823302e354748c1d"
                     }
                 }
             ]
@@ -170,8 +223,12 @@
                         "state": "Enabled",
                         "recurrence": {
                             "interval": 1,
-                            "frequency": "minute",
-                            "schedule": "0 */15 * * * *"
+                            "frequency": "week",
+                            "schedule": {
+                                "weekDays": [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" ],
+                                "hours": [ 10, 12 ],
+                                "minutes": [0,5]
+                              }
                         }
                     }
                 }
