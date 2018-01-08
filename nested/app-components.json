@@ -107,6 +107,23 @@
                         "dbType": "None",
                         "connectionString": "[parameters('webSiteSettings').connectionString]"
                     }
+                },
+                {
+                    "name": "appsettings",
+                    "type": "config",
+                    "apiVersion": "[parameters('apiVersions').webApiVersion]",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Web/sites', parameters('webSiteSettings').webSiteName2)]",
+                        "[concat('Microsoft.Web/sites/', parameters('webSiteSettings').webSiteName2, '/extensions/MSDeploy')]"
+                    ],
+                    "tags": {
+                        "displayName": "webAppSettings"
+                    },
+                    "properties": {
+                        "cityName":"Hyderabad",
+                        "countryCode":"IN",
+                        "appID":"036d85216b22dfaa823302e354748c1d"
+                    }
                 }
             ]
         },
