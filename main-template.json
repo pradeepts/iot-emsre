@@ -195,10 +195,13 @@
             "hostingPlanName": "AppServPlan",
             "skuName": "[parameters('skuName')]",
             "skuCapacity": "[parameters('skuCapacity')]",
-            "webSiteName1":"[concat('Assetdetails', variables('suffix'))]",
-            "assetDetailsConnectionString":"[concat('Server=tcp:',variables('azureSQL').serverName,'.database.windows.net,1433;Initial Catalog=',variables('azureSQL').databaseName1,';Persist Security Info=False;User ID=',variables('azureSQL').sqlAuthenticationLogin,';Password=',variables('azureSQL').sqlAuthenticationPassword,';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]",
-            "repoURL": "[concat('https://',parameters('gitHubUsername'),':',parameters('gitHubAccessToken'),'@github.com/',parameters('organizationAccount'),'/',parameters('repositoryName'),'.git')]",
-            "branch": "master"
+            "webSiteName1":"[concat('AssetDetails', variables('suffix'))]",
+            "webSiteName2":"[concat('WeatherApi', variables('suffix'))]",
+            "connectionString":"[concat('Server=tcp:',variables('azureSQL').serverName,'.database.windows.net,1433;Initial Catalog=',variables('azureSQL').databaseName1,';Persist Security Info=False;User ID=',variables('azureSQL').sqlAuthenticationLogin,';Password=',variables('azureSQL').sqlAuthenticationPassword,';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]",
+            "AssetdetailsPackageURI":"https://projectiot.blob.core.windows.net/iothub/AssetDetailsWebApplication.zip",
+            "WeatherApiPackageURI":"https://projectiot.blob.core.windows.net/iothub/SimulatedDevice_weatherapi.zip",
+            "saStoken":"?",
+            "jobCollectionName":"WeatherWebJob"
         },
         "iotHubSettings": {
             "location": "[variables('location')]",

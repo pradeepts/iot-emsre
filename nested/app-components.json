@@ -34,28 +34,134 @@
                 "[resourceId('Microsoft.Web/serverfarms', parameters('webSiteSettings').hostingPlanName)]"
             ],
             "properties": {
-                "serverFarmId": "[parameters('webSiteSettings').hostingPlanName]",
-                "siteConfig": {
-                    "connectionStrings": [
-                        {
-                            "name": "DBConnect",
-                            "connectionString": "[parameters('webSiteSettings').assetDetailsConnectionString]"
+                "name": "[parameters('webSiteSettings').webSiteName1]",
+                "serverFarmId": "[parameters('webSiteSettings').hostingPlanName]"
+            },
+            "resources": [
+                {
+                    "name": "MSDeploy",
+                    "type": "extensions",
+                    "location": "[resourceGroup().location]",
+                    "apiVersion": "[parameters('apiVersions').webApiVersion]",
+                    "dependsOn": [
+                        "[concat('Microsoft.Web/sites/', parameters('webSiteSettings').webSiteName1)]"
+                    ],
+                    "tags": {
+                        "displayName": "webDeploy1"
+                    },
+                    "properties": {
+                        "packageUri": "[concat(parameters('webSiteSettings').AssetdetailsPackageURI, parameters('webSiteSettings').SasToken)]",
+                        "dbType": "None",
+                        "connectionString": "[parameters('webSiteSettings').connectionString]",
+                        "setParameters": {
+                            "Application Path": "[parameters('webSiteSettings').webSiteName1]"
                         }
-                    ]
+                    }
                 }
+            ]
+        },
+        {
+            "apiVersion": "[parameters('apiVersions').webApiVersion]",
+            "name": "[parameters('webSiteSettings').webSiteName2]",
+            "type": "Microsoft.Web/sites",
+            "location": "[parameters('webSiteSettings').location]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', parameters('webSiteSettings').hostingPlanName)]"
+            ],
+            "properties": {
+                "name": "[parameters('webSiteSettings').webSiteName2]",
+                "serverFarmId": "[parameters('webSiteSettings').hostingPlanName]"
             },
             "resources": [
                 {
                     "apiVersion": "[parameters('apiVersions').webApiVersion]",
                     "name": "web",
-                    "type": "sourcecontrols",
+                    "type": "config",
                     "dependsOn": [
-                        "[resourceId('Microsoft.Web/Sites', parameters('webSiteSettings').webSiteName1)]"
+                        "[concat('Microsoft.Web/sites/', parameters('webSiteSettings').webSiteName2)]",
+                        "[concat('Microsoft.Web/sites/', parameters('webSiteSettings').webSiteName2, '/extensions/MSDeploy')]"
+                    ],
+                    "tags": {
+                        "displayName": "WebAppConfig"
+                    },
+                    "properties": {
+                        "phpVersion": "5.6",
+                        "netFrameworkVersion": "v4.6",
+                        "use32BitWorkerProcess": false,
+                        "webSocketsEnabled": true,
+                        "alwaysOn": true,
+                        "remoteDebuggingEnabled": true,
+                        "remoteDebuggingVersion": "VS2015"
+                    }
+                },
+                {
+                    "name": "MSDeploy",
+                    "type": "extensions",
+                    "location": "[resourceGroup().location]",
+                    "apiVersion": "[parameters('apiVersions').webApiVersion]",
+                    "dependsOn": [
+                        "[concat('Microsoft.Web/sites/', parameters('webSiteSettings').webSiteName2)]"
+                    ],
+                    "tags": {
+                        "displayName": "webDeploy2"
+                    },
+                    "properties": {
+                        "packageUri": "[concat(parameters('webSiteSettings').webAppPackageURI, parameters('webSiteSettings').SasToken)]",
+                        "dbType": "None",
+                        "connectionString": "[parameters('webSiteSettings').connectionString]",
+                        "setParameters": {
+                            "Application Path": "[parameters('webSiteSettings').webSiteName2]"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "type": "Microsoft.Scheduler/jobCollections",
+            "apiVersion": "[parameters('apiVersions').webApiVersion]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/Sites',  parameters('webSiteSettings').webSiteName2)]"
+            ],
+            "location": "[parameters('webSiteSettings').location]",
+            "name": "[parameters('webSiteSettings').jobCollectionName]",
+            "properties": {
+                "sku": {
+                    "name": "Standard"
+                },
+                "quota": {
+                    "maxJobCount": "10",
+                    "maxRecurrence": {
+                        "Frequency": "minute",
+                        "interval": "1"
+                    }
+                }
+            },
+            "resources": [
+                {
+                    "apiVersion": "[parameters('apiVersions').webApiVersion]",
+                    "name": "DataUtilWebJob",
+                    "type": "jobs",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Scheduler/jobCollections',  parameters('webSiteSettings').jobCollectionName)]"
                     ],
                     "properties": {
-                        "RepoUrl": "[parameters('webSiteSettings').repoURL]",
-                        "branch": "[parameters('webSiteSettings').branch]",
-                        "IsManualIntegration": true
+                        "startTime": "2015-02-10T00:08:00Z",
+                        "action": {
+                            "request": {
+                                "uri": "[concat(list(resourceId('Microsoft.Web/sites/config', parameters('webSiteSettings').webSiteName2, 'publishingcredentials'), '2014-06-01').properties.scmUri, '')]",
+                                "method": "GET"
+                            },
+                            "type": "HTTP",
+                            "retryPolicy": {
+                                "retryType": "None"
+                            }
+                        },
+                        "state": "Enabled",
+                        "recurrence": {
+                            "interval": 1,
+                            "frequency": "Week",
+                            "schedule": "0 */15 * * * *"
+                        }
                     }
                 }
             ]
