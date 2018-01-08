@@ -135,31 +135,7 @@
             "metadata": {
                 "description": "Describes plan's instance count"
             }
-        },
-        "gitHubUsername":{
-            "type": "string",
-            "metadata": {
-                "description": "github user name"
-            }
-        },
-        "gitHubAccessToken":{
-            "type": "securestring",
-            "metadata": {
-                "description": "provide your github access token which you generated for your github account"
-            }
-        },
-        "organizationAccount":{
-            "type": "string",
-            "metadata": {
-                "description": "github organization account name"
-            }
-        },
-        "repositoryName":{
-            "type": "string",
-            "metadata": {
-                "description": "github repository name which contains .NET Web App"
-            }
-        }        
+        }   
     },
     "variables": {
         "apiVersions": {

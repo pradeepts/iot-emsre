@@ -148,7 +148,7 @@
                         "startTime": "2015-02-10T00:08:00Z",
                         "action": {
                             "request": {
-                                "uri": "[concat(list(resourceId('Microsoft.Web/sites/config', parameters('webSiteSettings').webSiteName2, 'publishingcredentials'), '2014-06-01').properties.scmUri, '')]",
+                                "uri": "[concat(list(resourceId('Microsoft.Web/sites/config', parameters('webSiteSettings').webSiteName2, 'publishingcredentials'), '2014-06-01').properties.scmUri, '/bin/Debug/weather_webjob')]",
                                 "method": "GET"
                             },
                             "type": "HTTP",
@@ -159,7 +159,7 @@
                         "state": "Enabled",
                         "recurrence": {
                             "interval": 1,
-                            "frequency": "Week",
+                            "frequency": "minute",
                             "schedule": "0 */15 * * * *"
                         }
                     }
