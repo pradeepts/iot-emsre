@@ -52,10 +52,7 @@
                     "properties": {
                         "packageUri": "[concat(parameters('webSiteSettings').AssetdetailsPackageURI, parameters('webSiteSettings').SasToken)]",
                         "dbType": "None",
-                        "connectionString": "[parameters('webSiteSettings').connectionString]",
-                        "setParameters": {
-                            "IIS Web Application Name": "[parameters('webSiteSettings').webSiteName1]"
-                        }
+                        "connectionString": "[parameters('webSiteSettings').connectionString]"
                     }
                 }
             ]
@@ -108,10 +105,7 @@
                     "properties": {
                         "packageUri": "[concat(parameters('webSiteSettings').WeatherApiPackageURI, parameters('webSiteSettings').SasToken)]",
                         "dbType": "None",
-                        "connectionString": "[parameters('webSiteSettings').connectionString]",
-                        "setParameters": {
-                            "IIS Web Application Name": "[parameters('webSiteSettings').webSiteName2]"
-                        }
+                        "connectionString": "[parameters('webSiteSettings').connectionString]"
                     }
                 }
             ]
