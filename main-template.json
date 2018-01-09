@@ -221,7 +221,7 @@
             "dnsLabelPrefix":"[concat('iotedgeserver',variables('suffix'))]",
             "diagnosticsStorageAccountName":"[concat('strgaccnt',variables('suffix'))]",
             "diagnosticsStorageAccountType":"Standard_LRS",
-            "virtualMachineName":"iotedgeserver",
+            "virtualMachineName":"iotedge",
             "adminUsername":"[parameters('iotEdgeAdminUserName')]",
             "adminPassword":"[parameters('iotEdgeadminPassword')]",
             "virtualMachineSize":"Standard_DS3_v2"
