@@ -161,10 +161,7 @@
                 },
                 "storageProfile": {
                     "imageReference": {
-                        "publisher": "MicrosoftWindowsDesktop",
-                        "offer": "Windows-10",
-                        "sku": "RS3-Pro",
-                        "version": "latest"
+                        "id": "[concat('/subscriptions/',parameters('iotEdgeServer').customImageSubscription,'/resourceGroups/',parameters('iotEdgeServer').customImageRG,'/providers/Microsoft.Compute/images/windowsiotedge-image')]"
                     },
                     "osDisk": {
                         "createOption": "fromImage",
