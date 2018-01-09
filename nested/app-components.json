@@ -86,7 +86,7 @@
                         "displayName": "AssetDetailConnectionStrings"
                     },
                     "properties": {
-                        "BlobConnection": {
+                        "DbConnect": {
                             "value": "[parameters('webSiteSettings').connectionString]",
                             "type": "Custom"
                         }
@@ -155,7 +155,7 @@
                         "displayName": "WeatherAPIConnectionStrings"
                     },
                     "properties": {
-                        "BlobConnection": {
+                        "DbConnect2": {
                             "value": "[parameters('webSiteSettings').connectionString]",
                             "type": "Custom"
                         }
