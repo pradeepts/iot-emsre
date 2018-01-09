@@ -141,7 +141,7 @@
         {
             "name": "[parameters('iotEdgeServer').virtualMachineName]",
             "type": "Microsoft.Compute/virtualMachines",
-            "apiVersion": "[parameters('iotEdgeServer').computeApiVersion]",
+            "apiVersion": "[parameters('apiVersions').computeApiVersion]",
             "location": "[parameters('iotEdgeServer').location]",
             "dependsOn": [
                 "[concat('Microsoft.Network/networkInterfaces/', parameters('iotEdgeServer').networkInterfaceName)]",
