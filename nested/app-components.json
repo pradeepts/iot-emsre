@@ -196,7 +196,7 @@
                     "maxJobCount": "10",
                     "maxRecurrence": {
                         "Frequency": "minute",
-                        "interval": "1"
+                        "interval": "5"
                     }
                 }
             },
@@ -222,8 +222,8 @@
                         },
                         "state": "Enabled",
                         "recurrence": {
-                            "interval": 3,
-                            "frequency": "week",
+                            "interval": 5,
+                            "frequency": "minute",
                             "schedule": {
                                 "weekDays": [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" ],
                                 "hours": [ 10, 12 ],
