@@ -28,7 +28,7 @@
                     "dependsOn": [
                         "[concat('Microsoft.Sql/servers/', parameters('azureSQL').serverName)]"
                     ],
-                    "location": "[resourceGroup().location]",
+                    "location":"[parameters('azureSQL').location]",
                     "name": "[parameters('azureSQL').databaseName1]",
                     "properties": {
                         "collation": "[parameters('azureSQL').collation]",
@@ -61,7 +61,7 @@
                     "dependsOn": [
                         "[concat('Microsoft.Sql/servers/', parameters('azureSQL').serverName)]"
                     ],
-                    "location": "[resourceGroup().location]",
+                    "location":"[parameters('azureSQL').location]",
                     "name": "[parameters('azureSQL').databaseName2]",
                     "properties": {
                         "collation": "[parameters('azureSQL').collation]",
