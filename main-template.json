@@ -260,7 +260,9 @@
             "type": "Microsoft.Resources/deployments",
             "name": "IotHub",
             "apiVersion": "[variables('deploymentApiVersion')]",
-            "dependsOn": [],
+            "dependsOn": [
+                "IotEdgeServer"
+            ],
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -281,7 +283,9 @@
             "type": "Microsoft.Resources/deployments",
             "name": "SqlServer",
             "apiVersion": "[variables('deploymentApiVersion')]",
-            "dependsOn": [],
+            "dependsOn": [
+                "IotEdgeServer"
+            ],
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -326,6 +330,7 @@
             "name": "StreamAnalytics",
             "apiVersion": "[variables('deploymentApiVersion')]",
             "dependsOn": [
+                "IotEdgeServer",
                 "IotHub",
                 "AppComponents"
             ],
