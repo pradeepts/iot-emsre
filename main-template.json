@@ -8,8 +8,8 @@
                 "description":"username for windows virtual machine"
             }
         },
-        "iotEdgeadminPassword":{
-            "type": "string",
+        "iotEdgeAdminPassword":{
+            "type": "securestring",
             "metadata": {
                 "description":"password for windows virtual machine"
             }

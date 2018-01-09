@@ -50,13 +50,13 @@
             "apiVersion": "[parameters('apiVersions').networkApiVerion]",
             "location": "[parameters('iotEdgeServer').location]",
             "properties": {
-                "publicIpAllocationMethod": "[parameters('iotEdgeServer').publicIpAddressType]"
+                "publicIpAllocationMethod": "[parameters('iotEdgeServer').publicIpAddressType]",
+                "dnsSettings": {
+                    "domainNameLabel": "[parameters('iotEdgeServer').dnsLabelPrefix]"
+                }
             },
             "sku": {
                 "name": "[parameters('iotEdgeServer').publicIpAddressSku]"
-            },
-            "dnsSettings": {
-                "domainNameLabel": "[parameters('iotEdgeServer').dnsLabelPrefix]"
             }
         },
         {
