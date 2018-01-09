@@ -1,0 +1,194 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "iotEdgeServer": {
+            "type": "object"
+        },
+        "apiVersions": {
+            "type": "object"
+        }
+    },
+    "variables": {
+        "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', parameters('iotEdgeServer').virtualNetworkName)]",
+        "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('iotEdgeServer').subnetName)]"
+    },
+    "resources": [
+        {
+            "name": "[parameters('iotEdgeServer').diagnosticsStorageAccountName]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "[parameters('apiVersions').storageApiVersion]",
+            "location": "[parameters('iotEdgeServer').location]",
+            "properties": {
+                "accountType": "[parameters('iotEdgeServer').diagnosticsStorageAccountType]"
+            }
+        },
+        {
+            "name": "[parameters('iotEdgeServer').virtualNetworkName]",
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "[parameters('apiVersions').networkApiVerion]",
+            "location": "[parameters('iotEdgeServer').location]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[parameters('iotEdgeServer').addressPrefix]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[parameters('iotEdgeServer').subnetName]",
+                        "properties": {
+                            "addressPrefix": "[parameters('iotEdgeServer').subnetPrefix]"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[parameters('iotEdgeServer').publicIpAddressName]",
+            "type": "Microsoft.Network/publicIpAddresses",
+            "apiVersion": "[parameters('apiVersions').networkApiVerion]",
+            "location": "[parameters('iotEdgeServer').location]",
+            "properties": {
+                "publicIpAllocationMethod": "[parameters('iotEdgeServer').publicIpAddressType]"
+            },
+            "sku": {
+                "name": "[parameters('iotEdgeServer').publicIpAddressSku]"
+            },
+            "dnsSettings": {
+                "domainNameLabel": "[parameters('iotEdgeServer').dnsLabelPrefix]"
+            }
+        },
+        {
+            "name": "[parameters('iotEdgeServer').networkSecurityGroupName]",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "[parameters('apiVersions').networkApiVerion]",
+            "location": "[parameters('iotEdgeServer').location]",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "default-allow-rdp",
+                        "properties": {
+                            "priority": 1000,
+                            "protocol": "TCP",
+                            "access": "Allow",
+                            "direction": "Inbound",
+                            "sourceAddressPrefix": "*",
+                            "sourcePortRange": "*",
+                            "destinationAddressPrefix": "*",
+                            "destinationPortRange": "3389"
+                        }
+                    },
+                    {
+                        "name": "Port_Any",
+                        "properties": {
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 10001,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "AllowInternetOutBound",
+                        "properties": {
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "*",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "Internet",
+                            "access": "Allow",
+                            "priority": 1002,
+                            "direction": "Outbound"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[parameters('iotEdgeServer').networkInterfaceName]",
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "[parameters('apiVersions').networkApiVerion]",
+            "location": "[parameters('iotEdgeServer').location]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/virtualNetworks/', parameters('iotEdgeServer').virtualNetworkName)]",
+                "[concat('Microsoft.Network/publicIpAddresses/', parameters('iotEdgeServer').publicIpAddressName)]",
+                "[concat('Microsoft.Network/networkSecurityGroups/', parameters('iotEdgeServer').networkSecurityGroupName)]"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "subnet": {
+                                "id": "[variables('subnetRef')]"
+                            },
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIpAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIpAddresses', parameters('iotEdgeServer').publicIpAddressName)]"
+                            }
+                        }
+                    }
+                ],
+                "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('iotEdgeServer').networkSecurityGroupName)]"
+                }
+            }
+        },
+        {
+            "name": "[parameters('iotEdgeServer').virtualMachineName]",
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "[parameters('iotEdgeServer').computeApiVersion]",
+            "location": "[parameters('iotEdgeServer').location]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkInterfaces/', parameters('iotEdgeServer').networkInterfaceName)]",
+                "[concat('Microsoft.Storage/storageAccounts/', parameters('iotEdgeServer').diagnosticsStorageAccountName)]"
+            ],
+            "properties": {
+                "osProfile": {
+                    "computerName": "[parameters('iotEdgeServer').virtualMachineName]",
+                    "adminUsername": "[parameters('iotEdgeServer').adminUsername]",
+                    "adminPassword": "[parameters('iotEdgeServer').adminPassword]",
+                    "windowsConfiguration": {
+                        "provisionVmAgent": "true"
+                    }
+                },
+                "hardwareProfile": {
+                    "vmSize": "[parameters('iotEdgeServer').virtualMachineSize]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsDesktop",
+                        "offer": "Windows-10",
+                        "sku": "RS3-Pro",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "createOption": "fromImage",
+                        "managedDisk": {
+                            "storageAccountType": "Standard_LRS"
+                        }
+                    },
+                    "dataDisks": []
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('iotEdgeServer').networkInterfaceName)]"
+                        }
+                    ]
+                },
+                "licenseType": "Windows_Client",
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true,
+                        "storageUri": "[reference(resourceId('Microsoft.Storage/storageAccounts', parameters('iotEdgeServer').diagnosticsStorageAccountName), '2015-06-15').primaryEndpoints['blob']]"
+                    }
+                }
+            }
+        }
+    ]
+}

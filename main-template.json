@@ -2,6 +2,18 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "iotEdgeAdminUserName":{
+            "type": "string",
+            "metadata": {
+                "description":"username for windows virtual machine"
+            }
+        },
+        "iotEdgeadminPassword":{
+            "type": "string",
+            "metadata": {
+                "description":"password for windows virtual machine"
+            }
+        },
         "sqlAdministratorLogin": {
             "type": "string",
             "defaultValue": "",
@@ -139,14 +151,16 @@
     "variables": {
         "apiVersions": {
             "deploymentApiVersion": "2016-02-01",
-            "storageApiVersion": "2016-01-01",
             "sqlServerApiVersion": "2015-05-01-preview",
             "sqlDBApiVersion": "2014-04-01-preview",
             "workspaceApiVersion": "2016-04-01",
             "planApiVersion": "2016-05-01-preview",
             "webApiVersion": "2016-03-01",
             "iotHubApiversion": "2016-02-03",
-            "saApiVersion": "2016-03-01"
+            "saApiVersion": "2016-03-01",
+            "networkApiVerion":"2017-08-01",
+            "storageApiVersion":"2015-06-15",
+            "computeApiVersion":"2016-04-30-preview",
         },
         "azureSQL": {
             "location": "[variables('location')]",
@@ -193,12 +207,55 @@
             "numberOfStreamingUnits":"[parameters('numberOfStreamingUnits')]"
 
         },
+        "iotEdgeServer":{
+            "location": "[variables('location')]",
+            "virtualNetworkName":"iotedge-vnet",
+            "addressPrefix":"10.0.0.0/16",
+            "subnetName":"iotedge-subnet",
+            "subnetPrefix":"10.0.0.0/24",
+            "publicIpAddressName":"iotedage-pip",
+            "publicIpAddressType":"Dynamic",
+            "publicIpAddressSku":"Basic",
+            "networkSecurityGroupName":"iotedge-nsg",
+            "networkInterfaceName":"iotedge-nic",
+            "dnsLabelPrefix":"[concat('iotedgeserver',variables('suffix'))]",
+            "diagnosticsStorageAccountName":"[concat('strgaccnt',variables('suffix'))]",
+            "diagnosticsStorageAccountType":"Standard_LRS",
+            "virtualMachineName":"iotedgeserver",
+            "adminUsername":"[parameters('iotEdgeAdminUserName')]",
+            "adminPassword":"[parameters('iotEdgeadminPassword')]",
+            "virtualMachineSize":"Standard_DS3_v2"
+
+
+                },
         "location": "[resourceGroup().location]",
         "baseUrl": "https://raw.githubusercontent.com/sysgain/iot-emsre/staging/",
         "deploymentApiVersion": "2016-02-01",
         "suffix": "[substring(uniqueString(resourceGroup().id), 0, 5)]"
     },
     "resources": [
+        {
+            "type": "Microsoft.Resources/deployments",
+            "name": "IotEdgeServer",
+            "apiVersion": "[variables('deploymentApiVersion')]",
+            "dependsOn": [
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUrl'), 'nested/iot-edge.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "iotEdgeServer": {
+                        "value": "[variables('iotEdgeServer')]"
+                    },
+                    "apiVersions": {
+                        "value": "[variables('apiVersions')]"
+                    }
+                }
+            }
+        },
         {
             "type": "Microsoft.Resources/deployments",
             "name": "IotHub",
