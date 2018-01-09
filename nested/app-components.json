@@ -223,12 +223,7 @@
                         "state": "Enabled",
                         "recurrence": {
                             "interval": 5,
-                            "frequency": "minute",
-                            "schedule": {
-                                "weekDays": [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" ],
-                                "hours": [ 10, 12 ],
-                                "minutes": [0,5]
-                              }
+                            "frequency": "minute"
                         }
                     }
                 }
