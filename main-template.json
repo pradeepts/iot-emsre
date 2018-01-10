@@ -381,6 +381,14 @@
         "IotEdgeFQDN":{
             "type": "string",
             "value": "[reference('IotEdgeServer').outputs.IotEdgeFQDN.value]"
+        },
+        "IotEdgeAdminUserName":{
+            "type": "string",
+            "value": "[parameters('iotEdgeAdminUserName')]"
+        },
+        "IotEdgeAdminPassword":{
+            "type": "string",
+            "value": "[parameters('iotEdgeAdminPassword')]"
         }
     }
 }
