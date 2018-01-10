@@ -377,6 +377,10 @@
         "windowsSQLUsername": {
             "type": "string",
             "value": "[parameters('sqlAdministratorLogin')]"
+        },
+        "IotEdgeFQDN":{
+            "type": "string",
+            "value": "[reference('IotEdgeServer').outputs.IotEdgeFQDN.value]"
         }
     }
 }

@@ -187,5 +187,11 @@
                 }
             }
         }
-    ]
+    ],
+    "outputs": {
+        "IotEdgeFQDN":{
+            "type": "string",
+            "value": "[reference(parameters('iotEdgeServer').publicIpAddressName).dnsSettings.fqdn]"
+        }
+    }
 }
