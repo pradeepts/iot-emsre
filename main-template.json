@@ -228,7 +228,7 @@
             "customImageSubscription":"2927c217-b119-4d3b-8a13-82a1c3a16c8f",
             "customImageRG":"iot-vhds"
                 },
-        "location": "westus",
+        "location": "centralus",
         "baseUrl": "https://raw.githubusercontent.com/sysgain/iot-emsre/staging/",
         "deploymentApiVersion": "2016-02-01",
         "suffix": "[substring(uniqueString(resourceGroup().id), 0, 5)]"
