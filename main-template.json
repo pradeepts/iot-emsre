@@ -224,7 +224,7 @@
             "virtualMachineName":"iotedge",
             "adminUsername":"[parameters('iotEdgeAdminUserName')]",
             "adminPassword":"[parameters('iotEdgeadminPassword')]",
-            "virtualMachineSize":"Standard_DS3_v2",
+            "virtualMachineSize":"Standard_E4s_v3",
             "customImageSubscription":"2927c217-b119-4d3b-8a13-82a1c3a16c8f",
             "customImageRG":"iot-vhds"
                 },
