@@ -44,7 +44,7 @@
           },
           "b2cTenant": {
             "type": "string",
-            "defaultValue": "testiot22.onmicrosoft.com",
+            "defaultValue": "testiot13.onmicrosoft.com",
             "metadata": {
               "description": "Describes B2C Tenant Name Directory,refer the prereq section of deployment document for more info"
             }
