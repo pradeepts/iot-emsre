@@ -161,7 +161,7 @@
                 },
                 "storageProfile": {
                     "imageReference": {
-                        "id": "[concat('/subscriptions/',parameters('iotEdgeServer').customImageSubscription,'/resourceGroups/',parameters('iotEdgeServer').customImageRG,'/providers/Microsoft.Compute/images/iotedge-image')]"
+                        "id": "[concat('/subscriptions/',parameters('iotEdgeServer').customImageSubscription,'/resourceGroups/',parameters('iotEdgeServer').customImageRG,'/providers/Microsoft.Compute/images/iotedge-image1')]"
                     },
                     "osDisk": {
                         "createOption": "fromImage",
