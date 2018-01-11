@@ -196,7 +196,7 @@
             ]
         },
         {
-            "apiVersion": "[parameters('apiVersions').storageApiVersion]",
+            "apiVersion": "[parameters('apiVersions').storageApiVersion1]",
             "name": "[toLower(parameters('mlSettings').mlStorageName)]",
             "location": "[parameters('mlSettings').location]",
             "type": "Microsoft.Storage/storageAccounts",
@@ -221,7 +221,7 @@
             "name": "[parameters('webSiteSettings').webjobStorageName]",
             "location": "[parameters('webSiteSettings').location]",
             "type": "Microsoft.Storage/storageAccounts",
-            "apiVersion": "[parameters('apiVersions').storageApiVersion]",
+            "apiVersion": "[parameters('apiVersions').storageApiVersion1]",
             "dependsOn": [],
             "kind": "Storage",
             "sku": {

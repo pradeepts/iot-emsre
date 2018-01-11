@@ -251,6 +251,7 @@
             "saApiVersion": "2016-03-01",
             "networkApiVerion": "2017-08-01",
             "storageApiVersion": "2015-06-15",
+            "storageApiVersion1": "2016-01-01",
             "computeApiVersion": "2016-04-30-preview"
         },
         "azureSQL": {
