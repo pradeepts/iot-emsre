@@ -2,18 +2,95 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "iotEdgeAdminUserName":{
+        "iotEdgeAdminUserName": {
             "type": "string",
             "metadata": {
-                "description":"username for windows virtual machine"
+                "description": "username for windows virtual machine"
             }
         },
-        "iotEdgeAdminPassword":{
+        "iotEdgeAdminPassword": {
             "type": "securestring",
             "metadata": {
-                "description":"password for windows virtual machine"
+                "description": "password for windows virtual machine"
             }
         },
+        "websiteName": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Give the websitename used in the reditect URL during the webapplication creation(E.g : give 'iotwebsite' from https://iotwebsite.azurewebsites.net/redirect.html)"
+            }
+        },
+        "emailHost": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+              "description": "Describes the host name for sending email notifications"
+            }
+          },
+          "senderEmail": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+              "description": "Describes the email ID of the sender for email notifications (e.g.: iot@onmicrosoft.com)"
+            }
+          },
+          "senderEmailPassword": {
+            "type": "securestring",
+            "defaultValue": "",
+            "metadata": {
+              "descrition": "Describes the password for sender email ID for email notifications"
+            }
+          },
+          "b2cTenant": {
+            "type": "string",
+            "defaultValue": "testiot22.onmicrosoft.com",
+            "metadata": {
+              "description": "Describes B2C Tenant Name Directory,refer the prereq section of deployment document for more info"
+            }
+          },
+          "b2cClientId": {
+            "type": "securestring",
+            "defaultValue": "",
+            "metadata": {
+              "description": "Describes the client Id of the application registered in B2C Directory,refer the prereq section of deployment document for more info"
+            }
+          },
+          "b2cClientSecret": {
+            "type": "securestring",
+            "defaultValue": "",
+            "metadata": {
+              "description": "Describes the Client secret of the application registered in B2C Directory,refer the prereq section of deployment document for more info"
+            }
+          },
+          "b2cSignUpPolicyId": {
+            "type": "string",
+            "defaultValue": "B2C_1_suppolicy2",
+            "metadata": {
+              "description": "Describes the B2C Sign Up policy,refer the prereq section of deployment document for more info"
+            }
+          },
+          "b2cSignInPolicyId": {
+            "type": "string",
+            "defaultValue": "B2C_1_sinpolicy2",
+            "metadata": {
+              "description": "Describes the B2C Sign in policy,refer the prereq section of deployment document for more info"
+            }
+          },
+          "b2cEditProfilePolicyId": {
+            "type": "string",
+            "defaultValue": "B2C_1_peditpolicy2",
+            "metadata": {
+              "description": "Describes the B2C Profile Editing policy,refer the prereq section of deployment document for more info"
+            }
+          },
+          "b2cChangePasswordPolicy": {
+            "type": "string",
+            "defaultValue": "B2C_1_cpasspolicy",
+            "metadata": {
+              "description": "Describes the B2C Change Password policy,refer the prereq section of deployment document for more info"
+            }
+          },
         "sqlAdministratorLogin": {
             "type": "string",
             "defaultValue": "",
@@ -104,22 +181,22 @@
             "maxValue": 48,
             "defaultValue": 1,
             "allowedValues": [
-              1,
-              3,
-              6,
-              12,
-              18,
-              24,
-              30,
-              36,
-              42,
-              48
+                1,
+                3,
+                6,
+                12,
+                18,
+                24,
+                30,
+                36,
+                42,
+                48
             ],
             "metadata": {
-              "description": "Number of Streaming Units"
+                "description": "Number of Streaming Units"
             }
-          },
-          "skuName": {
+        },
+        "skuName": {
             "type": "string",
             "defaultValue": "B1",
             "allowedValues": [
@@ -146,7 +223,19 @@
             "metadata": {
                 "description": "Describes plan's instance count"
             }
-        }   
+        },
+        "MLskuName": {
+            "type": "string",
+            "defaultValue": "S1",
+            "allowedValues": [
+                "S1",
+                "S2",
+                "S3"
+            ],
+            "metadata": {
+                "description": "Pricing tier for Workspace"
+            }
+        }
     },
     "variables": {
         "apiVersions": {
@@ -156,11 +245,13 @@
             "workspaceApiVersion": "2016-04-01",
             "planApiVersion": "2016-05-01-preview",
             "webApiVersion": "2016-03-01",
+            "webApiVersion1": "2015-08-01",
+            "webApiVersion2": "2014-08-01-preview",
             "iotHubApiversion": "2016-02-03",
             "saApiVersion": "2016-03-01",
-            "networkApiVerion":"2017-08-01",
-            "storageApiVersion":"2015-06-15",
-            "computeApiVersion":"2016-04-30-preview"
+            "networkApiVerion": "2017-08-01",
+            "storageApiVersion": "2015-06-15",
+            "computeApiVersion": "2016-04-30-preview"
         },
         "azureSQL": {
             "location": "[variables('location')]",
@@ -175,22 +266,48 @@
             "serverName": "[concat('sqlserver',variables('suffix'))]",
             "storageKeyType": "SharedAccessKey",
             "storageKey": "?",
-            "tableName":"dbo.PowergridView",
+            "tableName": "dbo.PowergridView",
             "storageUri1": "https://projectiot.blob.core.windows.net/iothub/iotdb.bacpac",
             "storageUri2": "https://projectiot.blob.core.windows.net/iothub/webdb.bacpac"
         },
-        "webSiteSettings":{
+        "webSiteSettings": {
             "location": "[variables('location')]",
+            "webjobStorageName": "[concat('webjobstr',variables('suffix'))]",
+            "webjobStorageType": "Standard_LRS",
             "hostingPlanName": "AppServPlan",
             "skuName": "[parameters('skuName')]",
             "skuCapacity": "[parameters('skuCapacity')]",
-            "webSiteName1":"[concat('AssetDetails', variables('suffix'))]",
-            "webSiteName2":"[concat('WeatherApi', variables('suffix'))]",
-            "connectionString":"[concat('Server=tcp:',variables('azureSQL').serverName,'.database.windows.net,1433;Initial Catalog=',variables('azureSQL').databaseName1,';Persist Security Info=False;User ID=',variables('azureSQL').sqlAuthenticationLogin,';Password=',variables('azureSQL').sqlAuthenticationPassword,';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]",
-            "AssetdetailsPackageURI":"https://projectiot.blob.core.windows.net/iothub/AssetDetails.zip",
-            "WeatherApiPackageURI":"https://projectiot.blob.core.windows.net/iothub/SimulatedDevice_weatherapi.zip",
-            "saStoken":"?",
-            "jobCollectionName":"WeatherWebJob"
+            "assetDetailsWebApp": "[concat('AssetDetails', variables('suffix'))]",
+            "webSiteName2": "[concat('WeatherApi', variables('suffix'))]",
+            "connectionString": "[concat('Server=tcp:',variables('azureSQL').serverName,'.database.windows.net,1433;Initial Catalog=',variables('azureSQL').databaseName1,';Persist Security Info=False;User ID=',variables('azureSQL').sqlAuthenticationLogin,';Password=',variables('azureSQL').sqlAuthenticationPassword,';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]",
+            "AssetdetailsPackageURI": "https://projectiot.blob.core.windows.net/iothub/AssetDetails.zip",
+            "WeatherApiPackageURI": "https://projectiot.blob.core.windows.net/iothub/SimulatedDevice_weatherapi.zip",
+            "saStoken": "?",
+            "jobCollectionName": "WeatherWebJob",
+            "webSiteName": "[parameters('websiteName')]",
+            "WebAppPackageURI": "[concat(variables('webAppDeployPackageURI'), variables('sasToken'))]",
+            "blobconnectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=',variables('deployStorageAccountName'),';AccountKey=',variables('deployStorageAccountKey'))]",
+            "apiServerName": "[concat('apiserver',variables('suffix'))]",
+            "b2cClientId": "[parameters('b2cClientId')]",
+            "b2cSignInPolicyId": "[parameters('b2cSignInPolicyId')]",
+            "b2cSignUpPolicyId": "[parameters('b2cSignUpPolicyId')]",
+            "b2cEditProfilePolicyId": "[parameters('b2cEditProfilePolicyId')]",
+            "b2cTenant": "[parameters('b2cTenant')]",
+            "b2cClientSecret": "[parameters('b2cClientSecret')]",
+            "b2cChangePasswordPolicy": "[parameters('b2cChangePasswordPolicy')]",
+            "emailHost": "[parameters('emailHost')]",
+            "emailHostPort": 25,
+            "senderEmail": "[parameters('senderEmail')]",
+            "senderEmailPassword": "[parameters('senderEmailPassword')]",
+            "websiteFullAddress": "[variables('websiteFullAddress')]",
+            "b2cAadInstance": "https://login.microsoftonline.com/{0}/v2.0/.well-known/openid-configuration?p={1}",
+            "notificationIcon": "./csu/Assets/logo.png",
+            "anomalyThreshold": "0.6",
+            "meterKWHCost": "0.04",
+            "databaseConnString": "[concat('data source=',variables('azureSQL').serverName,'.database.windows.net;initial catalog=',variables('azureSQL').databaseName2,';persist security info=True;user id=',parameters('sqlAdministratorLogin'),';password=',parameters('sqlAdministratorLoginPassword'))]",
+            "notificationClickAction": "[variables('websiteFullAddress')]",
+            "restServerPackageURI": "[concat(variables('restServerDeployPackageURI'), variables('sasToken'))]",
+            "powerGridEntities": "[concat('metadata=res://*/Entities.PowergridModel.csdl|res://*/Entities.PowergridModel.ssdl|res://*/Entities.PowergridModel.msl;provider=System.Data.SqlClient;provider connection string=\"data source=',variables('azureSQL').serverName,'.database.windows.net;initial catalog=',variables('azureSQL').databaseName2,';persist security info=True;user id=',parameters('sqlAdministratorLogin'),';password=',parameters('sqlAdministratorLoginPassword'),';multipleactiveresultsets=True;application name=EntityFramework\"')]"
         },
         "iotHubSettings": {
             "location": "[variables('location')]",
@@ -200,34 +317,45 @@
             "d2cMessageRetentionInDaysPeriod": "[parameters('d2cMessageRetentionInDaysPeriod')]",
             "d2cPartitionCount": "[parameters('d2cPartitionCount')]"
         },
-        "streamAnalyticsSettings":{
+        "streamAnalyticsSettings": {
             "location": "[variables('location')]",
-            "streamAnalyticsJobName":"[concat('stream-analytics', variables('suffix'))]",
-            "sku":"standard",
-            "numberOfStreamingUnits":"[parameters('numberOfStreamingUnits')]"
-
+            "streamAnalyticsJobName": "[concat('stream-analytics', variables('suffix'))]",
+            "sku": "standard",
+            "numberOfStreamingUnits": "[parameters('numberOfStreamingUnits')]"
         },
-        "iotEdgeServer":{
+        "iotEdgeServer": {
             "location": "[variables('location')]",
-            "virtualNetworkName":"iotedge-vnet",
-            "addressPrefix":"10.0.0.0/16",
-            "subnetName":"iotedge-subnet",
-            "subnetPrefix":"10.0.0.0/24",
-            "publicIpAddressName":"iotedage-pip",
-            "publicIpAddressType":"Dynamic",
-            "publicIpAddressSku":"Basic",
-            "networkSecurityGroupName":"iotedge-nsg",
-            "networkInterfaceName":"iotedge-nic",
-            "dnsLabelPrefix":"[concat('iotedgeserver',variables('suffix'))]",
-            "diagnosticsStorageAccountName":"[concat('strgaccnt',variables('suffix'))]",
-            "diagnosticsStorageAccountType":"Standard_LRS",
-            "virtualMachineName":"iotedge",
-            "adminUsername":"[parameters('iotEdgeAdminUserName')]",
-            "adminPassword":"[parameters('iotEdgeadminPassword')]",
-            "virtualMachineSize":"Standard_E4s_v3",
-            "customImageSubscription":"2927c217-b119-4d3b-8a13-82a1c3a16c8f",
-            "customImageRG":"iot-vhds"
-                },
+            "virtualNetworkName": "iotedge-vnet",
+            "addressPrefix": "10.0.0.0/16",
+            "subnetName": "iotedge-subnet",
+            "subnetPrefix": "10.0.0.0/24",
+            "publicIpAddressName": "iotedage-pip",
+            "publicIpAddressType": "Dynamic",
+            "publicIpAddressSku": "Basic",
+            "networkSecurityGroupName": "iotedge-nsg",
+            "networkInterfaceName": "iotedge-nic",
+            "dnsLabelPrefix": "[concat('iotedgeserver',variables('suffix'))]",
+            "diagnosticsStorageAccountName": "[concat('strgaccnt',variables('suffix'))]",
+            "diagnosticsStorageAccountType": "Standard_LRS",
+            "virtualMachineName": "iotedge",
+            "adminUsername": "[parameters('iotEdgeAdminUserName')]",
+            "adminPassword": "[parameters('iotEdgeadminPassword')]",
+            "virtualMachineSize": "Standard_E4s_v3",
+            "customImageSubscription": "2927c217-b119-4d3b-8a13-82a1c3a16c8f",
+            "customImageRG": "iot-vhds"
+        },
+        "mlSettings": {
+            "location": "South Central US",
+            "workspaceName": "workspace",
+            "mlSkuName": "[parameters('MLskuName')]",
+            "mlStorageName": "[concat('mlstr', variables('suffix'))]"
+        },
+        "websiteFullAddress": "[concat('https://',parameters('websiteName'),'.azurewebsites.net/')]",
+        "deployStorageAccountName": "projectiot",
+        "deployStorageAccountKey": "68qPHnikzAitr3fjvPAyem7Tc0y2pf+BVob4F+opoX20PhV0yJGQc/guxxhCV/Uscp0gE1EHn+GCGfwOiaF9tg==",
+        "sasToken": "?",
+        "webAppDeployPackageURI": "https://projectiot.blob.core.windows.net/iotp2/CSUWebApp.zip",
+        "restServerDeployPackageURI": "https://projectiot.blob.core.windows.net/iotp2/RestService.zip",
         "location": "centralus",
         "baseUrl": "https://raw.githubusercontent.com/sysgain/iot-emsre/staging/",
         "deploymentApiVersion": "2016-02-01",
@@ -238,8 +366,7 @@
             "type": "Microsoft.Resources/deployments",
             "name": "IotEdgeServer",
             "apiVersion": "[variables('deploymentApiVersion')]",
-            "dependsOn": [
-            ],
+            "dependsOn": [],
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -378,19 +505,19 @@
             "type": "string",
             "value": "[parameters('sqlAdministratorLogin')]"
         },
-        "AssetDetailsWebURL":{
+        "AssetDetailsWebURL": {
             "type": "string",
-            "value": "[concat('https://',variables('webSiteSettings').webSiteName1,'.azurewebsites.net/')]"
+            "value": "[concat('https://',variables('webSiteSettings').assetDetailsWebApp,'.azurewebsites.net/')]"
         },
-        "IotEdgeFQDN":{
+        "IotEdgeFQDN": {
             "type": "string",
             "value": "[reference('IotEdgeServer').outputs.IotEdgeFQDN.value]"
         },
-        "IotEdgeAdminUserName":{
+        "IotEdgeAdminUserName": {
             "type": "string",
             "value": "[parameters('iotEdgeAdminUserName')]"
         },
-        "IotEdgeAdminPassword":{
+        "IotEdgeAdminPassword": {
             "type": "string",
             "value": "[parameters('iotEdgeAdminPassword')]"
         }
