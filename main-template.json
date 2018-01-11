@@ -357,7 +357,7 @@
         "sasToken": "?",
         "webAppDeployPackageURI": "https://projectiot.blob.core.windows.net/iothub/CSUWebApp.zip",
         "restServerDeployPackageURI": "https://projectiot.blob.core.windows.net/iothub/RestService.zip",
-        "location": "centralus",
+        "location": "southcentralus",
         "baseUrl": "https://raw.githubusercontent.com/sysgain/iot-emsre/staging/",
         "deploymentApiVersion": "2016-02-01",
         "suffix": "[substring(uniqueString(resourceGroup().id), 0, 5)]"
