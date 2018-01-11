@@ -378,6 +378,10 @@
             "type": "string",
             "value": "[parameters('sqlAdministratorLogin')]"
         },
+        "AssetDetailsWebURL":{
+            "type": "string",
+            "value": "[concat('https://',variables('webSiteSettings').webSiteName1,'.azurewebsites.net/')]"
+        },
         "IotEdgeFQDN":{
             "type": "string",
             "value": "[reference('IotEdgeServer').outputs.IotEdgeFQDN.value]"
