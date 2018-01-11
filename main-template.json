@@ -354,8 +354,8 @@
         "deployStorageAccountName": "projectiot",
         "deployStorageAccountKey": "68qPHnikzAitr3fjvPAyem7Tc0y2pf+BVob4F+opoX20PhV0yJGQc/guxxhCV/Uscp0gE1EHn+GCGfwOiaF9tg==",
         "sasToken": "?",
-        "webAppDeployPackageURI": "https://projectiot.blob.core.windows.net/iotp2/CSUWebApp.zip",
-        "restServerDeployPackageURI": "https://projectiot.blob.core.windows.net/iotp2/RestService.zip",
+        "webAppDeployPackageURI": "https://projectiot.blob.core.windows.net/iothub/CSUWebApp.zip",
+        "restServerDeployPackageURI": "https://projectiot.blob.core.windows.net/iothub/RestService.zip",
         "location": "centralus",
         "baseUrl": "https://raw.githubusercontent.com/sysgain/iot-emsre/staging/",
         "deploymentApiVersion": "2016-02-01",
@@ -448,6 +448,9 @@
                     },
                     "apiVersions": {
                         "value": "[variables('apiVersions')]"
+                    },
+                    "mlSettings":{
+                        "value":  "[variables('mlSettings')]"
                     }
                 }
             }
