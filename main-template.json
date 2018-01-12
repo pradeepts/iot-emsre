@@ -493,11 +493,11 @@
             "type": "string",
             "value": "[reference('SqlServer').outputs.azureSQLServerName.value]"
         },
-        "azureSQLDB1Name": {
+        "azureSQLIoTDBName": {
             "type": "string",
             "value": "[reference('SqlServer').outputs.iotDBName.value]"
         },
-        "azureSQLDB2Name": {
+        "azureSQLWebDBName": {
             "type": "string",
             "value": "[reference('SqlServer').outputs.webDBName.value]"
         },
@@ -505,9 +505,9 @@
             "type": "string",
             "value": "[parameters('sqlAdministratorLogin')]"
         },
-        "windowsSQLUsername": {
+        "azureSqlPassword": {
             "type": "string",
-            "value": "[parameters('sqlAdministratorLogin')]"
+            "value": "Enter the sqlAdministratorLoginPassword which you have enetered in parameter section while deploying the template."
         },
         "AssetDetailsWebURL": {
             "type": "string",
@@ -524,6 +524,10 @@
         "IotEdgeAdminPassword": {
             "type": "string",
             "value": "[parameters('iotEdgeAdminPassword')]"
-        }
+        },
+        "webjobStorageaccntName": {
+            "type": "string",
+            "value": "[variables('webSiteSettings').webjobStorageName]"
+          }
     }
 }
