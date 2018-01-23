@@ -25,72 +25,72 @@
             "type": "string",
             "defaultValue": "",
             "metadata": {
-              "description": "Describes the host name for sending email notifications"
+                "description": "Describes the host name for sending email notifications"
             }
-          },
-          "senderEmail": {
+        },
+        "senderEmail": {
             "type": "string",
             "defaultValue": "",
             "metadata": {
-              "description": "Describes the email ID of the sender for email notifications (e.g.: iot@onmicrosoft.com)"
+                "description": "Describes the email ID of the sender for email notifications (e.g.: iot@onmicrosoft.com)"
             }
-          },
-          "senderEmailPassword": {
+        },
+        "senderEmailPassword": {
             "type": "securestring",
             "defaultValue": "",
             "metadata": {
-              "descrition": "Describes the password for sender email ID for email notifications"
+                "descrition": "Describes the password for sender email ID for email notifications"
             }
-          },
-          "b2cTenant": {
+        },
+        "b2cTenant": {
             "type": "string",
             "defaultValue": "",
             "metadata": {
-              "description": "Describes B2C Tenant Name Directory,refer the prereq section of deployment document for more info"
+                "description": "Describes B2C Tenant Name Directory,refer the prereq section of deployment document for more info"
             }
-          },
-          "b2cClientId": {
+        },
+        "b2cClientId": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Describes the client Id of the application registered in B2C Directory,refer the prereq section of deployment document for more info"
+            }
+        },
+        "b2cClientSecret": {
             "type": "securestring",
             "defaultValue": "",
             "metadata": {
-              "description": "Describes the client Id of the application registered in B2C Directory,refer the prereq section of deployment document for more info"
+                "description": "Describes the Client secret of the application registered in B2C Directory,refer the prereq section of deployment document for more info"
             }
-          },
-          "b2cClientSecret": {
-            "type": "securestring",
-            "defaultValue": "",
-            "metadata": {
-              "description": "Describes the Client secret of the application registered in B2C Directory,refer the prereq section of deployment document for more info"
-            }
-          },
-          "b2cSignUpPolicyId": {
+        },
+        "b2cSignUpPolicyId": {
             "type": "string",
             "defaultValue": "",
             "metadata": {
-              "description": "Describes the B2C Sign Up policy,refer the prereq section of deployment document for more info"
+                "description": "Describes the B2C Sign Up policy,refer the prereq section of deployment document for more info"
             }
-          },
-          "b2cSignInPolicyId": {
+        },
+        "b2cSignInPolicyId": {
             "type": "string",
             "defaultValue": "",
             "metadata": {
-              "description": "Describes the B2C Sign in policy,refer the prereq section of deployment document for more info"
+                "description": "Describes the B2C Sign in policy,refer the prereq section of deployment document for more info"
             }
-          },
-          "b2cEditProfilePolicyId": {
+        },
+        "b2cEditProfilePolicyId": {
             "type": "string",
             "defaultValue": "",
             "metadata": {
-              "description": "Describes the B2C Profile Editing policy,refer the prereq section of deployment document for more info"
+                "description": "Describes the B2C Profile Editing policy,refer the prereq section of deployment document for more info"
             }
-          },
-          "b2cChangePasswordPolicy": {
+        },
+        "b2cChangePasswordPolicy": {
             "type": "string",
             "defaultValue": "",
             "metadata": {
-              "description": "Describes the B2C Change Password policy,refer the prereq section of deployment document for more info"
+                "description": "Describes the B2C Change Password policy,refer the prereq section of deployment document for more info"
             }
-          },
+        },
         "sqlAdministratorLogin": {
             "type": "string",
             "defaultValue": "",
@@ -450,8 +450,8 @@
                     "apiVersions": {
                         "value": "[variables('apiVersions')]"
                     },
-                    "mlSettings":{
-                        "value":  "[variables('mlSettings')]"
+                    "mlSettings": {
+                        "value": "[variables('mlSettings')]"
                     }
                 }
             }
@@ -509,25 +509,33 @@
             "type": "string",
             "value": "Enter the sqlAdministratorLoginPassword which you have enetered in parameter section while deploying the template."
         },
-        "AssetDetailsWebURL": {
+        "assetDetailsWebURL": {
             "type": "string",
             "value": "[concat('https://',variables('webSiteSettings').assetDetailsWebApp,'.azurewebsites.net/')]"
         },
-        "IotEdgeFQDN": {
+        "b2cWebSiteUrl": {
+            "type": "string",
+            "value": "[variables('websiteFullAddress')]"
+        },
+        "webJobUrl": {
+            "type": "string",
+            "value": "[concat('https://',variables('webSiteSettings').apiServerName,'.scm.azurewebsites.net/azurejobs/')]"
+        },
+        "iotEdgeFQDN": {
             "type": "string",
             "value": "[reference('IotEdgeServer').outputs.IotEdgeFQDN.value]"
         },
-        "IotEdgeAdminUserName": {
+        "iotEdgeAdminUserName": {
             "type": "string",
             "value": "[parameters('iotEdgeAdminUserName')]"
         },
-        "IotEdgeAdminPassword": {
+        "iotEdgeAdminPassword": {
             "type": "string",
             "value": "[parameters('iotEdgeAdminPassword')]"
         },
         "webjobStorageaccntName": {
             "type": "string",
             "value": "[variables('webSiteSettings').webjobStorageName]"
-          }
+        }
     }
 }
