@@ -61,9 +61,7 @@
                                 "id": "[resourceId('Microsoft.Network/routeTables', parameters('appServiceEnv').subnetRouteTableName)]"
                             }
                         }
-                    }
-                ],
-                "subnets1": [
+                    },
                     {
                         "name": "[parameters('appServiceEnv').subnetName1]",
                         "properties": {
