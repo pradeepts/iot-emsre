@@ -76,7 +76,7 @@
         {
             "apiVersion": "[parameters('apiVersions').aseNetworkApiVersion]",
             "type": "Microsoft.Network/routeTables",
-            "name": "[[parameters('appServiceEnv').subnetRouteTableName]",
+            "name": "[parameters('appServiceEnv').subnetRouteTableName]",
             "location": "[parameters('appServiceEnv').location]",
             "tags": {
                 "displayName": "UDR - Subnet"
