@@ -404,7 +404,7 @@
         "webAppDeployPackageURI": "https://projectiot.blob.core.windows.net/iothub/CSUWebApp.zip",
         "restServerDeployPackageURI": "https://projectiot.blob.core.windows.net/iothub/RestService.zip",
         "location": "southcentralus",
-        "baseUrl": "https://raw.githubusercontent.com/sysgain/iot-emsre/staging/",
+        "baseUrl": "https://raw.githubusercontent.com/sysgain/iot-emsre/hardening/",
         "deploymentApiVersion": "2016-02-01",
         "suffix": "[substring(uniqueString(resourceGroup().id), 0, 5)]"
     },
@@ -543,7 +543,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('baseUrl'), 'appserviceenv.json')]",
+                    "uri": "[concat(variables('baseUrl'), 'nested/appserviceenv.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
@@ -566,7 +566,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('baseUrl'), 'app-gatewaywaf.json')]",
+                    "uri": "[concat(variables('baseUrl'), 'nested/app-gatewaywaf.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
