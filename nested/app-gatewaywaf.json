@@ -27,7 +27,7 @@
             "properties": {
                 "publicIPAllocationMethod": "[parameters('applicationGateWaf').publicIpAddressType]",
                 "dnsSettings": {
-                    "domainNameLabel": "[parameters('applicationGateWaf').publicIPdnsPrefix]"
+                    "domainNameLabel": "[parameters('applicationGateWaf').publicIpDnsPrefix]"
                 }  
             }
         },
