@@ -252,7 +252,10 @@
             "networkApiVerion": "2017-08-01",
             "storageApiVersion": "2015-06-15",
             "storageApiVersion1": "2016-01-01",
-            "computeApiVersion": "2016-04-30-preview"
+            "computeApiVersion": "2016-04-30-preview",
+            "aseHostEnvApiVersion": "2015-02-01",
+            "aseVnetApiVersion": "2016-06-01",
+            "aseNetworkApiVersion": "2015-06-15"
         },
         "azureSQL": {
             "location": "[variables('location')]",
@@ -345,6 +348,19 @@
             "customImageSubscription": "2927c217-b119-4d3b-8a13-82a1c3a16c8f",
             "customImageRG": "iot-vhds"
         },
+        "appServiceEnv": {
+            "location": "[variables('location')]",
+            "aseDnsSuffix": "[concat('asedsfd',substring(uniqueString(resourceGroup().id),4,9))]",
+            "internalLoadBalancingMode": "3",
+            "vnetName": "ase-vnet",
+            "subnetName": "ase-subnet",
+            "subnetNSGName": "ase-nsg",
+            "subnetRouteTableName": "ase-route",
+            "appName": "[concat('aseenv',substring(uniqueString(resourceGroup().id),4,9))]",
+            "vnetAddress": "10.0.0.0/16",
+            "subnetAddress": "10.0.1.0/24",
+            "kind": "ASEV2"
+        },   
         "mlSettings": {
             "location": "South Central US",
             "workspaceName": "workspace",
@@ -483,6 +499,29 @@
                     },
                     "azureSQL": {
                         "value": "[variables('azureSQL')]"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "name": "appServiceEnvironment",
+            "apiVersion": "[variables('deploymentApiVersion')]",
+            "dependsOn": [
+                
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUrl'), 'appserviceenv.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appServiceEnv": {
+                        "value": "[variables('appServiceEnv')]"
+                    },
+                    "apiVersions": {
+                        "value": "[variables('apiVersions')]"
                     }
                 }
             }
