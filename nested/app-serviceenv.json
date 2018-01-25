@@ -26,7 +26,7 @@
                         "type": "Microsoft.Network/virtualNetworks",
                         "Subnet": "[parameters('appServiceEnv').subnetName]"
                     },
-                    "dnsSuffix": "[[parameters('appServiceEnv').aseDnsSuffix')]",
+                    "dnsSuffix": "[parameters('appServiceEnv').aseDnsSuffix]",
                     "internalLoadBalancingMode": "[parameters('appServiceEnv').internalLoadBalancingMode]"
                 },
                 "location": "[parameters('appServiceEnv').location]",
@@ -37,8 +37,8 @@
         {
             "apiVersion": "[parameters('apiVersions').aseVnetApiVersion]",
             "type": "Microsoft.Network/virtualNetworks",
-            "name": "[[parameters('appServiceEnv').virtualNetworkName",
-            "location": "[[parameters('appServiceEnv').location]",
+            "name": "[parameters('appServiceEnv').virtualNetworkName]",
+            "location": "[parameters('appServiceEnv').location]",
             "dependsOn": [
                 "[concat('Microsoft.Network/networkSecurityGroups/', parameters('appServiceEnv').subnetNSGName)]",
                 "[concat('Microsoft.Network/routeTables/', parameters('appServiceEnv').subnetRouteTableName)]"
