@@ -404,6 +404,7 @@
             "backendIpAddress2": "10.0.1.11",
             "applicationGatewaySize": "WAF_Medium",
             "wafEnabled": true,
+            "wafMode": "Detection",
             "capacity": "[parameters('capacity')]"
         },   
         "mlSettings": {
