@@ -7,6 +7,9 @@
         },
         "apiVersions": {
             "type": "object"
+        },
+        "aseLocation":{
+            "type": "string"
         }
     },
     "variables": {  
@@ -20,7 +23,7 @@
                 "kind": "[parameters('appServiceEnv').kind]",
                 "properties": {
                     "name": "[parameters('appServiceEnv').appName]",
-                    "location": "[parameters('appServiceEnv').location]",
+                    "location": "[parameters('aseLocation')]",
                     "VirtualNetwork": {
                         "Id": "[variables('vnetId')]",
                         "type": "Microsoft.Network/virtualNetworks",
@@ -29,7 +32,7 @@
                     "dnsSuffix": "[parameters('appServiceEnv').aseDnsSuffix]",
                     "internalLoadBalancingMode": "[parameters('appServiceEnv').internalLoadBalancingMode]"
                 },
-                "location": "[parameters('appServiceEnv').location]",
+                "location": "[parameters('aseLocation')]",
                 "dependsOn": [
                     "[concat('Microsoft.Network/virtualNetworks/', parameters('appServiceEnv').virtualNetworkName)]"
                 ]
@@ -38,7 +41,7 @@
             "apiVersion": "[parameters('apiVersions').aseVnetApiVersion]",
             "type": "Microsoft.Network/virtualNetworks",
             "name": "[parameters('appServiceEnv').virtualNetworkName]",
-            "location": "[parameters('appServiceEnv').location]",
+            "location": "[parameters('aseLocation')]",
             "dependsOn": [
                 "[concat('Microsoft.Network/networkSecurityGroups/', parameters('appServiceEnv').networkSecurityGroupName)]",
                 "[concat('Microsoft.Network/routeTables/', parameters('appServiceEnv').subnetRouteTableName)]"
@@ -75,7 +78,7 @@
             "apiVersion": "[parameters('apiVersions').aseNetworkApiVersion]",
             "type": "Microsoft.Network/routeTables",
             "name": "[parameters('appServiceEnv').subnetRouteTableName]",
-            "location": "[parameters('appServiceEnv').location]",
+            "location": "[parameters('aseLocation')]",
             "tags": {
                 "displayName": "UDR - Subnet"
             },
@@ -95,7 +98,7 @@
             "apiVersion": "[parameters('apiVersions').aseNetworkApiVersion]",
             "type": "Microsoft.Network/networkSecurityGroups",
             "name": "[parameters('appServiceEnv').networkSecurityGroupName]",
-            "location": "[parameters('appServiceEnv').location]",
+            "location": "[parameters('aseLocation')]",
             "tags": {
                 "displayName": "NSGSubnet"
             },
