@@ -8,6 +8,12 @@
                 "description": "username for windows virtual machine"
             }
         },
+        "aseLocation":{
+            "type": "string",
+            "allowedValues": [
+              "South Central US",
+              "West US"]
+        },
         "iotEdgeAdminPassword": {
             "type": "securestring",
             "metadata": {
@@ -250,6 +256,7 @@
               "description": "Number of instances for waf"
             }
           }
+          
     },
     "variables": {
         "apiVersions": {
@@ -556,7 +563,7 @@
                         "value": "[variables('apiVersions')]"
                     },
                     "aseLocation": {
-                        "value": "[variables('location')]"
+                        "value": "[parameters('aseLocation')]"
                     }
                 }
             }
