@@ -8,16 +8,7 @@
                 "description": "username for windows virtual machine"
             }
         },
-        "aseLocation":{
-            "type": "string",
-            "allowedValues": [
-              "South Central US",
-              "West US"],
-              "defaultValue": 2,
-              "metadata": {
-                "description": "Number of instances for waf"
-              }
-        },
+       
         "iotEdgeAdminPassword": {
             "type": "securestring",
             "metadata": {
@@ -245,6 +236,16 @@
             "metadata": {
                 "description": "Pricing tier for Workspace"
             }
+        },
+        "aseLocation":{
+            "type": "string",
+            "allowedValues": [
+              "South Central US",
+              "West US"],
+              "defaultValue": 2,
+              "metadata": {
+                "description": "app service environment location"
+              }
         },
         "capacity": {
             "type": "int",
