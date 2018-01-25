@@ -40,7 +40,7 @@
             "name": "[parameters('appServiceEnv').virtualNetworkName]",
             "location": "[parameters('appServiceEnv').location]",
             "dependsOn": [
-                "[concat('Microsoft.Network/networkSecurityGroups/', parameters('appServiceEnv').subnetNSGName)]",
+                "[concat('Microsoft.Network/networkSecurityGroups/', parameters('appServiceEnv').networkSecurityGroupName)]",
                 "[concat('Microsoft.Network/routeTables/', parameters('appServiceEnv').subnetRouteTableName)]"
             ],
             "properties": {
@@ -55,7 +55,7 @@
                         "properties": {
                             "addressPrefix": "[parameters('appServiceEnv').subnetPrefix]",
                             "networkSecurityGroup": {
-                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('appServiceEnv').subnetNSGName)]"
+                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('appServiceEnv').networkSecurityGroupName)]"
                             },
                             "routeTable": {
                                 "id": "[resourceId('Microsoft.Network/routeTables', parameters('appServiceEnv').subnetRouteTableName)]"

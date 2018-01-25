@@ -372,7 +372,6 @@
             "virtualNetworkName": "asevnet",
             "subnetName": "asesubnet",
             "subnetName1": "appGatewafSubnet",
-            "subnetNSGName": "asesubnsg",
             "subnetRouteTableName": "ase-route",
             "appName": "[concat('aseenv',substring(uniqueString(resourceGroup().id),4,9))]",
             "vnetAddress": "10.0.0.0/16",
