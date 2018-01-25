@@ -37,7 +37,6 @@
             "type": "Microsoft.Network/applicationGateways",
             "location": "[parameters('applicationGateWaf').location]",
             "dependsOn": [
-                "[concat('Microsoft.Network/virtualNetworks/', parameters('appServiceEnv').virtualNetworkName)]",
                 "[concat('Microsoft.Network/publicIpAddresses/', parameters('applicationGateWaf').publicIpAddressName)]"
               ],
             "properties": {
