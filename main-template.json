@@ -237,14 +237,15 @@
                 "description": "Pricing tier for Workspace"
             }
         },
-        "aseLocation":{
+        "aseLocation": {
             "type": "string",
+            "defaultValue": "South Central US",
             "allowedValues": [
               "South Central US",
-              "West US"],
-              "defaultValue": 2,
+              "West US"
+            ],
               "metadata": {
-                "description": "app service environment location"
+                 "description": "app service environment location"
               }
         },
         "capacity": {
