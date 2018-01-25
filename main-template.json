@@ -235,7 +235,21 @@
             "metadata": {
                 "description": "Pricing tier for Workspace"
             }
-        }
+        },
+        "capacity": {
+            "type": "int",
+            "allowedValues": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "defaultValue": 2,
+            "metadata": {
+              "description": "Number of instances for waf"
+            }
+          }
     },
     "variables": {
         "apiVersions": {
@@ -352,14 +366,30 @@
             "location": "[variables('location')]",
             "aseDnsSuffix": "[concat('asedsfd',substring(uniqueString(resourceGroup().id),4,9))]",
             "internalLoadBalancingMode": "3",
-            "vnetName": "ase-vnet",
+            "virtualNetworkName": "ase-vnet",
             "subnetName": "ase-subnet",
+            "subnetName1": "appGatewafSubnet",
             "subnetNSGName": "ase-nsg",
             "subnetRouteTableName": "ase-route",
             "appName": "[concat('aseenv',substring(uniqueString(resourceGroup().id),4,9))]",
             "vnetAddress": "10.0.0.0/16",
-            "subnetAddress": "10.0.1.0/24",
+            "subnetPrefix": "10.0.1.0/24",
+            "subnetPrefix1":"10.0.0.0/28",
             "kind": "ASEV2"
+        },
+        "applicationGateWaf": {
+            "location": "[variables('location')]",
+            "applicationGatewayName": "applicationGatewaywaf",
+            "publicIPAddressName": "wafpublicIp",
+            "dnsPrefix" : "[concat('appwaf',substring(uniqueString(resourceGroup().id),4,9))]",
+            "publicIPAddressType": "Dynamic",
+            "wafRuleSetVersion": "3.0",
+            "wafRuleSetType": "OWASP",
+            "backendIpAddress1": "10.0.1.10",
+            "backendIpAddress2": "10.0.1.11",
+            "applicationGatewaySize": "WAF_Medium",
+            "wafEnabled": true,
+            "capacity": "[parameters('capacity')]"
         },   
         "mlSettings": {
             "location": "South Central US",
@@ -525,6 +555,32 @@
                     }
                 }
             }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "name": "applicationGateWaf",
+            "apiVersion": "[variables('deploymentApiVersion')]",
+            "dependsOn": [
+                "appServiceEnvironment"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUrl'), 'app-gatewaywaf.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "applicationGateWaf": {
+                        "value": "[variables('applicationGateWaf')]"
+                    },
+                    "appServiceEnv": {
+                        "value": "[variables('appServiceEnv')]"
+                    },
+                    "apiVersions": {
+                        "value": "[variables('apiVersions')]"
+                    }
+                }
+            }
         }
     ],
     "outputs": {
@@ -575,6 +631,10 @@
         "webjobStorageaccntName": {
             "type": "string",
             "value": "[variables('webSiteSettings').webjobStorageName]"
+        },
+        "wafFqdn": {
+            "type": "string",
+            "value": "[reference('applicationGateWaf').outputs.appWafFqdn.value]"
         }
     }
 }

@@ -10,7 +10,7 @@
         }
     },
     "variables": {  
-        "vnetId": "[resourceId('Microsoft.Network/virtualNetworks/',parameters('appServiceEnv').vnetName)]"
+        "vnetId": "[resourceId('Microsoft.Network/virtualNetworks/',parameters('appServiceEnv').virtualNetworkName)]"
     },
     "resources": [
             {
@@ -31,13 +31,13 @@
                 },
                 "location": "[parameters('appServiceEnv').location]",
                 "dependsOn": [
-                    "[concat('Microsoft.Network/virtualNetworks/', parameters('appServiceEnv').vnetName)]"
+                    "[concat('Microsoft.Network/virtualNetworks/', parameters('appServiceEnv').virtualNetworkName)]"
                 ]
             },
         {
             "apiVersion": "[parameters('apiVersions').aseVnetApiVersion]",
             "type": "Microsoft.Network/virtualNetworks",
-            "name": "[[parameters('appServiceEnv').vnetName]",
+            "name": "[[parameters('appServiceEnv').virtualNetworkName",
             "location": "[[parameters('appServiceEnv').location]",
             "dependsOn": [
                 "[concat('Microsoft.Network/networkSecurityGroups/', parameters('appServiceEnv').subnetNSGName)]",
@@ -53,13 +53,21 @@
                     {
                         "name": "[parameters('appServiceEnv').subnetName]",
                         "properties": {
-                            "addressPrefix": "[parameters('appServiceEnv').subnetAddress]",
+                            "addressPrefix": "[parameters('appServiceEnv').subnetPrefix]",
                             "networkSecurityGroup": {
                                 "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('appServiceEnv').subnetNSGName)]"
                             },
                             "routeTable": {
                                 "id": "[resourceId('Microsoft.Network/routeTables', parameters('appServiceEnv').subnetRouteTableName)]"
                             }
+                        }
+                    }
+                ],
+                "subnets": [
+                    {
+                        "name": "[parameters('appServiceEnv').subnetName1]",
+                        "properties": {
+                            "addressPrefix": "[parameters('appServiceEnv').subnetPrefix1]"
                         }
                     }
                 ]
