@@ -554,6 +554,9 @@
                     },
                     "apiVersions": {
                         "value": "[variables('apiVersions')]"
+                    },
+                    "aseLocation": {
+                        "value": "[variables('location')]"
                     }
                 }
             }
