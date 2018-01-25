@@ -396,7 +396,7 @@
             "location": "[variables('location')]",
             "applicationGatewayName": "applicationGatewaywaf",
             "publicIPAddressName": "wafpublicIp",
-            "dnsPrefix" : "[concat('appwaf',substring(uniqueString(resourceGroup().id),4,9))]",
+            "publicIPdnsPrefix" : "[concat('appwaf',substring(uniqueString(resourceGroup().id),4,9))]",
             "publicIPAddressType": "Dynamic",
             "wafRuleSetVersion": "3.0",
             "wafRuleSetType": "OWASP",
