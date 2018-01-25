@@ -12,7 +12,11 @@
             "type": "string",
             "allowedValues": [
               "South Central US",
-              "West US"]
+              "West US"],
+              "defaultValue": 2,
+              "metadata": {
+                "description": "Number of instances for waf"
+              }
         },
         "iotEdgeAdminPassword": {
             "type": "securestring",
