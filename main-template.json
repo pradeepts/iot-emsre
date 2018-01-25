@@ -267,10 +267,11 @@
             "storageApiVersion": "2015-06-15",
             "storageApiVersion1": "2016-01-01",
             "computeApiVersion": "2016-04-30-preview",
-            "wafNetworkApiVersion": "2017-03-01",
             "aseHostEnvApiVersion": "2015-02-01",
             "aseVnetApiVersion": "2016-06-01",
-            "aseNetworkApiVersion": "2015-06-15"
+            "aseNetworkApiVersion": "2015-06-15",
+            "wafNetworkApiVersion": "2017-03-01",
+            "wafApiVersion": "2017-06-01"
         },
         "azureSQL": {
             "location": "[variables('location')]",

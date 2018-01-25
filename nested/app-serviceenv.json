@@ -63,7 +63,7 @@
                         }
                     }
                 ],
-                "subnets": [
+                "subnets1": [
                     {
                         "name": "[parameters('appServiceEnv').subnetName1]",
                         "properties": {
