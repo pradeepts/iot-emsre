@@ -267,6 +267,7 @@
             "storageApiVersion": "2015-06-15",
             "storageApiVersion1": "2016-01-01",
             "computeApiVersion": "2016-04-30-preview",
+            "wafNetworkApiVersion": "2017-03-01",
             "aseHostEnvApiVersion": "2015-02-01",
             "aseVnetApiVersion": "2016-06-01",
             "aseNetworkApiVersion": "2015-06-15"
@@ -543,7 +544,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('baseUrl'), 'nested/appserviceenv.json')]",
+                    "uri": "[concat(variables('baseUrl'), 'nested/app-serviceenv.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
