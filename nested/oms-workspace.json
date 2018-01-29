@@ -21,10 +21,6 @@
               "marketplaceName": "AgentHealthAssessment"
             },
             {
-              "name": "[concat('update', '(', parameters('omsSettings').omsWorkspaceName, ')')]",
-              "marketplaceName": "update"
-            },
-            {
               "name": "[concat('AzureAppGatewayAnalytics', '(', parameters('omsSettings').omsWorkspaceName, ')')]",
               "marketplaceName": "AzureAppGatewayAnalytics"
             },
