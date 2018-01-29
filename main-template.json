@@ -542,7 +542,6 @@
         "bastionServerSettings": {
             "location": "[variables('location')]",
             "bastionVMName": "bastionServer",
-            "bastionPrivateIP": "10.0.3.1",
             "adminUsername": "[parameters('bastionAdminUserName')]",
             "adminPassword": "[parameters('bastionAdminPassword')]",
             "bastionNic": "bastion-nic",

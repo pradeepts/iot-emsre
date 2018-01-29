@@ -45,8 +45,7 @@
                             "subnet": {
                                 "id": "[variables('subnetRef')]"
                             },
-                            "privateIPAllocationMethod": "Static",
-                            "privateIPAddress": "[parameters('bastionServerSettings').bastionPrivateIP]",
+                            "privateIPAllocationMethod": "Dynamic",
                             "publicIpAddress": {
                                 "id": "[resourceId('Microsoft.Network/publicIpAddresses', parameters('bastionServerSettings').bastionPublicIpName)]"
                             }
