@@ -673,10 +673,10 @@
                   "value": "[variables('apiVersions')]"
                 },
                 "workspaceId": {
-                    "value": "[reference('OMSWorkSpace').outputs.workspaceCustomerId.value]"
+                    "value": "[reference(variables('omsSettings').omsWorkspaceName, variables('apiVersions').omsDataApiVersion).customerId]"
                 },
                 "workspaceKey": {
-                    "value": 
+                    "value": "[listKeys(variables('omsSettings').omsWorkspaceName, variables('apiVersions').omsDataApiVersion).primarySharedKey]"
                 }
               }
             }
