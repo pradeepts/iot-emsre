@@ -2,6 +2,73 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "omsWorkspaceName": {
+            "type": "string",
+            "metadata": {
+              "description": "Assign a name for the Log Analytic Workspace Name"
+            }
+          },
+          "omsWorkspaceRegion": {
+            "type": "string",
+            "defaultValue": "East US",
+            "allowedValues": [
+              "East US",
+              "West Europe",
+              "Southeast Asia",
+              "Australia Southeast"
+            ],
+            "metadata": {
+              "description": "Specify the region for your Workspace"
+            }
+          },
+          "omsAutomationRegion": {
+            "type": "string",
+            "defaultValue": "eastus2",
+            "allowedValues": [
+              "westeurope",
+              "southeastasia",
+              "eastus2",
+              "southcentralus",
+              "japaneast",
+              "southeastasia",
+              "southcentralus",
+              "northeurope",
+              "canadacentral",
+              "australiasoutheast",
+              "centralindia",
+              "japaneast"
+            ],
+            "metadata": {
+              "description": "Specify the Azure Region for your OMS Automation Account"
+            }
+          },
+          "omsAutomationAccountName": {
+            "type": "string",
+            "metadata": {
+              "description": "Specify the name of your Automation Account"
+            }
+          },
+          "dataRetention": {
+            "type": "int",
+            "defaultValue": 7,
+            "minValue": 7,
+            "maxValue": 730,
+            "metadata": {
+              "description": "Number of days of retention. Free plans can only have 7 days, Standalone and OMS plans include 30 days for free"
+            }
+          },
+          "omsLogAnalyticsSku": {
+            "type": "string",
+            "defaultValue": "free",
+            "allowedValues": [
+              "free",
+              "standalone",
+              "pernode"
+            ],
+            "metadata": {
+              "description": "Specify the Azure Region for your OMS Automation Account"
+            }
+          },
         "iotEdgeAdminUserName": {
             "type": "string",
             "metadata": {
@@ -268,73 +335,33 @@
               "description": "Number of instances for waf"
             }
           },
-          "omsWorkspaceName": {
+          "bastionVMSize":{
             "type": "string",
-            "metadata": {
-              "description": "Assign a name for the Log Analytic Workspace Name"
-            }
-          },
-          "omsWorkspaceRegion": {
-            "type": "string",
-            "defaultValue": "East US",
+            "defaultValue": "Standard_DS2_v2",
             "allowedValues": [
-              "East US",
-              "West Europe",
-              "Southeast Asia",
-              "Australia Southeast"
+              "Standard_DS1",
+              "Standard_DS2",
+              "Standard_DS3",
+              "Standard_DS4",
+              "Standard_DS11",
+              "Standard_DS12",
+              "Standard_DS13",
+              "Standard_DS14",
+              "Standard_DS1_v2",
+              "Standard_DS2_v2",
+              "Standard_DS3_v2",
+              "Standard_DS4_v2",
+              "Standard_DS5_v2",
+              "Standard_DS11_v2",
+              "Standard_DS12_v2",
+              "Standard_DS13_v2",
+              "Standard_DS14_v2"
             ],
             "metadata": {
-              "description": "Specify the region for your Workspace"
+              "description": "Bastion Virtual Machine size"
             }
-          },
-          "omsAutomationRegion": {
-            "type": "string",
-            "defaultValue": "eastus2",
-            "allowedValues": [
-              "westeurope",
-              "southeastasia",
-              "eastus2",
-              "southcentralus",
-              "japaneast",
-              "southeastasia",
-              "southcentralus",
-              "northeurope",
-              "canadacentral",
-              "australiasoutheast",
-              "centralindia",
-              "japaneast"
-            ],
-            "metadata": {
-              "description": "Specify the Azure Region for your OMS Automation Account"
-            }
-          },
-          "omsAutomationAccountName": {
-            "type": "string",
-            "metadata": {
-              "description": "Specify the name of your Automation Account"
-            }
-          },
-          "dataRetention": {
-            "type": "int",
-            "defaultValue": 7,
-            "minValue": 7,
-            "maxValue": 730,
-            "metadata": {
-              "description": "Number of days of retention. Free plans can only have 7 days, Standalone and OMS plans include 30 days for free"
-            }
-          },
-          "omsLogAnalyticsSku": {
-            "type": "string",
-            "defaultValue": "free",
-            "allowedValues": [
-              "free",
-              "standalone",
-              "pernode"
-            ],
-            "metadata": {
-              "description": "Specify the Azure Region for your OMS Automation Account"
-            }
-          }     
+          }
+          
     },
     "variables": {
         "apiVersions": {
@@ -358,7 +385,8 @@
             "wafNetworkApiVersion": "2017-03-01",
             "wafApiVersion": "2017-06-01",
             "omsApiVersion": "2017-03-15-preview",
-            "omsDataApiVersion": "2015-11-01-preview"
+            "omsDataApiVersion": "2015-11-01-preview",
+            "bastionApiVersion": "2016-09-01"
         },
         "azureSQL": {
             "location": "[variables('location')]",
@@ -459,11 +487,13 @@
             "virtualNetworkName": "asevnet",
             "subnetName": "asesubnet",
             "subnetName1": "appGatewafSubnet",
+            "subnetName2": "bastionSubnet",
             "subnetRouteTableName": "ase-route",
             "appName": "[concat('aseenv',substring(uniqueString(resourceGroup().id),4,9))]",
             "vnetAddress": "10.0.0.0/16",
             "subnetPrefix": "10.0.1.0/24",
             "subnetPrefix1":"10.0.0.0/28",
+            "subnetPrefix2": "10.0.0.0/24",
             "kind": "ASEV2"
         },
         "applicationGateWaf": {
@@ -496,6 +526,35 @@
             "dataRetention": "[parameters('dataRetention')]",
             "omsLogAnalyticsSku": "[parameters('omsLogAnalyticsSku')]"
         },
+        "bastionServerSettings": {
+            "location": "[variables('location')]",
+            "bastionVMName": "bastionServer",
+            "bastionPrivateIP": "10.0.0.1",
+            "adminUsername": "[parameters('adminUsername')]",
+            "adminPassword": "[parameters('adminPassword')]",
+            "bastionNic": "bastion-nic",
+            "bastionNSG": "bastion-nsg",
+            "bastionPublicIpName": "bastion-pip",
+            "bastionDiagStgAcnt": "[concat('bastionstrg',variables('suffix'))]",
+            "bastionVMSize": "[parameters('bastionVMSize')]",
+            "bastionDnsLabelPrefix": "[concat('bastionserver',variables('suffix'))]",
+            "publisher": "MicrosoftWindowsServer",
+            "offer": "WindowsServer",
+            "sku": "2012-R2-Datacenter",
+            "version": "latest",
+            "storageAccountType": "[variables('storageAccountType')]",
+            "diagStorageAccountType": "Standard_LRS",
+            "publicIpAddressType": "Dynamic",
+            "domainName": "[parameters('domainName')]",
+            "Username": "[parameters('adminUsername')]",
+            "Password": "[parameters('adminPassword')]",   
+            "powerBIUrl": "[concat(variables('baseUrl'),'nested/powerbiinstall.json')]",
+            "appScriptUrl": "[concat(variables('baseUrl'),'scripts/powerBIApp.ps1')]",
+            "powerBIScriptUrl": "[concat(variables('baseUrl'),'scripts/powerbidesktop.ps1')]",
+            "powerBITemplatesUrl": "[concat(variables('dscScriptUrl'),'/powerBItemplates/PowerBI_Templates.zip')]",
+            "powerBIDesktopUrl": "https://projectiot.blob.core.windows.net/iotp2/PBIDesktop_x64.msi"
+          },
+      
        "websiteFullAddress": "[concat('https://',parameters('websiteName'),'.azurewebsites.net/')]",
         "deployStorageAccountName": "projectiot",
         "deployStorageAccountKey": "68qPHnikzAitr3fjvPAyem7Tc0y2pf+BVob4F+opoX20PhV0yJGQc/guxxhCV/Uscp0gE1EHn+GCGfwOiaF9tg==",
@@ -505,7 +564,8 @@
         "location": "southcentralus",
         "baseUrl": "https://raw.githubusercontent.com/sysgain/iot-emsre/hardening/",
         "deploymentApiVersion": "2016-02-01",
-        "suffix": "[substring(uniqueString(resourceGroup().id), 0, 5)]"
+        "suffix": "[substring(uniqueString(resourceGroup().id), 0, 5)]",
+         "dscScriptUrl": "https://github.com/sysgain/iot-automation/raw/iot-automation"
     },
     "resources": [
         {
@@ -576,6 +636,30 @@
                 }
             }
         },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "name": "BastionHost",
+            "apiVersion": "[variables('deploymentApiVersion')]",
+            "dependsOn": [
+                "OMSWorkSpace"
+            ],
+            "properties": {
+              "mode": "Incremental",
+              "templateLink": {
+                "uri": "[concat(variables('baseUrl'), 'nested/bastion-server.json')]",
+                "contentVersion": "1.0.0.0"
+              },
+              "parameters": {
+                "bastionServerSettings": {
+                  "value": "[variables('bastionServerSettings')]"
+                },
+                "apiVersions": {
+                  "value": "[variables('apiVersions')]"
+                }
+              }
+            }
+          },
+      
         {
             "type": "Microsoft.Resources/deployments",
             "name": "SqlServer",
@@ -765,6 +849,10 @@
         "wafFqdn": {
             "type": "string",
             "value": "[reference('applicationGateWaf').outputs.appWafFqdn.value]"
+        },
+        "bastionFQDN": {
+            "type": "string",
+            "value": "[reference('BastionHost').outputs.bastionFQDN.value]"    
         }
     }
 }

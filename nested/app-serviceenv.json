@@ -560,6 +560,12 @@
                         "properties": {
                             "addressPrefix": "[parameters('appServiceEnv').subnetPrefix1]"
                         }
+                    },
+                    {
+                        "name": "[parameters('appServiceEnv').subnetName2]",
+                        "properties": {
+                            "addressPrefix": "[parameters('appServiceEnv').subnetPrefix2]"
+                        }
                     }
                 ]
             }
