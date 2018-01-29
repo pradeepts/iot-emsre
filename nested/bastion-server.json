@@ -10,6 +10,12 @@
         }, 
         "apiVersions": {
             "type": "object"
+        },
+        "workspaceId": {
+            "type": "string"
+        },
+        "workspaceKey": {
+            "type": "string"
         }
     },
     "variables": {
@@ -170,7 +176,29 @@
                 }
             }
         },
-         {
+         
+        {
+            "type": "extensions",
+            "name": "Microsoft.EnterpriseCloud.Monitoring",
+            "apiVersion": "[parameters('apiVersions').computeApiVersion]",
+            "location": "[parameters('bastionServerSettings').location]",
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/', parameters('bastionServerSettings').bastionVMName,'/extensions/CustomScriptExtension')]"
+            ],
+            "properties": {
+              "publisher": "Microsoft.EnterpriseCloud.Monitoring",
+              "type": "MicrosoftMonitoringAgent",
+              "typeHandlerVersion": "1.8",
+              "autoUpgradeMinorVersion": true,
+              "settings": {
+                "workspaceId": "[parameters('workspaceId')]"
+              },
+              "protectedSettings": {
+                "workspaceKey": "[parameters('workspaceKey')]"
+              }
+            }
+          },
+          {
             "name": "[concat(parameters('bastionServerSettings').bastionVMName,'/CustomScriptExtension')]",
             "type": "Microsoft.Compute/virtualMachines/extensions",
             "location": "[parameters('bastionServerSettings').location]",
@@ -193,7 +221,6 @@
                 }
             }
         }
-        
     ],
     "outputs": {
         "bastionFQDN": {
