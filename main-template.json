@@ -261,7 +261,13 @@
             "metadata": {
               "description": "Number of instances for waf"
             }
-          }
+          },
+          "omsWorkspaceName": {
+            "type": "string",
+            "metadata": {
+              "description": "Assign a name for the Log Analytic Workspace Name"
+            }
+          },
           
     },
     "variables": {
@@ -415,6 +421,7 @@
             "mlSkuName": "[parameters('MLskuName')]",
             "mlStorageName": "[concat('mlstr', variables('suffix'))]"
         },
+       
         "websiteFullAddress": "[concat('https://',parameters('websiteName'),'.azurewebsites.net/')]",
         "deployStorageAccountName": "projectiot",
         "deployStorageAccountKey": "68qPHnikzAitr3fjvPAyem7Tc0y2pf+BVob4F+opoX20PhV0yJGQc/guxxhCV/Uscp0gE1EHn+GCGfwOiaF9tg==",

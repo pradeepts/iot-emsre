@@ -96,7 +96,7 @@
                     "Protocol": "Http",
                     "CookieBasedAffinity": "Disabled",
                     "probe": {
-                      "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateWaf').applicationGatewayName), '/probes/', parameters('applicationGateWaf').probeName)]"
+                      "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateWaf').applicationGatewayName), '/probes/', parameters('applicationGateWaf').probename)]"
                     }
                   }
                 }
@@ -118,7 +118,7 @@
               ],
               "probes": [
                 {
-                  "name": "[parameters('applicationGateWaf').probeName]",
+                  "name": "[parameters('applicationGateWaf').probename]",
                   "properties": {
                     "protocol": "Http",
                     "host": "[parameters('applicationGateWaf').customProbeHostName]",
