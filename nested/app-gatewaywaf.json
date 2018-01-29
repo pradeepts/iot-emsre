@@ -78,11 +78,8 @@
                   "name": "appGatewayBackendPool",
                   "properties": {
                     "BackendAddresses": [
-                      {
-                        "IpAddress": "[parameters('applicationGateWaf').backendIpAddress1]"
-                      },
-                      {
-                        "IpAddress": "[parameters('applicationGateWaf').backendIpAddress2]"
+                     {
+                        "IpAddress": "[parameters('applicationGateWaf').backendIpAddress]"
                       }
                     ]
                   }
@@ -96,7 +93,7 @@
                     "Protocol": "Http",
                     "CookieBasedAffinity": "Disabled",
                     "probe": {
-                      "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateWaf').applicationGatewayName), '/probes/', parameters('applicationGateWaf').probename)]"
+                      "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateWaf').applicationGatewayName), '/probes/', parameters('applicationGateWaf').probeName)]"
                     }
                   }
                 }
@@ -118,7 +115,7 @@
               ],
               "probes": [
                 {
-                  "name": "[parameters('applicationGateWaf').probename]",
+                  "name": "[parameters('applicationGateWaf').probeName]",
                   "properties": {
                     "protocol": "Http",
                     "host": "[parameters('applicationGateWaf').customProbeHostName]",

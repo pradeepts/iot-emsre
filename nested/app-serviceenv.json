@@ -32,7 +32,7 @@
                         "type": "Microsoft.Network/virtualNetworks",
                         "Subnet": "[parameters('appServiceEnv').subnetName]"
                     },
-                    "dnsSuffix": "[parameters('appServiceEnv').aseDnsSuffix]",
+                    "dnsSuffix": "[parameters('appServiceEnv').aseDomainName]",
                     "internalLoadBalancingMode": "[parameters('appServiceEnv').internalLoadBalancingMode]"
                 },
                 "location": "[parameters('aseLocation')]",

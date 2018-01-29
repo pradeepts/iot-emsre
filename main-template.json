@@ -248,6 +248,12 @@
                  "description": "app service environment location"
               }
         },
+        "aseDomainName": {
+            "type": "string",
+            "metadata": {
+                "description": "domain name of app service environment"
+             }
+        },
         "capacity": {
             "type": "int",
             "allowedValues": [
@@ -268,7 +274,67 @@
               "description": "Assign a name for the Log Analytic Workspace Name"
             }
           },
-          
+          "omsWorkspaceRegion": {
+            "type": "string",
+            "defaultValue": "East US",
+            "allowedValues": [
+              "East US",
+              "West Europe",
+              "Southeast Asia",
+              "Australia Southeast"
+            ],
+            "metadata": {
+              "description": "Specify the region for your Workspace"
+            }
+          },
+          "omsAutomationRegion": {
+            "type": "string",
+            "defaultValue": "eastus2",
+            "allowedValues": [
+              "westeurope",
+              "southeastasia",
+              "eastus2",
+              "southcentralus",
+              "japaneast",
+              "southeastasia",
+              "southcentralus",
+              "northeurope",
+              "canadacentral",
+              "australiasoutheast",
+              "centralindia",
+              "japaneast"
+            ],
+            "metadata": {
+              "description": "Specify the Azure Region for your OMS Automation Account"
+            }
+          },
+          "omsAutomationAccountName": {
+            "type": "string",
+            "metadata": {
+              "description": "Specify the name of your Automation Account"
+            }
+          },
+          "dataRetention": {
+            "type": "int",
+            "defaultValue": 7,
+            "minValue": 7,
+            "maxValue": 730,
+            "metadata": {
+              "description": "Number of days of retention. Free plans can only have 7 days, Standalone and OMS plans include 30 days for free"
+            }
+          },
+          "omsLogAnalyticsSku": {
+            "type": "string",
+            "defaultValue": "free",
+            "allowedValues": [
+              "free",
+              "standalone",
+              "pernode"
+            ],
+            "metadata": {
+              "description": "Specify the Azure Region for your OMS Automation Account"
+            }
+          }     
     },
     "variables": {
         "apiVersions": {
@@ -290,7 +356,9 @@
             "aseVnetApiVersion": "2016-06-01",
             "aseNetworkApiVersion": "2015-06-15",
             "wafNetworkApiVersion": "2017-03-01",
-            "wafApiVersion": "2017-06-01"
+            "wafApiVersion": "2017-06-01",
+            "omsApiVersion": "2017-03-15-preview",
+            "omsDataApiVersion": "2015-11-01-preview"
         },
         "azureSQL": {
             "location": "[variables('location')]",
@@ -385,7 +453,7 @@
         },
         "appServiceEnv": {
             "location": "[variables('location')]",
-            "aseDnsSuffix": "[concat('asedsfd',substring(uniqueString(resourceGroup().id),4,9))]",
+            "aseDomainName": "[parameters('aseDomainName')]",
             "internalLoadBalancingMode": "3",
             "networkSecurityGroupName": "asensg",
             "virtualNetworkName": "asevnet",
@@ -406,14 +474,13 @@
             "publicIPAddressType": "Dynamic",
             "wafRuleSetVersion": "3.0",
             "wafRuleSetType": "OWASP",
-            "backendIpAddress1": "10.0.1.10",
-            "backendIpAddress2": "10.0.1.11",
+            "backendIpAddress": "10.0.1.11",
             "applicationGatewaySize": "WAF_Medium",
             "wafEnabled": true,
             "wafMode": "Detection",
             "capacity": "[parameters('capacity')]",
             "customProbeHostName": "[parameters('websiteName')]",
-            "probename": "appwafprobe"
+            "probeName": "appwafprobe"
         },   
         "mlSettings": {
             "location": "South Central US",
@@ -421,8 +488,15 @@
             "mlSkuName": "[parameters('MLskuName')]",
             "mlStorageName": "[concat('mlstr', variables('suffix'))]"
         },
-       
-        "websiteFullAddress": "[concat('https://',parameters('websiteName'),'.azurewebsites.net/')]",
+        "omsSettings": {
+            "omsWorkspaceName": "[parameters('omsWorkspaceName')]",
+            "omsWorkspaceRegion": "[parameters('omsWorkspaceRegion')]",
+            "omsAutomationRegion": "[parameters('omsAutomationRegion')]",
+            "omsAutomationAccountName": "[parameters('omsAutomationAccountName')]",
+            "dataRetention": "[parameters('dataRetention')]",
+            "omsLogAnalyticsSku": "[parameters('omsLogAnalyticsSku')]"
+        },
+       "websiteFullAddress": "[concat('https://',parameters('websiteName'),'.azurewebsites.net/')]",
         "deployStorageAccountName": "projectiot",
         "deployStorageAccountKey": "68qPHnikzAitr3fjvPAyem7Tc0y2pf+BVob4F+opoX20PhV0yJGQc/guxxhCV/Uscp0gE1EHn+GCGfwOiaF9tg==",
         "sasToken": "?",
@@ -436,9 +510,32 @@
     "resources": [
         {
             "type": "Microsoft.Resources/deployments",
-            "name": "IotEdgeServer",
+            "name": "OMSWorkSpace",
             "apiVersion": "[variables('deploymentApiVersion')]",
             "dependsOn": [],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUrl'), 'nested/oms-workspace.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "omsSettings": {
+                        "value": "[variables('omsSettings')]"
+                    },
+                    "apiVersions": {
+                        "value": "[variables('apiVersions')]"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "name": "IotEdgeServer",
+            "apiVersion": "[variables('deploymentApiVersion')]",
+            "dependsOn": [
+                "OMSWorkSpace"
+            ],
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -460,7 +557,8 @@
             "name": "IotHub",
             "apiVersion": "[variables('deploymentApiVersion')]",
             "dependsOn": [
-                "IotEdgeServer"
+                "IotEdgeServer",
+                "OMSWorkSpace"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -483,7 +581,8 @@
             "name": "SqlServer",
             "apiVersion": "[variables('deploymentApiVersion')]",
             "dependsOn": [
-                "IotEdgeServer"
+                "IotEdgeServer",
+                "OMSWorkSpace"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -506,7 +605,8 @@
             "name": "AppComponents",
             "apiVersion": "[variables('deploymentApiVersion')]",
             "dependsOn": [
-                "SqlServer"
+                "SqlServer",
+                "OMSWorkSpace"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -531,7 +631,8 @@
             "dependsOn": [
                 "IotEdgeServer",
                 "IotHub",
-                "AppComponents"
+                "AppComponents",
+                "OMSWorkSpace"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -560,7 +661,7 @@
             "name": "appServiceEnvironment",
             "apiVersion": "[variables('deploymentApiVersion')]",
             "dependsOn": [
-                
+                "OMSWorkSpace"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -589,7 +690,8 @@
             "name": "applicationGateWaf",
             "apiVersion": "[variables('deploymentApiVersion')]",
             "dependsOn": [
-                "appServiceEnvironment"
+                "appServiceEnvironment",
+                "OMSWorkSpace"
             ],
             "properties": {
                 "mode": "Incremental",
