@@ -505,8 +505,8 @@
             "appName": "[concat('aseenv',substring(uniqueString(resourceGroup().id),4,9))]",
             "vnetAddress": "10.0.0.0/16",
             "subnetPrefix": "10.0.1.0/24",
-            "subnetPrefix1":"10.0.0.0/28",
-            "subnetPrefix2": "10.0.0.0/24",
+            "subnetPrefix1":"10.0.2.0/24",
+            "subnetPrefix2": "10.0.3.0/24",
             "kind": "ASEV2"
         },
         "applicationGateWaf": {
@@ -542,7 +542,7 @@
         "bastionServerSettings": {
             "location": "[variables('location')]",
             "bastionVMName": "bastionServer",
-            "bastionPrivateIP": "10.0.0.1",
+            "bastionPrivateIP": "10.0.3.1",
             "adminUsername": "[parameters('bastionAdminUserName')]",
             "adminPassword": "[parameters('bastionAdminPassword')]",
             "bastionNic": "bastion-nic",
@@ -575,6 +575,7 @@
         "suffix": "[substring(uniqueString(resourceGroup().id), 0, 5)]",
         "storageAccountType": "Premium_LRS",
         "dscScriptUrl": "https://github.com/sysgain/iot-automation/raw/iot-automation"
+        
     },
     "resources": [
         {
@@ -619,10 +620,10 @@
                         "value": "[variables('apiVersions')]"
                     },
                     "workspaceId": {
-                        "value": "[reference('OMSWorkSpace').outputs.workspaceCustomerId.value]"
+                        "value": "[reference(variables('omsSettings').omsWorkspaceName, variables('apiVersions').omsDataApiVersion).customerId]"
                     },
                     "workspaceKey": {
-                        "value": "[reference('OMSWorkSpace').outputs.workspacePrimarySharedKey.value]"
+                        "value": "[listKeys(variables('omsSettings').omsWorkspaceName, variables('apiVersions').omsDataApiVersion).primarySharedKey]"
                     }
                 }
             }
@@ -675,7 +676,7 @@
                     "value": "[reference('OMSWorkSpace').outputs.workspaceCustomerId.value]"
                 },
                 "workspaceKey": {
-                    "value": "[reference('OMSWorkSpace').outputs.workspacePrimarySharedKey.value]"
+                    "value": 
                 }
               }
             }
