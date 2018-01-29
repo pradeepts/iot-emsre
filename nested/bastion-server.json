@@ -5,12 +5,13 @@
         "bastionServerSettings": {
             "type": "object"
         },
-        "appServiceEnv": {
-            "type": "object"
-        }, 
         "apiVersions": {
             "type": "object"
-        }
+        },
+        "appServiceEnv": {
+            "type": "object"
+        } 
+
     },
     "variables": {
         "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', parameters('appServiceEnv').virtualNetworkName)]",
