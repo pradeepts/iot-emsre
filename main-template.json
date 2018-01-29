@@ -405,7 +405,9 @@
             "applicationGatewaySize": "WAF_Medium",
             "wafEnabled": true,
             "wafMode": "Detection",
-            "capacity": "[parameters('capacity')]"
+            "capacity": "[parameters('capacity')]",
+            "customProbeHostName": "[parameters('websiteName')]",
+            "probename": "appwafprobe"
         },   
         "mlSettings": {
             "location": "South Central US",
@@ -506,9 +508,6 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
-                    "webSiteSettings": {
-                        "value": "[variables('webSiteSettings')]"
-                    },
                     "apiVersions": {
                         "value": "[variables('apiVersions')]"
                     },
@@ -568,6 +567,9 @@
                     },
                     "apiVersions": {
                         "value": "[variables('apiVersions')]"
+                    },
+                    "webSiteSettings": {
+                        "value": "[variables('webSiteSettings')]"
                     },
                     "aseLocation": {
                         "value": "[parameters('aseLocation')]"

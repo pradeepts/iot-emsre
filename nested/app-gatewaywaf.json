@@ -89,12 +89,15 @@
                 }
               ],
               "backendHttpSettingsCollection": [
-                {
-                  "name": "appGatewayBackendHttpSettings",
+                 {
+                   "name": "appGatewayBackendHttpSettings",
                   "properties": {
                     "Port": 80,
                     "Protocol": "Http",
-                    "CookieBasedAffinity": "Disabled"
+                    "CookieBasedAffinity": "Disabled",
+                    "probe": {
+                      "id": "[concat(resourceId('Microsoft.Network/applicationGateways', parameters('applicationGateWaf').applicationGatewayName), '/probes/', parameters('applicationGateWaf').probeName)]"
+                    }
                   }
                 }
               ],
@@ -110,6 +113,19 @@
                     },
                     "Protocol": "Http",
                     "SslCertificate": null
+                  }
+                }
+              ],
+              "probes": [
+                {
+                  "name": "[parameters('applicationGateWaf').probeName]",
+                  "properties": {
+                    "protocol": "Http",
+                    "host": "[parameters('applicationGateWaf').customProbeHostName]",
+                    "path": "/",
+                    "interval": 30,
+                    "timeout": 120,
+                    "unhealthyThreshold": 8
                   }
                 }
               ],
