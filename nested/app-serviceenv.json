@@ -46,7 +46,6 @@
                 "type": "Microsoft.Web/serverfarms",
                 "location": "[parameters('webSiteSettings').location]",
                 "dependsOn": [
-                    "[resourceId('Microsoft.Web/hostingEnvironments', parameters('appServiceEnv').appName)]"
                 ],
                 "properties": {
                     "name": "[parameters('webSiteSettings').hostingPlanName]",
@@ -72,7 +71,8 @@
                 "properties": {
                     "name": "[parameters('webSiteSettings').assetDetailsWebApp]",
                     "serverFarmId": "[parameters('webSiteSettings').hostingPlanName]",
-                    "hostingEnvironment": "[parameters('appServiceEnv').appName]"
+                    "hostingEnvironment": "[parameters('appServiceEnv').appName]",
+                    "hostingEnvironmentId": "[resourceId('Microsoft.Web/hostingEnvironments', parameters('appServiceEnv').appName)]"
                 },
                 "resources": [
                     {
@@ -146,7 +146,8 @@
                 "properties": {
                     "name": "[parameters('webSiteSettings').webSiteName]",
                     "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('webSiteSettings').hostingPlanName)]",
-                    "hostingEnvironment": "[parameters('appServiceEnv').appName]"
+                    "hostingEnvironment": "[parameters('appServiceEnv').appName]",
+                    "hostingEnvironmentId": "[resourceId('Microsoft.Web/hostingEnvironments', parameters('appServiceEnv').appName)]"
                 },
                 "resources": [
                     {
@@ -239,7 +240,8 @@
             "properties": {
                 "name": "[parameters('webSiteSettings').weatherApiWebApp]",
                 "serverFarmId": "[parameters('webSiteSettings').hostingPlanName]",
-                "hostingEnvironment": "[parameters('appServiceEnv').appName]"
+                "hostingEnvironment": "[parameters('appServiceEnv').appName]",
+                "hostingEnvironmentId": "[resourceId('Microsoft.Web/hostingEnvironments', parameters('appServiceEnv').appName)]"
             },
             "resources": [
                 {
@@ -344,7 +346,8 @@
             "properties": {
                 "name": "[parameters('webSiteSettings').apiServerName]",
                 "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('webSiteSettings').hostingPlanName)]",
-                "hostingEnvironment": "[parameters('appServiceEnv').appName]"
+                "hostingEnvironment": "[parameters('appServiceEnv').appName]",
+                "hostingEnvironmentId": "[resourceId('Microsoft.Web/hostingEnvironments', parameters('appServiceEnv').appName)]"
             },
             "resources": [
                 {
