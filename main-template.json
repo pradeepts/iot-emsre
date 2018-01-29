@@ -617,6 +617,12 @@
                     },
                     "apiVersions": {
                         "value": "[variables('apiVersions')]"
+                    },
+                    "workspaceId": {
+                        "value": "[reference('OMSWorkSpace').outputs.workspaceCustomerId.value]"
+                    },
+                    "workspaceKey": {
+                        "value": "[reference('OMSWorkSpace').outputs.workspacePrimarySharedKey.value]"
                     }
                 }
             }
@@ -664,11 +670,16 @@
                 },
                 "apiVersions": {
                   "value": "[variables('apiVersions')]"
+                },
+                "workspaceId": {
+                    "value": "[reference('OMSWorkSpace').outputs.workspaceCustomerId.value]"
+                },
+                "workspaceKey": {
+                    "value": "[reference('OMSWorkSpace').outputs.workspacePrimarySharedKey.value]"
                 }
               }
             }
-          },
-      
+        },
         {
             "type": "Microsoft.Resources/deployments",
             "name": "SqlServer",
