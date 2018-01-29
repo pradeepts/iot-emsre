@@ -7,12 +7,6 @@
         },
         "apiVersions": {
             "type": "object"
-        },
-        "workspaceId": {
-            "type": "string"
-        },
-        "workspaceKey": {
-            "type": "string"
         }
     },
     "variables": {
