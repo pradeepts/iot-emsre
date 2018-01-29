@@ -618,12 +618,6 @@
                     },
                     "apiVersions": {
                         "value": "[variables('apiVersions')]"
-                    },
-                    "workspaceId": {
-                        "value": "[reference(variables('omsSettings').omsWorkspaceName, variables('apiVersions').omsDataApiVersion).customerId]"
-                    },
-                    "workspaceKey": {
-                        "value": "[listKeys(variables('omsSettings').omsWorkspaceName, variables('apiVersions').omsDataApiVersion).primarySharedKey]"
                     }
                 }
             }
@@ -671,12 +665,6 @@
                 },
                 "apiVersions": {
                   "value": "[variables('apiVersions')]"
-                },
-                "workspaceId": {
-                    "value": "[reference(variables('omsSettings').omsWorkspaceName, variables('apiVersions').omsDataApiVersion).customerId]"
-                },
-                "workspaceKey": {
-                    "value": "[listKeys(variables('omsSettings').omsWorkspaceName, variables('apiVersions').omsDataApiVersion).primarySharedKey]"
                 }
               }
             }
