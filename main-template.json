@@ -665,6 +665,9 @@
                 },
                 "apiVersions": {
                   "value": "[variables('apiVersions')]"
+                },
+                "appServiceEnv": {
+                    "value": "[variables('appServiceEnv')]"
                 }
               }
             }
