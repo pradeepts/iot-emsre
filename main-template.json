@@ -82,6 +82,19 @@
                 "description": "password for windows virtual machine"
             }
         },
+        "bastionAdminUserName": {
+            "type": "string",
+            "metadata": {
+                "description": "username for bastion Server"
+            }
+        },
+       
+        "bastionAdminPassword": {
+            "type": "securestring",
+            "metadata": {
+                "description": "password for bastion Server"
+            }
+        },
         "websiteName": {
             "type": "string",
             "defaultValue": "",
@@ -530,8 +543,8 @@
             "location": "[variables('location')]",
             "bastionVMName": "bastionServer",
             "bastionPrivateIP": "10.0.0.1",
-            "adminUsername": "[parameters('adminUsername')]",
-            "adminPassword": "[parameters('adminPassword')]",
+            "adminUsername": "[parameters('bastionAdminUserName')]",
+            "adminPassword": "[parameters('bastionAdminPassword')]",
             "bastionNic": "bastion-nic",
             "bastionNSG": "bastion-nsg",
             "bastionPublicIpName": "bastion-pip",
@@ -545,12 +558,7 @@
             "storageAccountType": "[variables('storageAccountType')]",
             "diagStorageAccountType": "Standard_LRS",
             "publicIpAddressType": "Dynamic",
-            "domainName": "[parameters('domainName')]",
-            "Username": "[parameters('adminUsername')]",
-            "Password": "[parameters('adminPassword')]",   
-            "powerBIUrl": "[concat(variables('baseUrl'),'nested/powerbiinstall.json')]",
-            "appScriptUrl": "[concat(variables('baseUrl'),'scripts/powerBIApp.ps1')]",
-            "powerBIScriptUrl": "[concat(variables('baseUrl'),'scripts/powerbidesktop.ps1')]",
+            "powerBIScriptUrl": "[concat(variables('baseUrl'),'scripts/powerBiInstall.sh ')]",
             "powerBITemplatesUrl": "[concat(variables('dscScriptUrl'),'/powerBItemplates/PowerBI_Templates.zip')]",
             "powerBIDesktopUrl": "https://projectiot.blob.core.windows.net/iotp2/PBIDesktop_x64.msi"
           },
@@ -565,7 +573,8 @@
         "baseUrl": "https://raw.githubusercontent.com/sysgain/iot-emsre/hardening/",
         "deploymentApiVersion": "2016-02-01",
         "suffix": "[substring(uniqueString(resourceGroup().id), 0, 5)]",
-         "dscScriptUrl": "https://github.com/sysgain/iot-automation/raw/iot-automation"
+        "storageAccountType": "Premium_LRS",
+        "dscScriptUrl": "https://github.com/sysgain/iot-automation/raw/iot-automation"
     },
     "resources": [
         {
