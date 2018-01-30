@@ -599,9 +599,6 @@
                     },
                     "apiVersions": {
                         "value": "[variables('apiVersions')]"
-                    },
-                    "omsSettings": {
-                        "value": "[variables('omsSettings')]"
                     }
                 }
             }
@@ -652,9 +649,6 @@
                     },
                     "appServiceEnv": {
                         "value": "[variables('appServiceEnv')]"
-                    },
-                    "omsSettings": {
-                        "value": "[variables('omsSettings')]"
                     }
                 }
             }
