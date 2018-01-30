@@ -343,7 +343,7 @@
                         "editProfilePolicyName": "[parameters('webSiteSettings').b2cEditProfilePolicyId]",
                         "tenantName": "[parameters('webSiteSettings').b2cTenant]",
                         "redirect_uri": "[concat(parameters('webSiteSettings').websiteFullAddress,'#/dashboard')]",
-                        "InstrumentationKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsights').appInsightResourceName), '2014-04-01').InstrumentationKey]"
+                        "InstrumentationKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsights').appInsightName), '2014-04-01').InstrumentationKey]"
                     }
                 }
             ]
@@ -358,7 +358,7 @@
             "displayName": "AppInsights"
             },
             "properties": {
-            "ApplicationId": "[parameters('appInsights').appInsightResourceName]"
+            "ApplicationId": "[parameters('appInsights').appInsightName]"
             }
         },
         {
@@ -565,7 +565,7 @@
     "outputs": {
         "InstrumentationKey": {
             "type": "string",
-            "value": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsights').appInsightResourceName), '2014-04-01').InstrumentationKey]"
+            "value": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsights').appInsightName), '2014-04-01').InstrumentationKey]"
             }
     }
 }
