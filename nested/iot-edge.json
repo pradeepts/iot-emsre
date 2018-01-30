@@ -216,7 +216,7 @@
                 "workspaceKey": "[parameters('workspaceKey')]"
             }
         }
-          
+    }
     ],
     "outputs": {
         "IotEdgeFQDN": {
