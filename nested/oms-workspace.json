@@ -424,7 +424,7 @@
       ],
       "outputs": {
         "workspaceCustomerId": {
-          "value": "[reference(parameters('omsSettings').omsWorkspaceName, '').customerId]",
+          "value": "[reference(parameters('omsSettings').omsWorkspaceName, parameters('apiVersions').omsDataApiVersion).customerId]",
           "type": "string"
         },
         "workspacePrimarySharedKey": {
