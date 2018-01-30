@@ -574,6 +574,7 @@
         "suffix": "[substring(uniqueString(resourceGroup().id), 0, 5)]",
         "storageAccountType": "Premium_LRS",
         "dscScriptUrl": "https://github.com/sysgain/iot-automation/raw/iot-automation"
+      
         
     },
     "resources": [
@@ -618,6 +619,7 @@
                     "apiVersions": {
                         "value": "[variables('apiVersions')]"
                     }
+                   
                 }
             }
         },
@@ -668,6 +670,7 @@
                 "appServiceEnv": {
                     "value": "[variables('appServiceEnv')]"
                 }
+             
               }
             }
         },

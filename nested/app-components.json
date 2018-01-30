@@ -8,6 +8,9 @@
         "webSiteSettings": {
             "type": "object"
         },
+        "appServiceEnv": {
+            "type": "object"
+        },
         "mlSettings":{
             "type": "object"
         }
@@ -25,7 +28,10 @@
                 "capacity": "[parameters('webSiteSettings').skuCapacity]"
             },
             "properties": {
-                "name": "[parameters('webSiteSettings').hostingPlanName]"
+                "name": "[parameters('webSiteSettings').hostingPlanName]",
+                "hostingEnvironmentProfile": {
+                    "id": "[resourceId('Microsoft.Web/hostingEnvironments',parameters('appServiceEnv').appName)]"
+               }
             }
         },
         {
@@ -38,7 +44,10 @@
             ],
             "properties": {
                 "name": "[parameters('webSiteSettings').assetDetailsWebApp]",
-                "serverFarmId": "[parameters('webSiteSettings').hostingPlanName]"
+                "serverFarmId": "[parameters('webSiteSettings').hostingPlanName]",
+                "hostingEnvironmentProfile": {
+                    "id": "[resourceId('Microsoft.Web/hostingEnvironments',parameters('appServiceEnv').appName)]"
+               }
             },
             "resources": [
                 {
@@ -107,7 +116,10 @@
             ],
             "properties": {
                 "name": "[parameters('webSiteSettings').weatherApiWebApp]",
-                "serverFarmId": "[parameters('webSiteSettings').hostingPlanName]"
+                "serverFarmId": "[parameters('webSiteSettings').hostingPlanName]",
+                "hostingEnvironmentProfile": {
+                    "id": "[resourceId('Microsoft.Web/hostingEnvironments',parameters('appServiceEnv').appName)]"
+               }
             },
             "resources": [
                 {
@@ -245,7 +257,10 @@
             },
             "properties": {
                 "name": "[parameters('webSiteSettings').webSiteName]",
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('webSiteSettings').hostingPlanName)]"
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('webSiteSettings').hostingPlanName)]",
+                "hostingEnvironmentProfile": {
+                    "id": "[resourceId('Microsoft.Web/hostingEnvironments',parameters('appServiceEnv').appName)]"
+               }
             },
             "resources": [
                 {
@@ -340,7 +355,10 @@
             },
             "properties": {
                 "name": "[parameters('webSiteSettings').apiServerName]",
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('webSiteSettings').hostingPlanName)]"
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('webSiteSettings').hostingPlanName)]",
+                "hostingEnvironmentProfile": {
+                    "id": "[resourceId('Microsoft.Web/hostingEnvironments',parameters('appServiceEnv').appName)]"
+               }
             },
             "resources": [
                 {

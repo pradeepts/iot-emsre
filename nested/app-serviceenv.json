@@ -22,6 +22,25 @@
                 "apiVersion": "[parameters('apiVersions').aseHostEnvApiVersion]",
                 "kind": "[parameters('appServiceEnv').kind]",
                 "properties": {
+                    "workerPools": [
+                        {
+                          "workerSizeId": 0,
+                          "workerSize": "small",
+                          "workerCount": "2"
+                        },
+                        {
+                          "workerSizeId": 1,
+                          "workerSize": "medium",
+                          "workerCount": "2"
+                        },
+                        {
+                          "workerSizeId": 2,
+                          "workerSize": "large",
+                          "workerCount": "0"
+                        }
+                      ],
+                      "MultiSize": "medium",
+                      "MultiRoleCount": "2",
                     "name": "[parameters('appServiceEnv').appName]",
                     "location": "[parameters('aseLocation')]",
                     "VirtualNetwork": {

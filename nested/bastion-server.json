@@ -10,8 +10,8 @@
         },
         "appServiceEnv": {
             "type": "object"
-        } 
-
+        }
+      
     },
     "variables": {
         "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets/', parameters('appServiceEnv').virtualNetworkName, parameters('appServiceEnv').subnetName2)]" 
@@ -193,6 +193,7 @@
                 }
             }
         }
+       
     ],
     "outputs": {
         "bastionFQDN": {
