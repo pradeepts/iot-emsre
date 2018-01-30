@@ -204,8 +204,8 @@
             }
         },
         {
-            "type": "extensions",
-            "name": "Microsoft.EnterpriseCloud.Monitoring",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat(parameters('bastionServerSettings').bastionVMName,'/omsextentions')]",
             "apiVersion": "[parameters('apiVersions').computeApiVersion]",
             "location": "[parameters('bastionServerSettings').location]",
             "dependsOn": [

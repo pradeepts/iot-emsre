@@ -629,7 +629,8 @@
                         "value": "[reference('OMSWorkSpace').outputs.workspaceCustomerId.value]"
                     },
                     "workspaceKey": {
-                        "value": "[variables('workspaceKey')]"
+                        "value": "[reference('OMSWorkSpace').outputs.workspacePrimarySharedKey.value]"
+                
                 }
                 }
             }
