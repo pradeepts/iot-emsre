@@ -27,7 +27,7 @@
                 "capacity": "[parameters('webSiteSettings').skuCapacity]",
                 "tier": "Isolated",
                 "size": "I1",
-                "family": "I1"    
+                "family": "I"    
                
             },
             "properties": {

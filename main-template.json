@@ -683,7 +683,8 @@
             "apiVersion": "[variables('deploymentApiVersion')]",
             "dependsOn": [
                 "SqlServer",
-                "OMSWorkSpace"
+                "OMSWorkSpace",
+                "appServiceEnvironment"
             ],
             "properties": {
                 "mode": "Incremental",
