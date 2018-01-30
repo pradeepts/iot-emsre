@@ -424,7 +424,7 @@
       ],
       "outputs": {
         "workspaceCustomerId": {
-          "value": "[reference(resourceId('Microsoft.OperationalInsights/workspaces/', parameters('omsSettings').omsWorkspaceName), '2015-11-01-preview').customerId]",
+          "value": "[reference(concat('Microsoft.OperationalInsights/workspaces/', parameters('omsSettings').omsWorkspaceName), '2015-11-01-preview').customerId]",
           "type": "string"
         },
         "workspacePrimarySharedKey": {
