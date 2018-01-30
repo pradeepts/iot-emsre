@@ -194,6 +194,7 @@
                 }
             }
         }
+       
     ],
     "outputs": {
         "bastionFQDN": {
