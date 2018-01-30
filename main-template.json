@@ -718,6 +718,12 @@
                     },
                     "mlSettings": {
                         "value": "[variables('mlSettings')]"
+                    },
+                    "webSiteSettings": {
+                        "value": "[variables('webSiteSettings')]"
+                    },
+                    "appServiceEnv": {
+                        "value": "[variables('appServiceEnv')]"
                     }
                 }
             }
