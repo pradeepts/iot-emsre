@@ -557,7 +557,7 @@
             "storageAccountType": "[variables('storageAccountType')]",
             "diagStorageAccountType": "Standard_LRS",
             "publicIpAddressType": "Dynamic",
-            "powerBIScriptUrl": "[concat(variables('baseUrl'),'scripts/powerBiInstall.sh ')]",
+            "powerBIScriptUrl": "[concat(variables('baseUrl'),'scripts/powerBiInstall.ps1')]",
             "powerBITemplatesUrl": "[concat(variables('dscScriptUrl'),'/powerBItemplates/PowerBI_Templates.zip')]",
             "powerBIDesktopUrl": "https://projectiot.blob.core.windows.net/iotp2/PBIDesktop_x64.msi"
           },
