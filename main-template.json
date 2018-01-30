@@ -170,6 +170,21 @@
                 "description": "Describes the B2C Change Password policy,refer the prereq section of deployment document for more info"
             }
         },
+        "appInsightsLocation": {
+            "type": "string",
+            "defaultValue": "southcentralus",
+            "allowedValues": [
+            "eastus",
+            "northeurope",
+            "southcentralus",
+            "southeastasia",
+            "westeurope",
+            "westus2"
+            ],
+            "metadata": {
+            "description": "Location where all the resources deploy"
+            }
+            },
         "sqlAdministratorLogin": {
             "type": "string",
             "defaultValue": "",
@@ -383,7 +398,8 @@
             "wafApiVersion": "2017-06-01",
             "omsApiVersion": "2017-03-15-preview",
             "omsDataApiVersion": "2015-11-01-preview",
-            "bastionApiVersion": "2016-09-01"
+            "bastionApiVersion": "2016-09-01",
+            "appInsightsApiVersion": "2014-04-01"
         },
         "azureSQL": {
             "location": "[variables('location')]",
@@ -441,6 +457,10 @@
             "restServerPackageURI": "[concat(variables('restServerDeployPackageURI'), variables('sasToken'))]",
             "powerGridEntities": "[concat('metadata=res://*/Entities.PowergridModel.csdl|res://*/Entities.PowergridModel.ssdl|res://*/Entities.PowergridModel.msl;provider=System.Data.SqlClient;provider connection string=\"data source=',variables('azureSQL').serverName,'.database.windows.net;initial catalog=',variables('azureSQL').databaseName2,';persist security info=True;user id=',parameters('sqlAdministratorLogin'),';password=',parameters('sqlAdministratorLoginPassword'),';multipleactiveresultsets=True;application name=EntityFramework\"')]"
         },
+        "appInsights": {
+            "location": "[parameters('appInsightsLocation')]",
+            "appInsightName": "[concat('AppInsights', uniquestring(resourceGroup().id))]"
+            },
         "iotHubSettings": {
             "location": "[variables('location')]",
             "iotHubName": "[concat('iot-hub', variables('suffix'))]",
@@ -506,7 +526,7 @@
             "wafEnabled": true,
             "wafMode": "Detection",
             "capacity": "[parameters('capacity')]",
-            "customProbeHostName": "[parameters('websiteName')]",
+            "customProbeHostName": "[concat(parameters('websiteName'),'.',parameters('aseDomainName'))]",
             "probeName": "appwafprobe"
         },
         "mlSettings": {
@@ -549,7 +569,7 @@
         "deployStorageAccountName": "projectiot",
         "deployStorageAccountKey": "68qPHnikzAitr3fjvPAyem7Tc0y2pf+BVob4F+opoX20PhV0yJGQc/guxxhCV/Uscp0gE1EHn+GCGfwOiaF9tg==",
         "sasToken": "?",
-        "webAppDeployPackageURI": "https://projectiot.blob.core.windows.net/iothub/CSUWebApp.zip",
+        "webAppDeployPackageURI": "https://projectiot.blob.core.windows.net/iothub/webApp.zip",
         "restServerDeployPackageURI": "https://projectiot.blob.core.windows.net/iothub/RestService.zip",
         "location": "southcentralus",
         "baseUrl": "https://raw.githubusercontent.com/sysgain/iot-emsre/hardening/",
@@ -599,6 +619,9 @@
                     },
                     "apiVersions": {
                         "value": "[variables('apiVersions')]"
+                    },
+                    "omsSettings": {
+                        "value": "[variables('omsSettings')]"
                     }
                 }
             }
@@ -650,6 +673,9 @@
                     },
                     "appServiceEnv": {
                         "value": "[variables('appServiceEnv')]"
+                    },
+                    "omsSettings": {
+                        "value": "[variables('omsSettings')]"
                     }
                 }
             }
@@ -705,7 +731,10 @@
                     },
                     "appServiceEnv": {
                         "value": "[variables('appServiceEnv')]"
-                    }
+                    },
+                    "appInsights": {
+                        "value": "[variables('appInsights')]"
+                        }
                 }
             }
         },

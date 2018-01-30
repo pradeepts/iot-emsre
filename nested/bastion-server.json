@@ -10,7 +10,10 @@
         },
         "appServiceEnv": {
             "type": "object"
-        }
+        },
+        "omsSettings": {
+            "type": "object"
+          }
       
     },
     "variables": {
@@ -193,7 +196,28 @@
                     "commandToExecute": "[concat ('powershell -ExecutionPolicy Unrestricted -File powerBiInstall.ps1',' ',parameters('bastionServerSettings').powerBITemplatesUrl,' ',parameters('bastionServerSettings').powerBIDesktopUrl)]"
                 }
             }
-        }
+        },
+        {
+            "type": "extensions",
+            "name": "Microsoft.EnterpriseCloud.Monitoring",
+            "apiVersion": "[parameters('apiVersions').computeApiVersion]",
+            "location": "[parameters('bastionServerSettings').location]",
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/', parameters('bastionServerSettings').bastionVMName,'/extensions/CustomScriptExtension')]"
+            ],
+            "properties": {
+              "publisher": "Microsoft.EnterpriseCloud.Monitoring",
+              "type": "MicrosoftMonitoringAgent",
+              "typeHandlerVersion": "1.8",
+              "autoUpgradeMinorVersion": true,
+              "settings": {
+                "workspaceId": "[reference(resourceId('Microsoft.OperationalInsights/workspaces/', parameters('omsSettings').workspaceName), '2015-11-01-preview').customerId]"
+              },
+              "protectedSettings": {
+                "workspaceKey": "[listKeys(resourceId('Microsoft.OperationalInsights/workspaces', parameters('omsSettings').workspaceName), '2015-11-01-preview').primarySharedKey]"
+              }
+            }
+          }
        
     ],
     "outputs": {

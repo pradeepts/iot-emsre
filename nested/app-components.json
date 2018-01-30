@@ -13,6 +13,9 @@
         },
         "mlSettings":{
             "type": "object"
+        },
+        "appInsights": {
+            "type": "object"
         }
     },
     "variables": {},
@@ -339,10 +342,24 @@
                         "signInSignUpPolicyName": "[parameters('webSiteSettings').b2cSignUpPolicyId]",
                         "editProfilePolicyName": "[parameters('webSiteSettings').b2cEditProfilePolicyId]",
                         "tenantName": "[parameters('webSiteSettings').b2cTenant]",
-                        "redirect_uri": "[concat(parameters('webSiteSettings').websiteFullAddress,'#/dashboard')]"
+                        "redirect_uri": "[concat(parameters('webSiteSettings').websiteFullAddress,'#/dashboard')]",
+                        "InstrumentationKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsights').appInsightResourceName), '2014-04-01').InstrumentationKey]"
                     }
                 }
             ]
+        },
+        {
+            "apiVersion": "[parameters('apiVersions').appInsightsApiVersion]",
+            "name": "[parameters('appInsights').appInsightsName]",
+            "type": "Microsoft.Insights/components",
+            "location": "[parameters('appInsights').location]",
+            "dependsOn": [],
+            "tags": {
+            "displayName": "AppInsights"
+            },
+            "properties": {
+            "ApplicationId": "[parameters('appInsights').appInsightResourceName]"
+            }
         },
         {
             "apiVersion": "[parameters('apiVersions').webApiVersion]",
@@ -545,5 +562,10 @@
             ]
         }
     ],
-    "outputs": {}
+    "outputs": {
+        "InstrumentationKey": {
+            "type": "string",
+            "value": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsights').appInsightResourceName), '2014-04-01').InstrumentationKey]"
+            }
+    }
 }

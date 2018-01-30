@@ -20,7 +20,10 @@
               "name": "[concat('AgentHealthAssessment', '(', parameters('omsSettings').omsWorkspaceName, ')')]",
               "marketplaceName": "AgentHealthAssessment"
             },
-           
+            {
+              "name": "[concat('Updates', '(', parameters('omsSettings').omsWorkspaceName, ')')]",
+              "marketplaceName": "Updates"
+            },
             {
               "name": "[concat('AzureAppGatewayAnalytics', '(', parameters('omsSettings').omsWorkspaceName, ')')]",
               "marketplaceName": "AzureAppGatewayAnalytics"
@@ -421,7 +424,7 @@
       ],
       "outputs": {
         "workspaceCustomerId": {
-          "value": "[reference(parameters('omsSettings').omsWorkspaceName, parameters('apiVersions').omsDataApiVersion).customerId]",
+          "value": "[reference(parameters('omsSettings').omsWorkspaceName, '').customerId]",
           "type": "string"
         },
         "workspacePrimarySharedKey": {
