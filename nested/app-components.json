@@ -350,7 +350,7 @@
         },
         {
             "apiVersion": "[parameters('apiVersions').appInsightsApiVersion]",
-            "name": "[parameters('appInsights').appInsightsName]",
+            "name": "[parameters('appInsights').appInsightName]",
             "type": "Microsoft.Insights/components",
             "location": "[parameters('appInsights').location]",
             "dependsOn": [],
