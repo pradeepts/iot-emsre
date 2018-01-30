@@ -630,10 +630,10 @@
                     },
                     "workspaceKey": {
                         "value": "[reference('OMSWorkSpace').outputs.workspacePrimarySharedKey.value]"
-                
-                }
+                    }
                 }
             }
+            
         },
         {
             "type": "Microsoft.Resources/deployments",

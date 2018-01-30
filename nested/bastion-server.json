@@ -214,7 +214,7 @@
             "properties": {
               "publisher": "Microsoft.EnterpriseCloud.Monitoring",
               "type": "MicrosoftMonitoringAgent",
-              "typeHandlerVersion": "1.8",
+              "typeHandlerVersion": "1.0",
               "autoUpgradeMinorVersion": true,
               "settings": {
                 "workspaceId": "[parameters('workspaceId')]"
