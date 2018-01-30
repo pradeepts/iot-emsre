@@ -32,7 +32,7 @@
             "properties": {
                 "name": "[parameters('webSiteSettings').hostingPlanName]",
                 "hostingEnvironmentProfile": {
-                    "id": "[resourceId('Microsoft.Web/hostingEnvironments',parameters('appServiceEnv').appName)]"
+                    "id": "[resourceId('Microsoft.Web/hostingEnvironments/',parameters('appServiceEnv').appName)]"
                }
             }
         },
