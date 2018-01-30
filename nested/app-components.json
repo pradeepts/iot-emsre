@@ -23,7 +23,7 @@
             "type": "Microsoft.Web/serverfarms",
             "location": "South Central US",
             "dependsOn": [
-                "[concat('Microsoft.Web/hostingEnvironments', parameters('appServiceEnv').appName)]"
+                "[concat('Microsoft.Web/hostingEnvironments/', parameters('appServiceEnv').appName)]"
             ],
             "sku": {
                 "name": "[parameters('webSiteSettings').skuName]",
