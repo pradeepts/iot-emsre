@@ -14,7 +14,8 @@
       
     },
     "variables": {
-        "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets/', parameters('appServiceEnv').virtualNetworkName, parameters('appServiceEnv').subnetName2)]" 
+        "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', parameters('appServiceEnv').virtualNetworkName)]",
+        "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('appServiceEnv').subnetName2)]" 
     },
     "resources": [
         {
