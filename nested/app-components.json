@@ -22,12 +22,13 @@
             "name": "[parameters('webSiteSettings').hostingPlanName]",
             "type": "Microsoft.Web/serverfarms",
             "location": "South Central US",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/hostingEnvironments/', parameters('appServiceEnv').appName)]"
-            ],
             "sku": {
                 "name": "[parameters('webSiteSettings').skuName]",
-                "capacity": "[parameters('webSiteSettings').skuCapacity]"
+                "capacity": "[parameters('webSiteSettings').skuCapacity]",
+                "tier": "Isolated",
+                "size": "I1",
+                "family": "I1"    
+               
             },
             "properties": {
                 "name": "[parameters('webSiteSettings').hostingPlanName]",
