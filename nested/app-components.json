@@ -40,7 +40,7 @@
             "apiVersion": "[parameters('apiVersions').webApiVersion]",
             "name": "[parameters('webSiteSettings').assetDetailsWebApp]",
             "type": "Microsoft.Web/sites",
-            "location": "South Central US",
+            "location": "[parameters('webSiteSettings').location]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', parameters('webSiteSettings').hostingPlanName)]"
             ],
