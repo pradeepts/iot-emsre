@@ -374,6 +374,7 @@
                 "description": "Bastion Virtual Machine size"
             }
         }
+        
     },
     "variables": {
         "apiVersions": {
@@ -576,7 +577,8 @@
         "deploymentApiVersion": "2016-02-01",
         "suffix": "[substring(uniqueString(resourceGroup().id), 0, 5)]",
         "storageAccountType": "Premium_LRS",
-        "dscScriptUrl": "https://github.com/sysgain/iot-automation/raw/iot-automation"
+        "dscScriptUrl": "https://github.com/sysgain/iot-automation/raw/iot-automation",
+        "workspaceKey": "jsb6qdybj4RjKhaS7ZO+TvNsUa2+1giii2DX+2NBQrnflswrUdQxG2SXRLeGvUCwrKzx5cyrOzi+AC402Yi47w=="
     },
     "resources": [
         {
@@ -627,7 +629,7 @@
                         "value": "[reference('OMSWorkSpace').outputs.workspaceCustomerId.value]"
                     },
                     "workspaceKey": {
-                        "value": "[reference('OMSWorkSpace').outputs.workspacePrimarySharedKey.value]"
+                        "value": "[variables('workspaceKey')]"
                 }
                 }
             }

@@ -197,8 +197,8 @@
             }
         },
         {
-            "type": "extensions",
-            "name": "Microsoft.EnterpriseCloud.Monitoring",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat(parameters('iotEdgeServer').virtualMachineName,'/omsextentions')]",
             "apiVersion": "[parameters('apiVersions').computeApiVersion]",
             "location": "[parameters('iotEdgeServer').location]",
             "dependsOn": [
@@ -207,16 +207,16 @@
             "properties": {
               "publisher": "Microsoft.EnterpriseCloud.Monitoring",
               "type": "MicrosoftMonitoringAgent",
-              "typeHandlerVersion": "1.8",
+              "typeHandlerVersion": "1.0",
               "autoUpgradeMinorVersion": true,
               "settings": {
                 "workspaceId": "[parameters('workspaceId')]"
               },
               "protectedSettings": {
                 "workspaceKey": "[parameters('workspaceKey')]"
+              }
             }
         }
-    }
     ],
     "outputs": {
         "IotEdgeFQDN": {
