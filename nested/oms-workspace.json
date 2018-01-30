@@ -424,11 +424,11 @@
       ],
       "outputs": {
         "workspaceCustomerId": {
-          "value": "[reference(parameters('omsSettings').omsWorkspaceName, parameters('apiVersions').omsDataApiVersion).customerId]",
+          "value": "[reference(resourceId('Microsoft.OperationalInsights/workspaces/', parameters('omsSettings').workspaceName), '2015-11-01-preview').customerId]",
           "type": "string"
         },
         "workspacePrimarySharedKey": {
-          "value": "[listKeys(parameters('omsSettings').omsWorkspaceName, parameters('apiVersions').omsDataApiVersion).primarySharedKey]",
+          "value": "[listKeys(resourceId('Microsoft.OperationalInsights/workspaces', parameters('omsSettings').workspaceName), '2015-11-01-preview').primarySharedKey]",
           "type": "string"
         },
         "workspaceSecondarySharedKey": {

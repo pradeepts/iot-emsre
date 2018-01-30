@@ -622,7 +622,13 @@
                     },
                     "omsSettings": {
                         "value": "[variables('omsSettings')]"
-                    }
+                    },
+                    "workspaceId": {
+                        "value": "[reference('OMSWorkSpace').outputs.workspaceCustomerId.value]"
+                    },
+                    "workspaceKey": {
+                        "value": "[reference('OMSWorkSpace').outputs.workspacePrimarySharedKey.value]"
+                }
                 }
             }
         },
@@ -676,9 +682,15 @@
                     },
                     "omsSettings": {
                         "value": "[variables('omsSettings')]"
-                    }
+                    },
+                    "workspaceId": {
+                        "value": "[reference('OMSWorkSpace').outputs.workspaceCustomerId.value]"
+                    },
+                    "workspaceKey": {
+                        "value": "[reference('OMSWorkSpace').outputs.workspacePrimarySharedKey.value]"
                 }
             }
+        }
         },
         {
             "type": "Microsoft.Resources/deployments",

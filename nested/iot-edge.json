@@ -10,7 +10,13 @@
         },
         "omsSettings": {
             "type": "object"
-          }
+          },
+          "workspaceId": {
+            "type": "string"
+        },
+        "workspaceKey": {
+            "type": "string"
+        }
     },
     "variables": {
         "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', parameters('iotEdgeServer').virtualNetworkName)]",
@@ -204,10 +210,10 @@
               "typeHandlerVersion": "1.8",
               "autoUpgradeMinorVersion": true,
               "settings": {
-                "workspaceId": "[reference(resourceId('Microsoft.OperationalInsights/workspaces/', parameters('omsSettings').workspaceName), '2015-11-01-preview').customerId]"
+                "workspaceId": "[parameters('workspaceId')]"
               },
               "protectedSettings": {
-                "workspaceKey": "[listKeys(resourceId('Microsoft.OperationalInsights/workspaces', parameters('omsSettings').workspaceName), '2015-11-01-preview').primarySharedKey]"
+                "workspaceKey": "[parameters('workspaceKey')]"
               }
             }
         }
