@@ -5,77 +5,76 @@
         "omsWorkspaceName": {
             "type": "string",
             "metadata": {
-              "description": "Assign a name for the Log Analytic Workspace Name"
+                "description": "Assign a name for the Log Analytic Workspace Name"
             }
-          },
-          "omsWorkspaceRegion": {
+        },
+        "omsWorkspaceRegion": {
             "type": "string",
             "defaultValue": "East US",
             "allowedValues": [
-              "East US",
-              "West Europe",
-              "Southeast Asia",
-              "Australia Southeast"
+                "East US",
+                "West Europe",
+                "Southeast Asia",
+                "Australia Southeast"
             ],
             "metadata": {
-              "description": "Specify the region for your Workspace"
+                "description": "Specify the region for your Workspace"
             }
-          },
-          "omsAutomationRegion": {
+        },
+        "omsAutomationRegion": {
             "type": "string",
             "defaultValue": "eastus2",
             "allowedValues": [
-              "westeurope",
-              "southeastasia",
-              "eastus2",
-              "southcentralus",
-              "japaneast",
-              "southeastasia",
-              "southcentralus",
-              "northeurope",
-              "canadacentral",
-              "australiasoutheast",
-              "centralindia",
-              "japaneast"
+                "westeurope",
+                "southeastasia",
+                "eastus2",
+                "southcentralus",
+                "japaneast",
+                "southeastasia",
+                "southcentralus",
+                "northeurope",
+                "canadacentral",
+                "australiasoutheast",
+                "centralindia",
+                "japaneast"
             ],
             "metadata": {
-              "description": "Specify the Azure Region for your OMS Automation Account"
+                "description": "Specify the Azure Region for your OMS Automation Account"
             }
-          },
-          "omsAutomationAccountName": {
+        },
+        "omsAutomationAccountName": {
             "type": "string",
             "metadata": {
-              "description": "Specify the name of your Automation Account"
+                "description": "Specify the name of your Automation Account"
             }
-          },
-          "dataRetention": {
+        },
+        "dataRetention": {
             "type": "int",
             "defaultValue": 7,
             "minValue": 7,
             "maxValue": 730,
             "metadata": {
-              "description": "Number of days of retention. Free plans can only have 7 days, Standalone and OMS plans include 30 days for free"
+                "description": "Number of days of retention. Free plans can only have 7 days, Standalone and OMS plans include 30 days for free"
             }
-          },
-          "omsLogAnalyticsSku": {
+        },
+        "omsLogAnalyticsSku": {
             "type": "string",
             "defaultValue": "free",
             "allowedValues": [
-              "free",
-              "standalone",
-              "pernode"
+                "free",
+                "standalone",
+                "pernode"
             ],
             "metadata": {
-              "description": "Specify the Azure Region for your OMS Automation Account"
+                "description": "Specify the Azure Region for your OMS Automation Account"
             }
-          },
+        },
         "iotEdgeAdminUserName": {
             "type": "string",
             "metadata": {
                 "description": "username for windows virtual machine"
             }
         },
-       
         "iotEdgeAdminPassword": {
             "type": "securestring",
             "metadata": {
@@ -88,7 +87,6 @@
                 "description": "username for bastion Server"
             }
         },
-       
         "bastionAdminPassword": {
             "type": "securestring",
             "metadata": {
@@ -279,21 +277,8 @@
         },
         "skuName": {
             "type": "string",
-            "defaultValue": "B1",
-            "allowedValues": [
-                "D1",
-                "B1",
-                "B2",
-                "B3",
-                "S1",
-                "S2",
-                "S3",
-                "P1",
-                "P2",
-                "P3",
-                "P4"
-            ],
-            "metadata": {
+            "defaultValue": "I1",
+                      "metadata": {
                 "description": "Describes plan's pricing tier and instance size. Check details at https://azure.microsoft.com/en-us/pricing/details/app-service/"
             }
         },
@@ -321,60 +306,59 @@
             "type": "string",
             "defaultValue": "South Central US",
             "allowedValues": [
-              "South Central US",
-              "West US"
+                "South Central US",
+                "West US"
             ],
-              "metadata": {
-                 "description": "app service environment location"
-              }
+            "metadata": {
+                "description": "app service environment location"
+            }
         },
         "aseDomainName": {
             "type": "string",
             "metadata": {
                 "description": "domain name of app service environment"
-             }
+            }
         },
         "capacity": {
             "type": "int",
             "allowedValues": [
-              1,
-              2,
-              3,
-              4,
-              5
+                1,
+                2,
+                3,
+                4,
+                5
             ],
             "defaultValue": 2,
             "metadata": {
-              "description": "Number of instances for waf"
+                "description": "Number of instances for waf"
             }
-          },
-          "bastionVMSize":{
+        },
+        "bastionVMSize": {
             "type": "string",
             "defaultValue": "Standard_DS2_v2",
             "allowedValues": [
-              "Standard_DS1",
-              "Standard_DS2",
-              "Standard_DS3",
-              "Standard_DS4",
-              "Standard_DS11",
-              "Standard_DS12",
-              "Standard_DS13",
-              "Standard_DS14",
-              "Standard_DS1_v2",
-              "Standard_DS2_v2",
-              "Standard_DS3_v2",
-              "Standard_DS4_v2",
-              "Standard_DS5_v2",
-              "Standard_DS11_v2",
-              "Standard_DS12_v2",
-              "Standard_DS13_v2",
-              "Standard_DS14_v2"
+                "Standard_DS1",
+                "Standard_DS2",
+                "Standard_DS3",
+                "Standard_DS4",
+                "Standard_DS11",
+                "Standard_DS12",
+                "Standard_DS13",
+                "Standard_DS14",
+                "Standard_DS1_v2",
+                "Standard_DS2_v2",
+                "Standard_DS3_v2",
+                "Standard_DS4_v2",
+                "Standard_DS5_v2",
+                "Standard_DS11_v2",
+                "Standard_DS12_v2",
+                "Standard_DS13_v2",
+                "Standard_DS14_v2"
             ],
             "metadata": {
-              "description": "Bastion Virtual Machine size"
+                "description": "Bastion Virtual Machine size"
             }
-          }
-          
+        }
     },
     "variables": {
         "apiVersions": {
@@ -505,7 +489,7 @@
             "appName": "[concat('aseenv',substring(uniqueString(resourceGroup().id),4,9))]",
             "vnetAddress": "10.0.0.0/16",
             "subnetPrefix": "10.0.1.0/24",
-            "subnetPrefix1":"10.0.2.0/24",
+            "subnetPrefix1": "10.0.2.0/24",
             "subnetPrefix2": "10.0.3.0/24",
             "kind": "ASEV2"
         },
@@ -513,7 +497,7 @@
             "location": "[variables('location')]",
             "applicationGatewayName": "applicationGatewaywaf",
             "publicIPAddressName": "wafpublicIp",
-            "publicIpDnsPrefix" : "[concat('appwaf',substring(uniqueString(resourceGroup().id),4,9))]",
+            "publicIpDnsPrefix": "[concat('appwaf',substring(uniqueString(resourceGroup().id),4,9))]",
             "publicIPAddressType": "Dynamic",
             "wafRuleSetVersion": "3.0",
             "wafRuleSetType": "OWASP",
@@ -524,7 +508,7 @@
             "capacity": "[parameters('capacity')]",
             "customProbeHostName": "[parameters('websiteName')]",
             "probeName": "appwafprobe"
-        },   
+        },
         "mlSettings": {
             "location": "South Central US",
             "workspaceName": "workspace",
@@ -560,9 +544,8 @@
             "powerBIScriptUrl": "[concat(variables('baseUrl'),'scripts/powerBiInstall.ps1')]",
             "powerBITemplatesUrl": "[concat(variables('dscScriptUrl'),'/powerBItemplates/PowerBI_Templates.zip')]",
             "powerBIDesktopUrl": "https://projectiot.blob.core.windows.net/iotp2/PBIDesktop_x64.msi"
-          },
-      
-       "websiteFullAddress": "[concat('https://',parameters('websiteName'),'.azurewebsites.net/')]",
+        },
+        "websiteFullAddress": "[concat('https://',parameters('websiteName'),'.azurewebsites.net/')]",
         "deployStorageAccountName": "projectiot",
         "deployStorageAccountKey": "68qPHnikzAitr3fjvPAyem7Tc0y2pf+BVob4F+opoX20PhV0yJGQc/guxxhCV/Uscp0gE1EHn+GCGfwOiaF9tg==",
         "sasToken": "?",
@@ -574,8 +557,6 @@
         "suffix": "[substring(uniqueString(resourceGroup().id), 0, 5)]",
         "storageAccountType": "Premium_LRS",
         "dscScriptUrl": "https://github.com/sysgain/iot-automation/raw/iot-automation"
-      
-        
     },
     "resources": [
         {
@@ -618,8 +599,10 @@
                     },
                     "apiVersions": {
                         "value": "[variables('apiVersions')]"
+                    },
+                    "omsSettings": {
+                        "value": "[variables('omsSettings')]"
                     }
-                   
                 }
             }
         },
@@ -655,23 +638,25 @@
                 "OMSWorkSpace"
             ],
             "properties": {
-              "mode": "Incremental",
-              "templateLink": {
-                "uri": "[concat(variables('baseUrl'), 'nested/bastion-server.json')]",
-                "contentVersion": "1.0.0.0"
-              },
-              "parameters": {
-                "bastionServerSettings": {
-                  "value": "[variables('bastionServerSettings')]"
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUrl'), 'nested/bastion-server.json')]",
+                    "contentVersion": "1.0.0.0"
                 },
-                "apiVersions": {
-                  "value": "[variables('apiVersions')]"
-                },
-                "appServiceEnv": {
-                    "value": "[variables('appServiceEnv')]"
+                "parameters": {
+                    "bastionServerSettings": {
+                        "value": "[variables('bastionServerSettings')]"
+                    },
+                    "apiVersions": {
+                        "value": "[variables('apiVersions')]"
+                    },
+                    "appServiceEnv": {
+                        "value": "[variables('appServiceEnv')]"
+                    },
+                    "omsSettings": {
+                        "value": "[variables('omsSettings')]"
+                    }
                 }
-             
-              }
             }
         },
         {
@@ -780,9 +765,6 @@
                     "apiVersions": {
                         "value": "[variables('apiVersions')]"
                     },
-                    "webSiteSettings": {
-                        "value": "[variables('webSiteSettings')]"
-                    },
                     "aseLocation": {
                         "value": "[parameters('aseLocation')]"
                     }
@@ -872,7 +854,7 @@
         },
         "bastionFQDN": {
             "type": "string",
-            "value": "[reference('BastionHost').outputs.bastionFQDN.value]"    
+            "value": "[reference('BastionHost').outputs.bastionFQDN.value]"
         }
     }
 }
