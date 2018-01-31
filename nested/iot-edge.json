@@ -95,7 +95,7 @@
                           "protocol": "Tcp",
                           "sourcePortRange": "*",
                           "destinationPortRange": "80",
-                          "sourceAddressPrefix": "Internet",
+                          "sourceAddressPrefix": "*",
                           "destinationAddressPrefix": "*",
                           "access": "Allow",
                           "priority": 1001,
@@ -122,7 +122,7 @@
                             "sourcePortRange": "*",
                             "destinationPortRange": "502",
                             "sourceAddressPrefix": "*",
-                            "destinationAddressPrefix": "",
+                            "destinationAddressPrefix": "*",
                             "access": "Allow",
                             "priority": 1003,
                             "direction": "Inbound"
