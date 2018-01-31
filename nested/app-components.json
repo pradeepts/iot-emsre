@@ -45,9 +45,9 @@
             "sku": {
                 "name": "[parameters('webSiteSettings').skuName]",
                 "capacity": "[parameters('webSiteSettings').skuCapacity]",
-                "tier": "Isolated",
-                "size": "I1",
-                "family": "I"    
+                "tier": "Basic",
+                "size": "B1",
+                "family": "B"    
                
             },
             "properties": {
@@ -269,7 +269,7 @@
             "type": "Microsoft.Web/sites",
             "location": "[parameters('webSiteSettings').location]",
             "dependsOn": [
-                "[parameters('webSiteSettings').hostingPlanName1]"
+                "[parameters('webSiteSettings').hostingPlanName]"
             ],
             "tags": {
                 "[concat('hidden-related:', resourceId('Microsoft.Web/serverfarms', parameters('webSiteSettings').hostingPlanName))]": "empty",
@@ -277,7 +277,10 @@
             },
             "properties": {
                 "name": "[parameters('webSiteSettings').webSiteName]",
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('webSiteSettings').hostingPlanName1)]"
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('webSiteSettings').hostingPlanName)]",
+                 "hostingEnvironmentProfile": {
+                    "id": "[resourceId('Microsoft.Web/hostingEnvironments',parameters('appServiceEnv').appName)]"
+               }
                
             },
             "resources": [
