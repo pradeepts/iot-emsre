@@ -313,6 +313,21 @@
                 "description": "app service environment location"
             }
         },
+        "appInsightsLocation": {
+            "type": "string",
+            "defaultValue": "southcentralus",
+            "allowedValues": [
+            "eastus",
+            "northeurope",
+            "southcentralus",
+            "southeastasia",
+            "westeurope",
+            "westus2"
+            ],
+            "metadata": {
+            "description": "Location where all the resources deploy"
+            }
+       },
         "aseDomainName": {
             "type": "string",
             "metadata": {
@@ -383,7 +398,8 @@
             "wafApiVersion": "2017-06-01",
             "omsApiVersion": "2017-03-15-preview",
             "omsDataApiVersion": "2015-11-01-preview",
-            "bastionApiVersion": "2016-09-01"
+            "bastionApiVersion": "2016-09-01",
+            "appInsightsApiVersion": "2014-04-01"
         },
         "azureSQL": {
             "location": "[variables('location')]",
@@ -407,6 +423,7 @@
             "webjobStorageName": "[concat('webjobstr',variables('suffix'))]",
             "webjobStorageType": "Standard_LRS",
             "hostingPlanName": "AppServPlan",
+            "hostingPlanName1": "AppServPlan2",
             "skuName": "[parameters('skuName')]",
             "skuCapacity": "[parameters('skuCapacity')]",
             "assetDetailsWebApp": "[concat('AssetDetails', variables('suffix'))]",
@@ -481,7 +498,7 @@
             "aseDomainName": "[parameters('aseDomainName')]",
             "internalLoadBalancingMode": "3",
             "networkSecurityGroupName": "asensg",
-            "virtualNetworkName": "asevnet",
+            "virtualNetworkName": "[concat('asevnet', variables('suffix'))]",
             "subnetName": "asesubnet",
             "subnetName1": "appGatewafSubnet",
             "subnetName2": "bastionSubnet",
@@ -523,6 +540,10 @@
             "dataRetention": "[parameters('dataRetention')]",
             "omsLogAnalyticsSku": "[parameters('omsLogAnalyticsSku')]"
         },
+        "appInsights": {
+            "location": "[parameters('appInsightsLocation')]",
+            "appInsightName": "[concat('AppInsights', uniquestring(resourceGroup().id))]"
+            },
         "bastionServerSettings": {
             "location": "[variables('location')]",
             "bastionVMName": "bastionServer",
@@ -552,7 +573,7 @@
         "webAppDeployPackageURI": "https://projectiot.blob.core.windows.net/iothub/CSUWebApp.zip",
         "restServerDeployPackageURI": "https://projectiot.blob.core.windows.net/iothub/RestService.zip",
         "location": "southcentralus",
-        "baseUrl": "https://raw.githubusercontent.com/sysgain/iot-emsre/hardening/",
+        "baseUrl": "https://raw.githubusercontent.com/sysgain/iot-emsre/hardening-ase/",
         "deploymentApiVersion": "2016-02-01",
         "suffix": "[substring(uniqueString(resourceGroup().id), 0, 5)]",
         "storageAccountType": "Premium_LRS",
@@ -599,6 +620,15 @@
                     },
                     "apiVersions": {
                         "value": "[variables('apiVersions')]"
+                    },
+                    "workspaceId": {
+                        "value": "[reference('OMSWorkSpace').outputs.workspaceCustomerId.value]"
+                    },
+                    "workspaceKey": {
+                        "value": "[reference('OMSWorkSpace').outputs.workspacePrimarySharedKey.value]"
+                    },
+                    "omsSettings": {
+                        "value": "[variables('omsSettings')]"
                     }
                 }
             }
@@ -650,6 +680,15 @@
                     },
                     "appServiceEnv": {
                         "value": "[variables('appServiceEnv')]"
+                    },
+                    "omsSettings": {
+                        "value": "[variables('omsSettings')]"
+                    },
+                    "workspaceId": {
+                        "value": "[reference('OMSWorkSpace').outputs.workspaceCustomerId.value]"
+                    },
+                    "workspaceKey": {
+                        "value": "[reference('OMSWorkSpace').outputs.workspacePrimarySharedKey.value]"
                     }
                 }
             }
@@ -705,6 +744,9 @@
                     },
                     "appServiceEnv": {
                         "value": "[variables('appServiceEnv')]"
+                    },
+                    "appInsights": {
+                        "value": "[variables('appInsights')]"
                     }
                 }
             }
