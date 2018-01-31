@@ -334,13 +334,13 @@
                         "displayName": "websiteAppSettings"
                     },
                     "properties": {
-                        "restServer": "[concat('https://', parameters('webSiteSettings').apiServerName, parameters('appServiceEnv').aseDomainName)]",
+                        "restServer": "[concat('https://', parameters('webSiteSettings').apiServerName,'.', parameters('appServiceEnv').aseDomainName)]",
                         "b2cApplicationId": "[parameters('webSiteSettings').b2cClientId]",
                         "signInPolicyName": "[parameters('webSiteSettings').b2cSignInPolicyId]",
                         "signInSignUpPolicyName": "[parameters('webSiteSettings').b2cSignUpPolicyId]",
                         "editProfilePolicyName": "[parameters('webSiteSettings').b2cEditProfilePolicyId]",
                         "tenantName": "[parameters('webSiteSettings').b2cTenant]",
-                        "redirect_uri": "[concat(parameters('webSiteSettings').websiteFullAddress,'#/dashboard')]",
+                        "redirect_uri": "[concat(parameters('webSiteSettings').websiteFullAddress,'/#/dashboard')]",
                         "InstrumentationKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsights').appInsightName), '2014-04-01').InstrumentationKey]"
                     }
                 }
@@ -400,7 +400,7 @@
                         "remoteDebuggingVersion": "VS2015",
                         "cors": {
                         "allowedOrigins": [
-                                "[concat('https://', parameters('webSiteSettings').webSiteName, parameters('appServiceEnv').aseDomainName)]"
+                                "[concat('https://', parameters('webSiteSettings').webSiteName,'.', parameters('appServiceEnv').aseDomainName)]"
                             ]
                         }
                     }

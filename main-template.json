@@ -566,7 +566,7 @@
             "powerBITemplatesUrl": "[concat(variables('dscScriptUrl'),'/powerBItemplates/PowerBI_Templates.zip')]",
             "powerBIDesktopUrl": "https://projectiot.blob.core.windows.net/iotp2/PBIDesktop_x64.msi"
         },
-        "websiteFullAddress": "[concat('https://',parameters('websiteName'),parameters('aseDomainName'))]",
+        "websiteFullAddress": "[concat('https://',parameters('websiteName'),'.',parameters('aseDomainName'))]",
         "deployStorageAccountName": "projectiot",
         "deployStorageAccountKey": "68qPHnikzAitr3fjvPAyem7Tc0y2pf+BVob4F+opoX20PhV0yJGQc/guxxhCV/Uscp0gE1EHn+GCGfwOiaF9tg==",
         "sasToken": "?",
