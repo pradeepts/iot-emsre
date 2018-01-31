@@ -340,7 +340,7 @@
                         "signInSignUpPolicyName": "[parameters('webSiteSettings').b2cSignUpPolicyId]",
                         "editProfilePolicyName": "[parameters('webSiteSettings').b2cEditProfilePolicyId]",
                         "tenantName": "[parameters('webSiteSettings').b2cTenant]",
-                        "redirect_uri": "[concat(parameters('webSiteSettings').websiteFullAddress,'/#/dashboard')]",
+                        "redirect_uri": "[concat(parameters('webSiteSettings').websiteFullAddress,'#/dashboard')]",
                         "InstrumentationKey": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsights').appInsightName), '2014-04-01').InstrumentationKey]"
                     }
                 }
