@@ -43,7 +43,7 @@
             "type": "Microsoft.Web/serverfarms",
             "location": "South Central US",
             "sku": {
-                "name": "B",
+                "name": "B1",
                 "capacity": "[parameters('webSiteSettings').skuCapacity]",
                 "tier": "Basic",
                 "size": "B1",
@@ -266,13 +266,14 @@
         {
             "apiVersion": "[parameters('apiVersions').webApiVersion]",
             "name": "[parameters('webSiteSettings').webSiteName]",
+         
             "type": "Microsoft.Web/sites",
             "location": "[parameters('webSiteSettings').location]",
             "dependsOn": [
                 "[parameters('webSiteSettings').hostingPlanName1]"
             ],
             "tags": {
-                "[concat('hidden-related:', resourceId('Microsoft.Web/serverfarms', parameters('webSiteSettings').hostingPlanName))]": "empty",
+                "[concat('hidden-related:', resourceId('Microsoft.Web/serverfarms', parameters('webSiteSettings').hostingPlanName1))]": "empty",
                 "displayName": "Website"
             },
             "properties": {
@@ -368,7 +369,7 @@
                 "[parameters('webSiteSettings').hostingPlanName1]"
             ],
             "tags": {
-                "[concat('hidden-related:', resourceId('Microsoft.Web/serverfarms', parameters('webSiteSettings').hostingPlanName))]": "empty",
+                "[concat('hidden-related:', resourceId('Microsoft.Web/serverfarms', parameters('webSiteSettings').hostingPlanName1))]": "empty",
                 "displayName": "Website"
             },
             "properties": {
