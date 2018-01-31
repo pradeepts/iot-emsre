@@ -39,6 +39,23 @@
         },
         {
             "apiVersion": "[parameters('apiVersions').webApiVersion]",
+            "name": "[parameters('webSiteSettings').hostingPlanName1]",
+            "type": "Microsoft.Web/serverfarms",
+            "location": "South Central US",
+            "sku": {
+                "name": "[parameters('webSiteSettings').skuName]",
+                "capacity": "[parameters('webSiteSettings').skuCapacity]",
+                "tier": "Isolated",
+                "size": "I1",
+                "family": "I"    
+               
+            },
+            "properties": {
+                "name": "[parameters('webSiteSettings').hostingPlanName1]"
+            }
+        },
+        {
+            "apiVersion": "[parameters('apiVersions').webApiVersion]",
             "name": "[parameters('webSiteSettings').assetDetailsWebApp]",
             "type": "Microsoft.Web/sites",
             "location": "[parameters('webSiteSettings').location]",
@@ -252,7 +269,7 @@
             "type": "Microsoft.Web/sites",
             "location": "[parameters('webSiteSettings').location]",
             "dependsOn": [
-                "[parameters('webSiteSettings').hostingPlanName]"
+                "[parameters('webSiteSettings').hostingPlanName1]"
             ],
             "tags": {
                 "[concat('hidden-related:', resourceId('Microsoft.Web/serverfarms', parameters('webSiteSettings').hostingPlanName))]": "empty",
@@ -260,10 +277,8 @@
             },
             "properties": {
                 "name": "[parameters('webSiteSettings').webSiteName]",
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('webSiteSettings').hostingPlanName)]",
-                "hostingEnvironmentProfile": {
-                    "id": "[resourceId('Microsoft.Web/hostingEnvironments',parameters('appServiceEnv').appName)]"
-               }
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('webSiteSettings').hostingPlanName1)]"
+               
             },
             "resources": [
                 {
@@ -350,7 +365,7 @@
             "type": "Microsoft.Web/sites",
             "location": "[parameters('webSiteSettings').location]",
             "dependsOn": [
-                "[parameters('webSiteSettings').hostingPlanName]"
+                "[parameters('webSiteSettings').hostingPlanName1]"
             ],
             "tags": {
                 "[concat('hidden-related:', resourceId('Microsoft.Web/serverfarms', parameters('webSiteSettings').hostingPlanName))]": "empty",
@@ -358,10 +373,7 @@
             },
             "properties": {
                 "name": "[parameters('webSiteSettings').apiServerName]",
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('webSiteSettings').hostingPlanName)]",
-                "hostingEnvironmentProfile": {
-                    "id": "[resourceId('Microsoft.Web/hostingEnvironments',parameters('appServiceEnv').appName)]"
-               }
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('webSiteSettings').hostingPlanName1)]"
             },
             "resources": [
                 {
