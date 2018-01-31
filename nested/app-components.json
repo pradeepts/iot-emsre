@@ -13,6 +13,9 @@
         },
         "mlSettings":{
             "type": "object"
+        },
+         "appInsights": {
+            "type": "object"
         }
     },
     "variables": {},
@@ -360,6 +363,19 @@
                 }
             ]
         },
+         {
+            "apiVersion": "[parameters('apiVersions').appInsightsApiVersion]",
+            "name": "[parameters('appInsights').appInsightName]",
+            "type": "Microsoft.Insights/components",
+            "location": "[parameters('appInsights').location]",
+            "dependsOn": [],
+            "tags": {
+            "displayName": "AppInsights"
+            },
+            "properties": {
+            "ApplicationId": "[parameters('appInsights').appInsightName]"
+            }
+        },
         {
             "apiVersion": "[parameters('apiVersions').webApiVersion]",
             "name": "[parameters('webSiteSettings').apiServerName]",
@@ -558,5 +574,10 @@
             ]
         }
     ],
-    "outputs": {}
+    "outputs": {
+        "InstrumentationKey": {
+            "type": "string",
+            "value": "[reference(resourceId('Microsoft.Insights/components', parameters('appInsights').appInsightName), '2014-04-01').InstrumentationKey]"
+            }
+    }
 }
