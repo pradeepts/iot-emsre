@@ -502,7 +502,7 @@
             "aseDomainName": "[parameters('aseDomainName')]",
             "internalLoadBalancingMode": "3",
             "networkSecurityGroupName": "asensg",
-            "virtualNetworkName": "asevnet",
+            "virtualNetworkName": "[concat('asevnet', variables('suffix'))]",
             "subnetName": "asesubnet",
             "subnetName1": "appGatewafSubnet",
             "subnetName2": "bastionSubnet",
