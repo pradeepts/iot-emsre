@@ -43,11 +43,11 @@
             "type": "Microsoft.Web/serverfarms",
             "location": "South Central US",
             "sku": {
-                "name": "[parameters('webSiteSettings').skuName]",
+                "name": "B",
                 "capacity": "[parameters('webSiteSettings').skuCapacity]",
-                "tier": "Isolated",
-                "size": "I1",
-                "family": "I"    
+                "tier": "Basic",
+                "size": "B1",
+                "family": "B"    
                
             },
             "properties": {
