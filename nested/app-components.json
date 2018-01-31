@@ -362,6 +362,19 @@
                 }
             ]
         },
+         {
+            "apiVersion": "2014-04-01",
+            "name": "appinsights",
+            "type": "Microsoft.Insights/components",
+            "location": "southcentralus",
+            "dependsOn": [],
+            "tags": {
+            "displayName": "AppInsights"
+            },
+            "properties": {
+            "ApplicationId": "appinsights"
+            }
+        },
         {
             "apiVersion": "[parameters('apiVersions').webApiVersion]",
             "name": "[parameters('webSiteSettings').apiServerName]",
@@ -560,5 +573,10 @@
             ]
         }
     ],
-    "outputs": {}
+    "outputs": {
+            "InstrumentationKey": {
+            "type": "string",
+            "value": "[reference(resourceId('Microsoft.Insights/components', 'appinsights'), '2014-04-01').InstrumentationKey]"
+            }
+    }
 }
