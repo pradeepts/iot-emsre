@@ -13,6 +13,9 @@
         },
         "mlSettings":{
             "type": "object"
+        },
+          "appInsights": {
+            "type": "object"
         }
     },
     "variables": {},
