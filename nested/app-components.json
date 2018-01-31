@@ -366,17 +366,29 @@
             ]
         },
          {
-            "apiVersion": "2014-04-01",
-            "name": "appinsights",
+
+            "apiVersion": "[parameters('apiVersions').appInsightsApiVersion]",
+
+            "name": "[parameters('appInsights').appInsightName]",
+
             "type": "Microsoft.Insights/components",
-            "location": "southcentralus",
+
+            "location": "[parameters('appInsights').location]",
+
             "dependsOn": [],
+
             "tags": {
+
             "displayName": "AppInsights"
+
             },
+
             "properties": {
-            "ApplicationId": "appinsights"
+
+            "ApplicationId": "[parameters('appInsights').appInsightName]"
+
             }
+
         },
         {
             "apiVersion": "[parameters('apiVersions').webApiVersion]",
