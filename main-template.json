@@ -328,12 +328,7 @@
                 "description": "app service environment location"
             }
         },
-        "aseDomainName": {
-            "type": "string",
-            "metadata": {
-                "description": "domain name of app service environment"
-            }
-        },
+       
         "capacity": {
             "type": "int",
             "allowedValues": [
@@ -571,7 +566,7 @@
         "webAppDeployPackageURI": "https://projectiot.blob.core.windows.net/iothub/CSUWebApp.zip",
         "restServerDeployPackageURI": "https://projectiot.blob.core.windows.net/iothub/RestService.zip",
         "location": "southcentralus",
-        "baseUrl": "https://raw.githubusercontent.com/sysgain/iot-emsre/hardeningtestext/",
+        "baseUrl": "https://raw.githubusercontent.com/sysgain/iot-emsre/hardningtestext/",
         "deploymentApiVersion": "2016-02-01",
         "suffix": "[substring(uniqueString(resourceGroup().id), 0, 5)]",
         "storageAccountType": "Premium_LRS",
