@@ -316,12 +316,7 @@
             "description": "Location where all the resources deploy"
             }
        },
-        "aseDomainName": {
-            "type": "string",
-            "metadata": {
-                "description": "domain name of app service environment"
-            }
-        },
+      
         "capacity": {
             "type": "int",
             "allowedValues": [
@@ -483,8 +478,6 @@
         },
         "appServiceEnv": {
             "location": "[variables('location')]",
-            "aseDomainName": "[parameters('aseDomainName')]",
-            "internalLoadBalancingMode": "3",
             "networkSecurityGroupName": "asensg",
             "virtualNetworkName": "[concat('asevnet', variables('suffix'))]",
             "subnetName": "asesubnet",
