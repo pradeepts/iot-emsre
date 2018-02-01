@@ -20,7 +20,10 @@
               "name": "[concat('AgentHealthAssessment', '(', parameters('omsSettings').omsWorkspaceName, ')')]",
               "marketplaceName": "AgentHealthAssessment"
             },
-           
+            {
+              "name": "[concat('Updates', '(', parameters('omsSettings').omsWorkspaceName, ')')]",
+              "marketplaceName": "Updates"
+            },
             {
               "name": "[concat('AzureAppGatewayAnalytics', '(', parameters('omsSettings').omsWorkspaceName, ')')]",
               "marketplaceName": "AzureAppGatewayAnalytics"
