@@ -798,6 +798,9 @@
                 "parameters": {
                     "appInsights": {
                         "value": "[variables('appInsights')]"
+                    },
+                    "apiVersions": {
+                        "value": "[variables('apiVersions')]"
                     }
                 }
             }
