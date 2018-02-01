@@ -2,12 +2,6 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "omsWorkspaceName": {
-            "type": "string",
-            "metadata": {
-                "description": "Assign a name for the Log Analytic Workspace Name"
-            }
-        },
         "omsWorkspaceRegion": {
             "type": "string",
             "defaultValue": "East US",
@@ -42,12 +36,7 @@
                 "description": "Specify the Azure Region for your OMS Automation Account"
             }
         },
-        "omsAutomationAccountName": {
-            "type": "string",
-            "metadata": {
-                "description": "Specify the name of your Automation Account"
-            }
-        },
+       
         "dataRetention": {
             "type": "int",
             "defaultValue": 7,
@@ -537,10 +526,10 @@
             "mlStorageName": "[concat('mlstr', variables('suffix'))]"
         },
         "omsSettings": {
-            "omsWorkspaceName": "[parameters('omsWorkspaceName')]",
+            "omsWorkspaceName": "[concat('omsws', variables('suffix'))]",
             "omsWorkspaceRegion": "[parameters('omsWorkspaceRegion')]",
             "omsAutomationRegion": "[parameters('omsAutomationRegion')]",
-            "omsAutomationAccountName": "[parameters('omsAutomationAccountName')]",
+            "omsAutomationAccountName": "[concat('autoupdate', variables('suffix'))]",
             "dataRetention": "[parameters('dataRetention')]",
             "omsLogAnalyticsSku": "[parameters('omsLogAnalyticsSku')]"
         },
