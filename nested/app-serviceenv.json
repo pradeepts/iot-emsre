@@ -47,7 +47,8 @@
                     "Id": "[variables('vnetId')]",
                     "type": "Microsoft.Network/virtualNetworks",
                     "Subnet": "[parameters('appServiceEnv').subnetName]"
-                }
+                },
+                "ipSslAddressCount": 1
             },
             "location": "[parameters('aseLocation')]",
             "dependsOn": [
