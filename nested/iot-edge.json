@@ -82,7 +82,7 @@
                             "protocol": "TCP",
                             "access": "Allow",
                             "direction": "Inbound",
-                            "sourceAddressPrefix": "*",
+                            "sourceAddressPrefix": "internet",
                             "sourcePortRange": "*",
                             "destinationAddressPrefix": "*",
                             "destinationPortRange": "3389"
@@ -92,7 +92,7 @@
                         "name": "web-rule",
                         "properties": {
                           "description": "Allow WEB",
-                          "protocol": "Tcp",
+                          "protocol": "*",
                           "sourcePortRange": "*",
                           "destinationPortRange": "80",
                           "sourceAddressPrefix": "*",
@@ -101,11 +101,25 @@
                           "priority": 1001,
                           "direction": "Inbound"
                         }
-                    },    
+                    },  
+                    {
+                        "name": "web-rule1",
+                        "properties": {
+                          "protocol": "*",
+                          "sourcePortRange": "*",
+                          "destinationPortRange": "80",
+                          "sourceAddressPrefix": "*",
+                          "destinationAddressPrefix": "*",
+                          "access": "Allow",
+                          "priority": 1002,
+                          "direction": "Outbound"
+                        }
+                    },  
+
                     {
                         "name": "HTTPS",
                         "properties": {
-                            "priority": 1002,
+                            "priority": 1003,
                             "sourceAddressPrefix": "*",
                             "protocol": "TCP",
                             "destinationPortRange": "443",
@@ -116,16 +130,133 @@
                         }
                     },
                     {
-                        "name": "AllowInternet",
+                        "name": "HTTPS1",
                         "properties": {
+                            "priority": 1004,
+                            "sourceAddressPrefix": "*",
                             "protocol": "TCP",
+                            "destinationPortRange": "443",
+                            "access": "Allow",
+                            "direction": "Outbound",
+                            "sourcePortRange": "*",
+                            "destinationAddressPrefix": "*"
+                        }
+                    },
+                    {
+                        "name": "Modbus",
+                        "properties": {
+                            "protocol": "*",
                             "sourcePortRange": "*",
                             "destinationPortRange": "502",
                             "sourceAddressPrefix": "*",
                             "destinationAddressPrefix": "*",
                             "access": "Allow",
-                            "priority": 1003,
+                            "priority": 1005,
                             "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "Modbus1",
+                        "properties": {
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "502",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1006,
+                            "direction": "Outbound"
+                        }
+                    },
+                    {
+                        "name": "appservice",
+                        "properties": {
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "1200",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1007,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "appservice1",
+                        "properties": {
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "1200",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1008,
+                            "direction": "Outbound"
+                        }
+                    },
+                    {
+                        "name": "sqlserver",
+                        "properties": {
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "1433",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1009,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "sqlserver1",
+                        "properties": {
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "1433",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1010,
+                            "direction": "Outbound"
+                        }
+                    },
+                    {
+                        "name": "winrm",
+                        "properties": {
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "5985",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1011,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "security",
+                        "properties": {
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "5724",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1012,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "security1",
+                        "properties": {
+                            "protocol": "*",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "5724",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 1013,
+                            "direction": "Outbound"
                         }
                     }
                 ]

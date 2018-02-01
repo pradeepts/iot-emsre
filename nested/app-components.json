@@ -334,7 +334,7 @@
                         "displayName": "websiteAppSettings"
                     },
                     "properties": {
-                        "restServer": "[concat('https://', parameters('webSiteSettings').apiServerName,'.', parameters('appServiceEnv').aseDomainName,'/')]",
+                        "restServer": "[concat('https://', parameters('webSiteSettings').apiServerName,'.p.azurewebsites.net','/')]",
                         "b2cApplicationId": "[parameters('webSiteSettings').b2cClientId]",
                         "signInPolicyName": "[parameters('webSiteSettings').b2cSignInPolicyId]",
                         "signInSignUpPolicyName": "[parameters('webSiteSettings').b2cSignUpPolicyId]",
@@ -387,7 +387,7 @@
                         "remoteDebuggingVersion": "VS2015",
                         "cors": {
                         "allowedOrigins": [
-                                "[concat('https://', parameters('webSiteSettings').webSiteName,'.', parameters('appServiceEnv').aseDomainName)]"
+                                "[concat('https://', parameters('webSiteSettings').webSiteName,'.p.azurewebsites.net')]"
                             ]
                         }
                     }
