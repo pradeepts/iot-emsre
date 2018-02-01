@@ -4,6 +4,9 @@
     "parameters": {
     "appInsights": {
     "type": "object"
+    },
+    "apiVersions": {
+        "type": "object"
     }
     },
     "variables": {},
