@@ -747,9 +747,8 @@
                     "appServiceEnv": {
                         "value": "[variables('appServiceEnv')]"
                     },
-                    "appInsights": {
-                        "value": "[variables('appInsights')]"
-                        }
+                    "Instrumentationkey": {
+                        "value": "[reference('appInsights').outputs.InstrumentationKey.value]"                    }
                 }
             }
         },
@@ -781,6 +780,24 @@
                     },
                     "azureSQL": {
                         "value": "[variables('azureSQL')]"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "name": "appInsights",
+            "apiVersion": "[variables('deploymentApiVersion')]",
+            "dependsOn": [ ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUrl'), 'nested/app-insights.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "appInsights": {
+                        "value": "[variables('appInsights')]"
                     }
                 }
             }
