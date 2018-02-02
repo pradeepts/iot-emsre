@@ -386,7 +386,7 @@
         "appInsights": {
             "location": "[parameters('appInsightsLocation')]",
             "appInsightResourceName": "[concat('AppInsights', uniquestring(resourceGroup().id))]"
-            },
+        },
         "iotHubSettings": {
             "location": "[variables('location')]",
             "iotHubName": "[concat('iot-hub', variables('suffix'))]",

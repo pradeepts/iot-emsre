@@ -379,10 +379,10 @@
               "autoUpgradeMinorVersion": true,
               "settings": {
                 "workspaceId": "[parameters('workspaceId')]"
-              },
+                },
               "protectedSettings": {
                 "workspaceKey": "[parameters('workspaceKey')]"
-              }
+                }
             }
         }
     ],

@@ -1,13 +1,13 @@
 {
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
     "contentVersion": "1.0.0.0",
-    "parameters": {
-      "omsSettings": {
-        "type": "object"
-      },
+     "parameters": {
+        "omsSettings": {
+            "type": "object"
+            },
       "apiVersions": {
         "type": "object"
-    }
+        }
     },
       "variables": {
         "batch1": {
@@ -44,9 +44,9 @@
               "name": "[concat('DeviceHealthProd', '(', parameters('omsSettings').omsWorkspaceName, ')')]",
               "marketplaceName": "DeviceHealthProd"
             }
-          ]
-        }
-      },
+        ]
+    }
+    },
       "resources": [
         {
           "apiVersion": "[parameters('apiVersions').omsApiVersion]",
@@ -133,7 +133,7 @@
                 "instanceName": "*",
                 "intervalSeconds": 10,
                 "counterName": "Avg Disk sec/Read"
-              }
+               }
             },
             {
               "apiVersion": "[parameters('apiVersions').omsDataApiVersion]",
@@ -298,7 +298,7 @@
                 "instanceName": "*",
                 "intervalSeconds": 10,
                 "counterName": "Bytes Sent/sec"
-              }
+                }  
             },
             {
               "apiVersion": "[parameters('apiVersions').omsDataApiVersion]",
@@ -400,28 +400,28 @@
           ]
         },
         {
-          "apiVersion": "[parameters('apiVersions').omsDataApiVersion]",
-          "type": "Microsoft.OperationsManagement/solutions",
-          "name": "[concat(variables('batch1').solutions[copyIndex()].Name)]",
-          "location": "[parameters('omsSettings').omsWorkspaceRegion]",
-          "dependsOn": [
+           "apiVersion": "[parameters('apiVersions').omsDataApiVersion]",
+           "type": "Microsoft.OperationsManagement/solutions",
+           "name": "[concat(variables('batch1').solutions[copyIndex()].Name)]",
+           "location": "[parameters('omsSettings').omsWorkspaceRegion]",
+           "dependsOn": [
             "[concat('Microsoft.OperationalInsights/workspaces/', parameters('omsSettings').omsWorkspaceName)]"
-          ],
-          "copy": {
+            ],
+           "copy": {
             "name": "solutionCopy",
             "count": "[length(variables('batch1').solutions)]"
-          },
-          "properties": {
+            },
+           "properties": {
             "workspaceResourceId": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('omsSettings').omsWorkspaceName)]"
-          },
-          "plan": {
+            },
+           "plan": {
             "name": "[variables('batch1').solutions[copyIndex()].name]",
             "product": "[concat('OMSGallery/', variables('batch1').solutions[copyIndex()].marketplaceName)]",
             "promotionCode": "",
             "publisher": "Microsoft"
-          }
+            }  
         }
-      ],
+        ],
       "outputs": {
         "workspaceCustomerId": {
           "value": "[reference(concat('Microsoft.OperationalInsights/workspaces/', parameters('omsSettings').omsWorkspaceName), '2015-11-01-preview').customerId]",
@@ -435,5 +435,5 @@
           "value": "[listKeys(parameters('omsSettings').omsWorkspaceName, parameters('apiVersions').omsDataApiVersion).secondarySharedKey]",
           "type": "securestring"
         }
-      }
     }
+}
