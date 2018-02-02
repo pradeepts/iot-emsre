@@ -495,9 +495,6 @@
                     "apiVersions": {
                         "value": "[variables('apiVersions')]"
                     },
-                    "omsSettings": {
-                        "value": "[variables('omsSettings')]"
-                    },
                     "workspaceId": {
                         "value": "[reference('OMSWorkSpace').outputs.workspaceCustomerId.value]"
                     },
