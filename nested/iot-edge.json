@@ -8,9 +8,6 @@
         "apiVersions": {
             "type": "object"
         },
-        "omsSettings": {
-            "type": "object"
-        },
         "workspaceId": {
             "type": "string"
         },
@@ -373,15 +370,15 @@
               "[concat('Microsoft.Compute/virtualMachines/',parameters('iotEdgeServer').virtualMachineName,'/extensions/CustomScriptExtension')]"
             ],
             "properties": {
-              "publisher": "Microsoft.EnterpriseCloud.Monitoring",
-              "type": "MicrosoftMonitoringAgent",
-              "typeHandlerVersion": "1.0",
-              "autoUpgradeMinorVersion": true,
-              "settings": {
-                "workspaceId": "[parameters('workspaceId')]"
+                "publisher": "Microsoft.EnterpriseCloud.Monitoring",
+                "type": "MicrosoftMonitoringAgent",
+                "typeHandlerVersion": "1.0",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                   "workspaceId": "[parameters('workspaceId')]"
                 },
-              "protectedSettings": {
-                "workspaceKey": "[parameters('workspaceKey')]"
+                "protectedSettings": {
+                    "workspaceKey": "[parameters('workspaceKey')]"
                 }
             }
         }
