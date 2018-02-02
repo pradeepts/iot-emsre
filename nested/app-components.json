@@ -8,14 +8,8 @@
         "webSiteSettings": {
             "type": "object"
         },
-        "appServiceEnv": {
-            "type": "object"
-        },
         "mlSettings":{
             "type": "object"
-        },
-        "InstrumentationKey": {
-            "type":"string"
         }
     },
     "variables": {},
@@ -24,20 +18,14 @@
             "apiVersion": "[parameters('apiVersions').webApiVersion]",
             "name": "[parameters('webSiteSettings').hostingPlanName]",
             "type": "Microsoft.Web/serverfarms",
-            "location": "South Central US",
+            "location": "[parameters('webSiteSettings').location]",
+            "dependsOn": [],
             "sku": {
                 "name": "[parameters('webSiteSettings').skuName]",
-                "capacity": "[parameters('webSiteSettings').skuCapacity]",
-                "tier": "Isolated",
-                "size": "I1",
-                "family": "I"    
-               
+                "capacity": "[parameters('webSiteSettings').skuCapacity]"
             },
             "properties": {
-                "name": "[parameters('webSiteSettings').hostingPlanName]",
-                "hostingEnvironmentProfile": {
-                    "id": "[resourceId('Microsoft.Web/hostingEnvironments/',parameters('appServiceEnv').appName)]"
-               }
+                "name": "[parameters('webSiteSettings').hostingPlanName]"
             }
         },
         {
@@ -50,10 +38,7 @@
             ],
             "properties": {
                 "name": "[parameters('webSiteSettings').assetDetailsWebApp]",
-                "serverFarmId": "[parameters('webSiteSettings').hostingPlanName]",
-                "hostingEnvironmentProfile": {
-                    "id": "[resourceId('Microsoft.Web/hostingEnvironments',parameters('appServiceEnv').appName)]"
-               }
+                "serverFarmId": "[parameters('webSiteSettings').hostingPlanName]"
             },
             "resources": [
                 {
@@ -122,10 +107,7 @@
             ],
             "properties": {
                 "name": "[parameters('webSiteSettings').weatherApiWebApp]",
-                "serverFarmId": "[parameters('webSiteSettings').hostingPlanName]",
-                "hostingEnvironmentProfile": {
-                    "id": "[resourceId('Microsoft.Web/hostingEnvironments',parameters('appServiceEnv').appName)]"
-               }
+                "serverFarmId": "[parameters('webSiteSettings').hostingPlanName]"
             },
             "resources": [
                 {
@@ -264,7 +246,6 @@
             "properties": {
                 "name": "[parameters('webSiteSettings').webSiteName]",
                 "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('webSiteSettings').hostingPlanName)]"
-
             },
             "resources": [
                 {
@@ -334,14 +315,13 @@
                         "displayName": "websiteAppSettings"
                     },
                     "properties": {
-                        "restServer": "[concat('https://', parameters('webSiteSettings').apiServerName,'.', parameters('appServiceEnv').aseDomainName,'/')]",
+                        "restServer": "[concat('https://', parameters('webSiteSettings').apiServerName,'.azurewebsites.net/')]",
                         "b2cApplicationId": "[parameters('webSiteSettings').b2cClientId]",
                         "signInPolicyName": "[parameters('webSiteSettings').b2cSignInPolicyId]",
                         "signInSignUpPolicyName": "[parameters('webSiteSettings').b2cSignUpPolicyId]",
                         "editProfilePolicyName": "[parameters('webSiteSettings').b2cEditProfilePolicyId]",
                         "tenantName": "[parameters('webSiteSettings').b2cTenant]",
-                        "redirect_uri": "[concat(parameters('webSiteSettings').websiteFullAddress,'#/dashboard')]",
-                        "InstrumentationKey": "[parameters('InstrumentationKey')]"
+                        "redirect_uri": "[concat(parameters('webSiteSettings').websiteFullAddress,'#/dashboard')]"
                     }
                 }
             ]
@@ -360,10 +340,7 @@
             },
             "properties": {
                 "name": "[parameters('webSiteSettings').apiServerName]",
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('webSiteSettings').hostingPlanName)]",
-                "hostingEnvironmentProfile": {
-                    "id": "[resourceId('Microsoft.Web/hostingEnvironments',parameters('appServiceEnv').appName)]"
-               }
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('webSiteSettings').hostingPlanName)]"
             },
             "resources": [
                 {
@@ -387,7 +364,7 @@
                         "remoteDebuggingVersion": "VS2015",
                         "cors": {
                         "allowedOrigins": [
-                                "[concat('https://', parameters('webSiteSettings').webSiteName,'.', parameters('appServiceEnv').aseDomainName)]"
+                                "[concat('https://', parameters('webSiteSettings').webSiteName, '.azurewebsites.net')]"
                             ]
                         }
                     }
@@ -547,6 +524,5 @@
             ]
         }
     ],
-    "outputs": {
-    }
+    "outputs": {}
 }

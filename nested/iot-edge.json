@@ -10,14 +10,14 @@
         },
         "omsSettings": {
             "type": "object"
-          },
-          "workspaceId": {
+        },
+        "workspaceId": {
             "type": "string"
-          },
-          "workspaceKey": {
+        },
+        "workspaceKey": {
             "type": "string"
-          }
-           },
+        }
+    },
     "variables": {
         "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', parameters('iotEdgeServer').virtualNetworkName)]",
         "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('iotEdgeServer').subnetName)]"
@@ -342,12 +342,35 @@
             }
         },
         {
+            "name": "[concat(parameters('iotEdgeServer').virtualMachineName,'/CustomScriptExtension')]",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "location": "[parameters('iotEdgeServer').location]",
+            "apiVersion": "[parameters('apiVersions').computeApiVersion]",
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/',parameters('iotEdgeServer').virtualMachineName)]"
+            ],
+            "properties": {
+                "publisher": "Microsoft.Compute",
+                "type": "CustomScriptExtension",
+                "typeHandlerVersion": "1.8",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "fileUris": [
+                        "[parameters('iotEdgeServer').powerBIScriptUrl]"
+                    ]
+                },
+                "protectedSettings": {
+                    "commandToExecute": "[concat ('powershell -ExecutionPolicy Unrestricted -File powerBiInstall.ps1',' ',parameters('iotEdgeServer').powerBITemplatesUrl,' ',parameters('iotEdgeServer').powerBIDesktopUrl)]"
+                }
+            }
+        },
+        {
             "type": "Microsoft.Compute/virtualMachines/extensions",
             "name": "[concat(parameters('iotEdgeServer').virtualMachineName,'/omsextentions')]",
             "apiVersion": "[parameters('apiVersions').computeApiVersion]",
             "location": "[parameters('iotEdgeServer').location]",
             "dependsOn": [
-              "[concat('Microsoft.Compute/virtualMachines/',parameters('iotEdgeServer').virtualMachineName)]"
+              "[concat('Microsoft.Compute/virtualMachines/',parameters('iotEdgeServer').virtualMachineName,'/extensions/CustomScriptExtension')]"
             ],
             "properties": {
               "publisher": "Microsoft.EnterpriseCloud.Monitoring",

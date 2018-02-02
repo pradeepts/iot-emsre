@@ -281,7 +281,7 @@
         },
         "skuName": {
             "type": "string",
-            "defaultValue": "I1",
+            "defaultValue": "B1",
                       "metadata": {
                 "description": "Describes plan's pricing tier and instance size. Check details at https://azure.microsoft.com/en-us/pricing/details/app-service/"
             }
@@ -305,65 +305,7 @@
             "metadata": {
                 "description": "Pricing tier for Workspace"
             }
-        },
-        "aseLocation": {
-            "type": "string",
-            "defaultValue": "South Central US",
-            "allowedValues": [
-                "South Central US",
-                "West US"
-            ],
-            "metadata": {
-                "description": "app service environment location"
-            }
-        },
-        "aseDomainName": {
-            "type": "string",
-            "metadata": {
-                "description": "domain name of app service environment"
-            }
-        },
-        "capacity": {
-            "type": "int",
-            "allowedValues": [
-                1,
-                2,
-                3,
-                4,
-                5
-            ],
-            "defaultValue": 2,
-            "metadata": {
-                "description": "Number of instances for waf"
-            }
-        },
-        "bastionVMSize": {
-            "type": "string",
-            "defaultValue": "Standard_DS2_v2",
-            "allowedValues": [
-                "Standard_DS1",
-                "Standard_DS2",
-                "Standard_DS3",
-                "Standard_DS4",
-                "Standard_DS11",
-                "Standard_DS12",
-                "Standard_DS13",
-                "Standard_DS14",
-                "Standard_DS1_v2",
-                "Standard_DS2_v2",
-                "Standard_DS3_v2",
-                "Standard_DS4_v2",
-                "Standard_DS5_v2",
-                "Standard_DS11_v2",
-                "Standard_DS12_v2",
-                "Standard_DS13_v2",
-                "Standard_DS14_v2"
-            ],
-            "metadata": {
-                "description": "Bastion Virtual Machine size"
-            }
         }
-        
     },
     "variables": {
         "apiVersions": {
@@ -381,15 +323,9 @@
             "storageApiVersion": "2015-06-15",
             "storageApiVersion1": "2016-01-01",
             "computeApiVersion": "2016-04-30-preview",
-            "aseHostEnvApiVersion": "2015-02-01",
-            "aseVnetApiVersion": "2016-06-01",
-            "aseNetworkApiVersion": "2015-06-15",
-            "wafNetworkApiVersion": "2017-03-01",
-            "wafApiVersion": "2017-06-01",
+            "appInsightsApiVersion": "2014-04-01",
             "omsApiVersion": "2017-03-15-preview",
-            "omsDataApiVersion": "2015-11-01-preview",
-            "bastionApiVersion": "2016-09-01",
-            "appInsightsApiVersion": "2014-04-01"
+            "omsDataApiVersion": "2015-11-01-preview"    
         },
         "azureSQL": {
             "location": "[variables('location')]",
@@ -484,42 +420,12 @@
             "adminPassword": "[parameters('iotEdgeadminPassword')]",
             "virtualMachineSize": "Standard_E4s_v3",
             "customImageSubscription": "2927c217-b119-4d3b-8a13-82a1c3a16c8f",
-            "customImageRG": "iot-vhds"
+            "customImageRG": "iot-vhds",
+            "powerBIScriptUrl": "[concat(variables('baseUrl'),'scripts/powerBiInstall.ps1')]",
+            "powerBITemplatesUrl": "[concat(variables('dscScriptUrl'),'/powerBItemplates/PowerBI_Templates.zip')]",
+            "powerBIDesktopUrl": "https://projectiot.blob.core.windows.net/iotp2/PBIDesktop_x64.msi"
         },
-        "appServiceEnv": {
-            "location": "[variables('location')]",
-            "aseDomainName": "[parameters('aseDomainName')]",
-            "internalLoadBalancingMode": "3",
-            "networkSecurityGroupName": "asensg",
-            "virtualNetworkName": "[concat('asevnet', variables('suffix'))]",
-            "subnetName": "asesubnet",
-            "subnetName1": "appGatewafSubnet",
-            "subnetName2": "bastionSubnet",
-            "subnetRouteTableName": "ase-route",
-            "appName": "[concat('aseenv',substring(uniqueString(resourceGroup().id),4,9))]",
-            "vnetAddress": "10.0.0.0/16",
-            "subnetPrefix": "10.0.1.0/24",
-            "subnetPrefix1": "10.0.2.0/24",
-            "subnetPrefix2": "10.0.3.0/24",
-            "kind": "ASEV2"
-        },
-        "applicationGateWaf": {
-            "location": "[variables('location')]",
-            "applicationGatewayName": "applicationGatewaywaf",
-            "publicIPAddressName": "wafpublicIp",
-            "publicIpDnsPrefix": "[concat('appwaf',substring(uniqueString(resourceGroup().id),4,9))]",
-            "publicIPAddressType": "Dynamic",
-            "wafRuleSetVersion": "3.0",
-            "wafRuleSetType": "OWASP",
-            "backendIpAddress": "10.0.1.11",
-            "applicationGatewaySize": "WAF_Medium",
-            "wafEnabled": true,
-            "wafMode": "Detection",
-            "capacity": "[parameters('capacity')]",
-            "customProbeHostName": "[concat(parameters('websiteName'),'.',parameters('aseDomainName'))]",
-            "probeName": "appwafprobe"
-        },
-        "mlSettings": {
+       "mlSettings": {
             "location": "South Central US",
             "workspaceName": "workspace",
             "mlSkuName": "[parameters('MLskuName')]",
@@ -533,29 +439,7 @@
             "dataRetention": "[parameters('dataRetention')]",
             "omsLogAnalyticsSku": "[parameters('omsLogAnalyticsSku')]"
         },
-        "bastionServerSettings": {
-            "location": "[variables('location')]",
-            "bastionVMName": "bastionServer",
-            "adminUsername": "[parameters('bastionAdminUserName')]",
-            "adminPassword": "[parameters('bastionAdminPassword')]",
-            "bastionNic": "bastion-nic",
-            "bastionNSG": "bastion-nsg",
-            "bastionPublicIpName": "bastion-pip",
-            "bastionDiagStgAcnt": "[concat('bastionstrg',variables('suffix'))]",
-            "bastionVMSize": "[parameters('bastionVMSize')]",
-            "bastionDnsLabelPrefix": "[concat('bastionserver',variables('suffix'))]",
-            "publisher": "MicrosoftWindowsServer",
-            "offer": "WindowsServer",
-            "sku": "2012-R2-Datacenter",
-            "version": "latest",
-            "storageAccountType": "[variables('storageAccountType')]",
-            "diagStorageAccountType": "Standard_LRS",
-            "publicIpAddressType": "Dynamic",
-            "powerBIScriptUrl": "[concat(variables('baseUrl'),'scripts/powerBiInstall.ps1')]",
-            "powerBITemplatesUrl": "[concat(variables('dscScriptUrl'),'/powerBItemplates/PowerBI_Templates.zip')]",
-            "powerBIDesktopUrl": "https://projectiot.blob.core.windows.net/iotp2/PBIDesktop_x64.msi"
-        },
-        "websiteFullAddress": "[concat('https://',parameters('websiteName'),'.',parameters('aseDomainName'))]",
+        "websiteFullAddress": "[concat('https://',parameters('websiteName'),'.azurewebsites.net/')]",
         "deployStorageAccountName": "projectiot",
         "deployStorageAccountKey": "68qPHnikzAitr3fjvPAyem7Tc0y2pf+BVob4F+opoX20PhV0yJGQc/guxxhCV/Uscp0gE1EHn+GCGfwOiaF9tg==",
         "sasToken": "?",
@@ -650,42 +534,6 @@
         },
         {
             "type": "Microsoft.Resources/deployments",
-            "name": "BastionHost",
-            "apiVersion": "[variables('deploymentApiVersion')]",
-            "dependsOn": [
-                "OMSWorkSpace",
-                "appServiceEnvironment"
-            ],
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(variables('baseUrl'), 'nested/bastion-server.json')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "bastionServerSettings": {
-                        "value": "[variables('bastionServerSettings')]"
-                    },
-                    "apiVersions": {
-                        "value": "[variables('apiVersions')]"
-                    },
-                    "appServiceEnv": {
-                        "value": "[variables('appServiceEnv')]"
-                    },
-                    "omsSettings": {
-                        "value": "[variables('omsSettings')]"
-                    },
-                    "workspaceId": {
-                        "value": "[reference('OMSWorkSpace').outputs.workspaceCustomerId.value]"
-                    },
-                    "workspaceKey": {
-                        "value": "[reference('OMSWorkSpace').outputs.workspacePrimarySharedKey.value]"
-                }
-            }
-        }
-        },
-        {
-            "type": "Microsoft.Resources/deployments",
             "name": "SqlServer",
             "apiVersion": "[variables('deploymentApiVersion')]",
             "dependsOn": [
@@ -732,9 +580,6 @@
                     },
                     "webSiteSettings": {
                         "value": "[variables('webSiteSettings')]"
-                    },
-                    "appServiceEnv": {
-                        "value": "[variables('appServiceEnv')]"
                     },
                     "Instrumentationkey": {
                         "value": "[reference('appInsights').outputs.InstrumentationKey.value]"                    }
@@ -793,59 +638,6 @@
                     }
                 }
             }
-        },
-        {
-            "type": "Microsoft.Resources/deployments",
-            "name": "appServiceEnvironment",
-            "apiVersion": "[variables('deploymentApiVersion')]",
-            "dependsOn": [
-                "OMSWorkSpace"
-            ],
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(variables('baseUrl'), 'nested/app-serviceenv.json')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "appServiceEnv": {
-                        "value": "[variables('appServiceEnv')]"
-                    },
-                    "apiVersions": {
-                        "value": "[variables('apiVersions')]"
-                    },
-                    "aseLocation": {
-                        "value": "[parameters('aseLocation')]"
-                    }
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Resources/deployments",
-            "name": "applicationGateWaf",
-            "apiVersion": "[variables('deploymentApiVersion')]",
-            "dependsOn": [
-                "appServiceEnvironment",
-                "OMSWorkSpace"
-            ],
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(variables('baseUrl'), 'nested/app-gatewaywaf.json')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "applicationGateWaf": {
-                        "value": "[variables('applicationGateWaf')]"
-                    },
-                    "appServiceEnv": {
-                        "value": "[variables('appServiceEnv')]"
-                    },
-                    "apiVersions": {
-                        "value": "[variables('apiVersions')]"
-                    }
-                }
-            }
         }
     ],
     "outputs": {
@@ -871,7 +663,7 @@
         },
         "assetDetailsWebURL": {
             "type": "string",
-            "value": "[concat('https://',variables('webSiteSettings').assetDetailsWebApp,parameters('aseDomainName'))]"
+            "value": "[concat('https://',variables('webSiteSettings').assetDetailsWebApp,'.azurewebsites.net/')]"
         },
         "b2cWebSiteUrl": {
             "type": "string",
@@ -879,7 +671,7 @@
         },
         "webJobUrl": {
             "type": "string",
-            "value": "[concat('https://',variables('webSiteSettings').apiServerName,'.scm.',parameters('aseDomainName'),'/azurejobs/')]"
+            "value": "[concat('https://',variables('webSiteSettings').apiServerName,'.scm.','.azurewebsites.net/','/azurejobs/')]"
         },
         "iotEdgeFQDN": {
             "type": "string",
@@ -896,14 +688,6 @@
         "webjobStorageaccntName": {
             "type": "string",
             "value": "[variables('webSiteSettings').webjobStorageName]"
-        },
-        "wafFqdn": {
-            "type": "string",
-            "value": "[reference('applicationGateWaf').outputs.appWafFqdn.value]"
-        },
-        "bastionFQDN": {
-            "type": "string",
-            "value": "[reference('BastionHost').outputs.bastionFQDN.value]"
         }
     }
 }
