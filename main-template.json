@@ -425,7 +425,7 @@
             "powerBITemplatesUrl": "[concat(variables('dscScriptUrl'),'/powerBItemplates/PowerBI_Templates.zip')]",
             "powerBIDesktopUrl": "https://projectiot.blob.core.windows.net/iotp2/PBIDesktop_x64.msi"
         },
-       "mlSettings": {
+        "mlSettings": {
             "location": "South Central US",
             "workspaceName": "workspace",
             "mlSkuName": "[parameters('MLskuName')]",
@@ -450,8 +450,7 @@
         "deploymentApiVersion": "2016-02-01",
         "suffix": "[substring(uniqueString(resourceGroup().id), 0, 5)]",
         "storageAccountType": "Premium_LRS",
-        "dscScriptUrl": "https://github.com/sysgain/iot-automation/raw/iot-automation",
-        "workspaceKey": "jsb6qdybj4RjKhaS7ZO+TvNsUa2+1giii2DX+2NBQrnflswrUdQxG2SXRLeGvUCwrKzx5cyrOzi+AC402Yi47w=="
+        "dscScriptUrl": "https://github.com/sysgain/iot-automation/raw/iot-automation"
     },
     "resources": [
         {
