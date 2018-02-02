@@ -11,19 +11,19 @@
     },
     "variables": {},
     "resources": [
-    {
-        "apiVersion": "[parameters('apiVersions').appInsightsApiVersion]",
-        "name": "[parameters('appInsights').appInsightResourceName]",
-        "type": "Microsoft.Insights/components",
-        "location": "[parameters('appInsights').location]",
-        "dependsOn": [],
-        "tags": {
-             "displayName": "AppInsightsComponent"
-        },
-        "properties": {
-           "ApplicationId": "[parameters('appInsights').appInsightResourceName]"
+        { 
+            "apiVersion": "[parameters('apiVersions').appInsightsApiVersion]",
+            "name": "[parameters('appInsights').appInsightResourceName]",
+            "type": "Microsoft.Insights/components",
+            "location": "[parameters('appInsights').location]",
+            "dependsOn": [],
+            "tags": {
+                "displayName": "AppInsightsComponent"
+            },
+            "properties": {
+                "ApplicationId": "[parameters('appInsights').appInsightResourceName]"
+           }
         }
-    }
     ],
     "outputs": {
         "InstrumentationKey": {
