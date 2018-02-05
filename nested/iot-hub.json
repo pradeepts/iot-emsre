@@ -30,9 +30,10 @@
                         "partitionCount":"[parameters('iotHubSettings').d2cPartitionCount]"
                     }
                 }
-            }
-        },
-        {         
+            },
+        
+            "resources": [
+            {         
             "name": "Microsoft.Insights/service",
             "type": "providers/diagnosticSettings",
             "apiVersion": "2015-07-01",
@@ -63,6 +64,8 @@
                 ]
       
             }
-        }   
+          }
+        ]
+    }
     ]
 }
