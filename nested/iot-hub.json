@@ -43,17 +43,25 @@
                 "workspaceId": "[parameters('workspaceId')]",
                 "logs": [
                     {
-                      "category": "IOThubEvents",
-                       "enabled": true
+                      "category": "iothuboms",
+                      "enabled": true,
+                      "retentionPolicy": {
+                        "days": 0,
+                        "enabled": false
+                      }
                     }
                 ],
-                "metrics": [
+                  "metrics": [
                     {
-                        "timeGrain": "AllMetrics",
-                        "category": "AllMetrics",
-                        "enabled": true
+                      "timeGrain": "PT1M",
+                      "enabled": true,
+                      "retentionPolicy": {
+                        "enabled": false,
+                        "days": 0
+                      }
                     }
                 ]
+      
             }
         }   
     ]

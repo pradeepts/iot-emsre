@@ -60,19 +60,7 @@
         },
        
         
-        "bastionAdminUserName": {
-            "type": "string",
-            "metadata": {
-                "description": "username for bastion Server"
-            }
-        },
-        "bastionAdminPassword": {
-            "type": "securestring",
-            "metadata": {
-                "description": "password for bastion Server"
-            }
-        },
-        "websiteName": {
+               "websiteName": {
             "type": "string",
             "defaultValue": "",
             "metadata": {
@@ -391,30 +379,7 @@
             "sku": "standard",
             "numberOfStreamingUnits": "[parameters('numberOfStreamingUnits')]"
         },
-        "iotEdgeServer": {
-            "location": "[variables('location')]",
-            "virtualNetworkName": "iotedge-vnet",
-            "addressPrefix": "10.0.0.0/16",
-            "subnetName": "iotedge-subnet",
-            "subnetPrefix": "10.0.0.0/24",
-            "publicIpAddressName": "iotedage-pip",
-            "publicIpAddressType": "Dynamic",
-            "publicIpAddressSku": "Basic",
-            "networkSecurityGroupName": "iotedge-nsg",
-            "networkInterfaceName": "iotedge-nic",
-            "dnsLabelPrefix": "[concat('iotedgeserver',variables('suffix'))]",
-            "diagnosticsStorageAccountName": "[concat('strgaccnt',variables('suffix'))]",
-            "diagnosticsStorageAccountType": "Standard_LRS",
-            "virtualMachineName": "iotedge",
-            "adminUsername": "[parameters('iotEdgeAdminUserName')]",
-            "adminPassword": "[parameters('iotEdgeadminPassword')]",
-            "virtualMachineSize": "Standard_E4s_v3",
-            "customImageSubscription": "2927c217-b119-4d3b-8a13-82a1c3a16c8f",
-            "customImageRG": "iot-vhds",
-            "powerBIScriptUrl": "[concat(variables('baseUrl'),'scripts/powerBiInstall.ps1')]",
-            "powerBITemplatesUrl": "[concat(variables('dscScriptUrl'),'/powerBItemplates/PowerBI_Templates.zip')]",
-            "powerBIDesktopUrl": "https://projectiot.blob.core.windows.net/iotp2/PBIDesktop_x64.msi"
-        },
+      
         "mlSettings": {
             "location": "South Central US",
             "workspaceName": "workspace",
@@ -464,42 +429,13 @@
                 }
             }
         },
-        {
-            "type": "Microsoft.Resources/deployments",
-            "name": "IotEdgeServer",
-            "apiVersion": "[variables('deploymentApiVersion')]",
-            "dependsOn": [
-                "OMSWorkSpace"
-            ],
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[concat(variables('baseUrl'), 'nested/iot-edge.json')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "iotEdgeServer": {
-                        "value": "[variables('iotEdgeServer')]"
-                    },
-                    "apiVersions": {
-                        "value": "[variables('apiVersions')]"
-                    },
-                    "workspaceId": {
-                        "value": "[reference('OMSWorkSpace').outputs.workspaceCustomerId.value]"
-                    },
-                    "workspaceKey": {
-                        "value": "[reference('OMSWorkSpace').outputs.workspacePrimarySharedKey.value]"
-                    }
-                }
-            }
-            
-        },
+       
         {
             "type": "Microsoft.Resources/deployments",
             "name": "IotHub",
             "apiVersion": "[variables('deploymentApiVersion')]",
             "dependsOn": [
-                "IotEdgeServer",
+            
                 "OMSWorkSpace"
             ],
             "properties": {
@@ -661,18 +597,7 @@
             "type": "string",
             "value": "[concat('https://',variables('webSiteSettings').apiServerName,'.scm.','.azurewebsites.net/','/azurejobs/')]"
         },
-        "iotEdgeFQDN": {
-            "type": "string",
-            "value": "[reference('IotEdgeServer').outputs.IotEdgeFQDN.value]"
-        },
-        "iotEdgeAdminUserName": {
-            "type": "string",
-            "value": "[parameters('iotEdgeAdminUserName')]"
-        },
-        "iotEdgeAdminPassword": {
-            "type": "string",
-            "value": "[parameters('iotEdgeAdminPassword')]"
-        },
+    
         "webjobStorageaccntName": {
             "type": "string",
             "value": "[variables('webSiteSettings').webjobStorageName]"
