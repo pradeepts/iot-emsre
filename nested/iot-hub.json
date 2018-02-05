@@ -30,7 +30,41 @@
                         "partitionCount":"[parameters('iotHubSettings').d2cPartitionCount]"
                     }
                 }
-            }
+            },
+            "resources": [
+                {         
+                "name": "Microsoft.Insights/service",
+                "type": "providers/diagnosticSettings",
+                "apiVersion": "parameters('apiVersions').iotHubOmsApiVersion",
+                "dependsOn": [
+                      "[concat('Microsoft.Devices/IotHubs/', parameters('iotHubSettings').iotHubName)]"
+                    ],
+                "properties": {
+                    "workspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', parameters('omsSettings').omsWorkspaceName)]",
+                    "logs": [
+                        {
+                            "category": "Connections",
+                            "enabled": true,
+                            "retentionPolicy": {
+                                   "days": 0,
+                                    "enabled": false
+                                }
+                            }
+                        ],
+                    "metrics": [
+                            {
+                                 "timeGrain": "PT1M",
+                                 "enabled": true,
+                                 "retentionPolicy": {
+                                      "enabled": false,
+                                      "days": 0
+                                }
+                            }
+                        ]
+          
+                    }
+                }
+            ]
         }
     ]
 }
