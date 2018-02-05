@@ -89,6 +89,7 @@
                     ]
                 }
             ]
+           
         },
         {
             "type": "Microsoft.Sql/servers/firewallRules",
