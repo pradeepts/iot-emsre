@@ -268,7 +268,7 @@
                 "apiVersion": "2015-07-01",
                 "dependsOn": [
                    
-                        "[concat('Microsoft.Network/networkSecurityGroups', parameters('iotEdgeServer').networkSecurityGroupName)]"
+                        "[concat('Microsoft.Network/networkSecurityGroups/', parameters('iotEdgeServer').networkSecurityGroupName)]"
                     
                 ],
                 "properties": {
