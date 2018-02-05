@@ -58,18 +58,8 @@
                 "description": "Specify the Azure Region for your OMS Automation Account"
             }
         },
-        "iotEdgeAdminUserName": {
-            "type": "string",
-            "metadata": {
-                "description": "username for windows virtual machine"
-            }
-        },
-        "iotEdgeAdminPassword": {
-            "type": "securestring",
-            "metadata": {
-                "description": "password for windows virtual machine"
-            }
-        },
+       
+        
         "bastionAdminUserName": {
             "type": "string",
             "metadata": {
@@ -524,6 +514,9 @@
                     },
                     "apiVersions": {
                         "value": "[variables('apiVersions')]"
+                    },
+                    "workspaceId": {
+                        "value": "[reference('OMSWorkSpace').outputs.workspaceCustomerId.value]"
                     }
                 }
             }
