@@ -7,6 +7,9 @@
         },
         "apiVersions": {
             "type": "object"
+        },
+        "omsSettings": {
+            "type": "object"
         }
     },
     "variables": {},
@@ -53,7 +56,40 @@
                                 "operationMode": "Import"
                             }
                         }
-                    ]
+                    ],
+                    "resources": [
+                        {         
+                        "name": "Microsoft.Insights/service",
+                        "type": "providers/diagnosticSettings",
+                        "apiVersion": "2015-07-01",
+                        "dependsOn": [
+                            "[concat('Microsoft.Sql/servers/', parameters('azureSQL').serverName)]"
+                        ],
+                        "properties": {
+                            "workspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', parameters('omsSettings').omsWorkspaceName)]",
+                            "logs": [
+                                {
+                                  "category": "Connections",
+                                  "enabled": true,
+                                  "retentionPolicy": {
+                                    "days": 0,
+                                    "enabled": false
+                                  }
+                                }
+                            ],
+                              "metrics": [
+                                {
+                                  "timeGrain": "PT1M",
+                                  "enabled": true,
+                                  "retentionPolicy": {
+                                    "enabled": false,
+                                    "days": 0
+                                  }
+                                }
+                            ]
+                        }
+                    }
+                ]
                 },
                 {
                     "apiVersion": "[parameters('apiVersions').sqlDBApiVersion]",
@@ -103,6 +139,7 @@
                 "startIpAddress": "0.0.0.0"
             }
         }
+        
     ],
     "outputs": {
         "azureSQLServerName": {
