@@ -8,9 +8,6 @@
         "apiVersions": {
             "type": "object"
         },
-        "workspaceId": {
-            "type": "string"
-        },
         "omsSettings": {
             "type": "object"
             }
