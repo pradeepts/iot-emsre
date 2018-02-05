@@ -56,7 +56,45 @@
                                 "operationMode": "Import"
                             }
                         }
-                    ]
+                    ],
+                    "resources": [
+                        {         
+                        "name": "Microsoft.Insights/service",
+                        "type": "providers/diagnosticSettings",
+                        "apiVersion": "2015-07-01",
+                        "dependsOn": [
+                           
+                                "[concat('Microsoft.Sql/servers/', parameters('azureSQL').serverName)]",
+                            
+    
+                            "[concat('Microsoft.Sql/servers/',parameters('azureSQL').serverName, '/databases/', parameters('azureSQL').databaseName1)]"
+                        ],
+                        "properties": {
+                            "workspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', parameters('omsSettings').omsWorkspaceName)]",
+                            "logs": [
+                                {
+                                  "category": "Timeouts",
+                                  "enabled": true,
+                                  "retentionPolicy": {
+                                    "days": 0,
+                                    "enabled": false
+                                  }
+                                }
+                            ],
+                              "metrics": [
+                                {
+                                  "timeGrain": "PT1M",
+                                  "enabled": true,
+                                  "retentionPolicy": {
+                                    "enabled": false,
+                                    "days": 0
+                                  }
+                                }
+                            ]
+                    
+                        }
+                    }
+                ]
                    
                 },
                 {
@@ -73,6 +111,25 @@
                         "maxSizeBytes": "[parameters('azureSQL').maxSizeBytes]",
                         "requestedServiceObjectiveName": "[parameters('azureSQL').requestedServiceObjectiveName]"
                     },
+                 
+                    "resources": [
+                        {
+                            "name": "myImport2",
+                            "type": "extensions",
+                            "apiVersion": "[parameters('apiVersions').sqlDBApiVersion]",
+                            "dependsOn": [
+                                "[concat('Microsoft.Sql/servers/',parameters('azureSQL').serverName, '/databases/', parameters('azureSQL').databaseName2)]"
+                            ],
+                            "properties": {
+                                "storageKeyType": "[parameters('azureSQL').storageKeyType]",
+                                "storageKey": "[parameters('azureSQL').storageKey]",
+                                "storageUri": "[parameters('azureSQL').storageUri2]",
+                                "administratorLogin": "[parameters('azureSQL').sqlAuthenticationLogin]",
+                                "administratorLoginPassword": "[parameters('azureSQL').sqlAuthenticationPassword]",
+                                "operationMode": "Import"
+                            }
+                        }
+                    ],
                     "resources": [
                         {         
                         "name": "Microsoft.Insights/service",
@@ -82,7 +139,7 @@
                            
                                 "[concat('Microsoft.Sql/servers/', parameters('azureSQL').serverName)]",
                             
-
+    
                             "[concat('Microsoft.Sql/servers/',parameters('azureSQL').serverName, '/databases/', parameters('azureSQL').databaseName2)]"
                         ],
                         "properties": {
@@ -110,26 +167,11 @@
                     
                         }
                     }
-                ],
-                    "resources": [
-                        {
-                            "name": "myImport2",
-                            "type": "extensions",
-                            "apiVersion": "[parameters('apiVersions').sqlDBApiVersion]",
-                            "dependsOn": [
-                                "[concat('Microsoft.Sql/servers/',parameters('azureSQL').serverName, '/databases/', parameters('azureSQL').databaseName2)]"
-                            ],
-                            "properties": {
-                                "storageKeyType": "[parameters('azureSQL').storageKeyType]",
-                                "storageKey": "[parameters('azureSQL').storageKey]",
-                                "storageUri": "[parameters('azureSQL').storageUri2]",
-                                "administratorLogin": "[parameters('azureSQL').sqlAuthenticationLogin]",
-                                "administratorLoginPassword": "[parameters('azureSQL').sqlAuthenticationPassword]",
-                                "operationMode": "Import"
-                            }
-                        }
-                    ]
+                ]
+                   
+                
                 }
+                
             ]
             
         },
