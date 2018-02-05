@@ -477,10 +477,8 @@
                     },
                     "apiVersions": {
                         "value": "[variables('apiVersions')]"
-                    },
-                    "omsSettings": {
-                        "value": "[variables('omsSettings')]"
                     }
+                
                 }
             }
         },
