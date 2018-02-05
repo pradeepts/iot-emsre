@@ -89,13 +89,13 @@
                 "type": "providers/diagnosticSettings",
                 "apiVersion": "2015-07-01",
                 "dependsOn": [
-                  "[concat('Microsoft.StreamAnalytics/streamingjobs/', parameters('streamAnalyticsSettings').streamAnalyticsJobName)]"
+                  "[concat('Microsoft.StreamAnalytics/StreamingJobs/', parameters('streamAnalyticsSettings').streamAnalyticsJobName)]"
                 ],
                 "properties": {
                     "workspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', parameters('omsSettings').omsWorkspaceName)]",
                     "logs": [
                         {
-                          "category": "Authoring",
+                          "category": "Execution",
                           "enabled": true,
                           "retentionPolicy": {
                             "days": 0,
