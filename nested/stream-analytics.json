@@ -13,6 +13,9 @@
         },
         "azureSQL": {
             "type": "object"
+        },
+        "omsSettings": {
+            "type": "object"
         }
     },
     "resources": [
@@ -79,7 +82,41 @@
                       }
                     }
                   ]
+            },
+            "resources": [
+                {         
+                "name": "Microsoft.Insights/service",
+                "type": "providers/diagnosticSettings",
+                "apiVersion": "2015-07-01",
+                "dependsOn": [
+                  "[concat('Microsoft.StreamAnalytics/streamingjobs/', parameters('streamAnalyticsSettings').streamAnalyticsJobName)]"
+                ],
+                "properties": {
+                    "workspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', parameters('omsSettings').omsWorkspaceName)]",
+                    "logs": [
+                        {
+                          "category": "Authoring",
+                          "enabled": true,
+                          "retentionPolicy": {
+                            "days": 0,
+                            "enabled": false
+                          }
+                        }
+                    ],
+                      "metrics": [
+                        {
+                          "timeGrain": "PT1M",
+                          "enabled": true,
+                            "retentionPolicy": {
+                                   "enabled": false,
+                                   "days": 0
+                            }
+                        }
+                    ]
+          
+                }
             }
+            ]
         }
     ]
 }

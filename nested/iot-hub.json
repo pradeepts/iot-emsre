@@ -34,7 +34,7 @@
         
             "resources": [
             {         
-            "name": "Microsoft.Insights/service",
+                 "name": "Microsoft.Insights/service",
             "type": "providers/diagnosticSettings",
             "apiVersion": "2015-07-01",
             "dependsOn": [
@@ -56,15 +56,15 @@
                     {
                       "timeGrain": "PT1M",
                       "enabled": true,
-                      "retentionPolicy": {
-                        "enabled": false,
-                        "days": 0
-                      }
+                        "retentionPolicy": {
+                               "enabled": false,
+                               "days": 0
+                        }
                     }
                 ]
       
             }
-          }
+        }
         ]
     }
     ]

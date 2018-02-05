@@ -542,6 +542,9 @@
                     },
                     "azureSQL": {
                         "value": "[variables('azureSQL')]"
+                    },
+                    "omsSettings": {
+                        "value": "[variables('omsSettings')]"
                     }
                 }
             }
