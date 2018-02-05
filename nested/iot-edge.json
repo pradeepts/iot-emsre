@@ -270,8 +270,6 @@
                    
                         "[concat('Microsoft.Network/networkSecurityGroups', parameters('iotEdgeServer').networkSecurityGroupName)]"
                     
-
-                    
                 ],
                 "properties": {
                     "workspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', parameters('omsSettings').omsWorkspaceName)]",

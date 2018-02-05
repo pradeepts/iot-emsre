@@ -499,6 +499,9 @@
                     },
                     "workspaceKey": {
                         "value": "[reference('OMSWorkSpace').outputs.workspacePrimarySharedKey.value]"
+                    },
+                    "omsSettings": {
+                        "value": "[variables('omsSettings')]"
                     }
                 }
             }
