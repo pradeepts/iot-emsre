@@ -70,18 +70,6 @@
                 "description": "password for windows virtual machine"
             }
         },
-        "bastionAdminUserName": {
-            "type": "string",
-            "metadata": {
-                "description": "username for bastion Server"
-            }
-        },
-        "bastionAdminPassword": {
-            "type": "securestring",
-            "metadata": {
-                "description": "password for bastion Server"
-            }
-        },
         "websiteName": {
             "type": "string",
             "defaultValue": "",
