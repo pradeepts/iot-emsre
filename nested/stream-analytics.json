@@ -75,7 +75,7 @@
                         "workspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', parameters('omsSettings').omsWorkspaceName)]",
                         "logs": [
                             {
-                              "category": "Execution",
+                              "category": "Authoring",
                               "enabled": true,
                               "retentionPolicy": {
                                 "days": 0,
@@ -111,8 +111,7 @@
                             "table": "[parameters('azureSQL').tableName]"
                           }
                         },
-                        "serialization": null,
-                        "diagnostics": null
+                        "serialization": null
                       }
                     }
                   ]
