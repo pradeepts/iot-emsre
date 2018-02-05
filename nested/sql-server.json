@@ -99,13 +99,14 @@
                 "type": "providers/diagnosticSettings",
                 "apiVersion": "2015-07-01",
                 "dependsOn": [
-                    "[concat('Microsoft.Sql/servers/', parameters('azureSQL').serverName)]"
+                    "[concat('Microsoft.Sql/servers/',parameters('azureSQL').serverName, '/databases/', parameters('azureSQL').databaseName1)]",
+                    "[concat('Microsoft.Sql/servers/',parameters('azureSQL').serverName, '/databases/', parameters('azureSQL').databaseName2)]"
                 ],
                 "properties": {
                     "workspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', parameters('omsSettings').omsWorkspaceName)]",
                     "logs": [
                         {
-                          "category": "SQLInsights",
+                          "category": "Timeouts",
                           "enabled": true,
                           "retentionPolicy": {
                             "days": 0,
