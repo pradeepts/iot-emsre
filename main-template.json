@@ -58,7 +58,19 @@
                 "description": "Specify the Azure Region for your OMS Automation Account"
             }
         },
-       
+        "iotEdgeAdminUserName": {
+            "type": "string",
+            "metadata": {
+                "description": "username for windows virtual machine"
+            }
+        },
+        "iotEdgeAdminPassword": {
+            "type": "securestring",
+            "metadata": {
+                "description": "password for windows virtual machine"
+            }
+        },
+
         
                "websiteName": {
             "type": "string",
@@ -305,6 +317,31 @@
             "omsApiVersion": "2017-03-15-preview",
             "omsDataApiVersion": "2015-11-01-preview"    
         },
+        "iotEdgeServer": {
+            "location": "[variables('location')]",
+            "virtualNetworkName": "iotedge-vnet",
+            "addressPrefix": "10.0.0.0/16",
+            "subnetName": "iotedge-subnet",
+            "subnetPrefix": "10.0.0.0/24",
+            "publicIpAddressName": "iotedage-pip",
+            "publicIpAddressType": "Dynamic",
+            "publicIpAddressSku": "Basic",
+            "networkSecurityGroupName": "iotedge-nsg",
+            "networkInterfaceName": "iotedge-nic",
+            "dnsLabelPrefix": "[concat('iotedgeserver',variables('suffix'))]",
+            "diagnosticsStorageAccountName": "[concat('strgaccnt',variables('suffix'))]",
+            "diagnosticsStorageAccountType": "Standard_LRS",
+            "virtualMachineName": "iotedge",
+            "adminUsername": "[parameters('iotEdgeAdminUserName')]",
+            "adminPassword": "[parameters('iotEdgeadminPassword')]",
+            "virtualMachineSize": "Standard_E4s_v3",
+            "customImageSubscription": "2927c217-b119-4d3b-8a13-82a1c3a16c8f",
+            "customImageRG": "iot-vhds",
+            "powerBIScriptUrl": "[concat(variables('baseUrl'),'scripts/powerBiInstall.ps1')]",
+            "powerBITemplatesUrl": "[concat(variables('dscScriptUrl'),'/powerBItemplates/PowerBI_Templates.zip')]",
+            "powerBIDesktopUrl": "https://projectiot.blob.core.windows.net/iotp2/PBIDesktop_x64.msi"
+        },
+
         "azureSQL": {
             "location": "[variables('location')]",
             "sqlAuthenticationLogin": "[parameters('sqlAdministratorLogin')]",
@@ -462,7 +499,7 @@
             "name": "SqlServer",
             "apiVersion": "[variables('deploymentApiVersion')]",
             "dependsOn": [
-              
+                "IotEdgeServer",
                 "OMSWorkSpace"
             ],
             "properties": {
@@ -487,11 +524,47 @@
         },
         {
             "type": "Microsoft.Resources/deployments",
+            "name": "IotEdgeServer",
+            "apiVersion": "[variables('deploymentApiVersion')]",
+            "dependsOn": [
+                "OMSWorkSpace"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUrl'), 'nested/iot-edge.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "iotEdgeServer": {
+                        "value": "[variables('iotEdgeServer')]"
+                    },
+                    "apiVersions": {
+                        "value": "[variables('apiVersions')]"
+                    },
+                    "workspaceId": {
+                        "value": "[reference('OMSWorkSpace').outputs.workspaceCustomerId.value]"
+                    },
+                    "workspaceKey": {
+                        "value": "[reference('OMSWorkSpace').outputs.workspacePrimarySharedKey.value]"
+                    },
+                    "omsSettings": {
+                        "value": "[variables('omsSettings')]"
+                    }
+                }
+            }
+            
+        },
+
+        {
+            "type": "Microsoft.Resources/deployments",
             "name": "AppComponents",
             "apiVersion": "[variables('deploymentApiVersion')]",
             "dependsOn": [
                 "SqlServer",
-                "OMSWorkSpace"
+                "OMSWorkSpace",
+                "IotEdgeServer"
+                
             ],
             "properties": {
                 "mode": "Incremental",
@@ -519,7 +592,7 @@
             "name": "StreamAnalytics",
             "apiVersion": "[variables('deploymentApiVersion')]",
             "dependsOn": [
-              
+                "IotEdgeServer",
                 "IotHub",
                 "AppComponents",
                 "OMSWorkSpace"
