@@ -10,7 +10,7 @@
         },
         "omsSettings": {
             "type": "object"
-            }
+        }
     },
     "variables": {},
     "resources": [
