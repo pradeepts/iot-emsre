@@ -580,7 +580,8 @@
                         "value": "[variables('webSiteSettings')]"
                     },
                     "Instrumentationkey": {
-                        "value": "[reference('appInsights').outputs.InstrumentationKey.value]"                    }
+                        "value": "[reference('appInsights').outputs.InstrumentationKey.value]" 
+                   }
                 }
             }
         },

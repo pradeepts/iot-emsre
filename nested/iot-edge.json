@@ -16,7 +16,7 @@
         },
         "omsSettings": {
             "type": "object"
-            }
+        }
     },
     "variables": {
         "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', parameters('iotEdgeServer').virtualNetworkName)]",
