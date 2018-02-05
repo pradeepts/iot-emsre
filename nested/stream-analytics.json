@@ -63,6 +63,40 @@
                         "query": "WITH DeviceDataCollection AS\r\n  (\r\n   SELECT GetArrayElement(DeviceData,0)as DeviceData,\r\n    IoTHub.EnqueuedTime as time FROM IoTHubIn\r\n   )\r\n   SELECT\r\n  DeviceData.Device_Id AS PowerScout,\r\n    time AS [TimeStamp],\r\n   DeviceData.AMPSL1 AS [Amps L1],\r\n   DeviceData.AMPSL2 AS [Amps L2],\r\n   DeviceData.AMPSL3 AS [Amps L3],\r\n   DeviceData.AMPSAvg AS [Amps System Avg],\r\n   DeviceData.VoltsL1toNeutral AS [Volts L1 to Neutral],\r\n   DeviceData.VoltsL2toNeutral AS [Volts L2 to Neutral],\r\n   DeviceData.VoltsL3toNeutral AS [Volts L3 to Neutral],\r\n    DeviceData.kWL1 AS [kW L1],\r\n    DeviceData.kWL2 AS [kW L2],\r\n  DeviceData.kWL3 AS [kW L3],\r\n  DeviceData.kWSystem AS [kW System]\r\nINTO\r\n    [DataBase]\r\nFROM\r\n    [DeviceDataCollection]"
                     }
                 },
+                "resources": [
+                    {         
+                    "name": "Microsoft.Insights/service",
+                    "type": "providers/diagnosticSettings",
+                    "apiVersion": "2015-07-01",
+                    "dependsOn": [
+                      "[concat('Microsoft.StreamAnalytics/StreamingJobs/', parameters('streamAnalyticsSettings').streamAnalyticsJobName)]"
+                    ],
+                    "properties": {
+                        "workspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', parameters('omsSettings').omsWorkspaceName)]",
+                        "logs": [
+                            {
+                              "category": "Execution",
+                              "enabled": true,
+                              "retentionPolicy": {
+                                "days": 0,
+                                "enabled": false
+                              }
+                            }
+                        ],
+                          "metrics": [
+                            {
+                              "timeGrain": "PT1M",
+                              "enabled": true,
+                                "retentionPolicy": {
+                                       "enabled": false,
+                                       "days": 0
+                                }
+                            }
+                        ]
+              
+                    }
+                }
+                ],
                 "outputs": [
                     {
                       "name": "DataBase",
@@ -82,41 +116,8 @@
                       }
                     }
                   ]
-            },
-            "resources": [
-                {         
-                "name": "Microsoft.Insights/service",
-                "type": "providers/diagnosticSettings",
-                "apiVersion": "2015-07-01",
-                "dependsOn": [
-                  "[concat('Microsoft.StreamAnalytics/StreamingJobs/', parameters('streamAnalyticsSettings').streamAnalyticsJobName)]"
-                ],
-                "properties": {
-                    "workspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', parameters('omsSettings').omsWorkspaceName)]",
-                    "logs": [
-                        {
-                          "category": "Execution",
-                          "enabled": true,
-                          "retentionPolicy": {
-                            "days": 0,
-                            "enabled": false
-                          }
-                        }
-                    ],
-                      "metrics": [
-                        {
-                          "timeGrain": "PT1M",
-                          "enabled": true,
-                            "retentionPolicy": {
-                                   "enabled": false,
-                                   "days": 0
-                            }
-                        }
-                    ]
-          
-                }
             }
-            ]
+            
         }
     ]
 }
