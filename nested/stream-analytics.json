@@ -89,8 +89,6 @@
                 "type": "providers/diagnosticSettings",
                 "apiVersion": "2015-07-01",
                 "dependsOn": [
-                  
-                    "[concat('Microsoft.Sql/Server/Database/', 'DataBase')]",
                   "[concat('Microsoft.StreamAnalytics/StreamingJobs/', parameters('streamAnalyticsSettings').streamAnalyticsJobName)]"
                 ],
                 "properties": {
