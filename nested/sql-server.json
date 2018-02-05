@@ -69,7 +69,7 @@
                             "workspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', parameters('omsSettings').omsWorkspaceName)]",
                             "logs": [
                                 {
-                                  "category": "Connections",
+                                  "category": "SQLInsights",
                                   "enabled": true,
                                   "retentionPolicy": {
                                     "days": 0,
