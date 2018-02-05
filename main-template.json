@@ -450,9 +450,6 @@
                     },
                     "apiVersions": {
                         "value": "[variables('apiVersions')]"
-                    },
-                    "workspaceId": {
-                        "value": "[reference('OMSWorkSpace').outputs.workspaceCustomerId.value]"
                     }
                 }
             }
@@ -462,7 +459,7 @@
             "name": "SqlServer",
             "apiVersion": "[variables('deploymentApiVersion')]",
             "dependsOn": [
-                "IotEdgeServer",
+              
                 "OMSWorkSpace"
             ],
             "properties": {

@@ -10,7 +10,10 @@
         },
         "workspaceId": {
             "type": "string"
-        }
+        },
+        "omsSettings": {
+            "type": "object"
+            }
     },
     "variables": {},
     "resources": [
@@ -40,7 +43,7 @@
               "[concat('Microsoft.Devices/IotHubs/', parameters('iotHubSettings').iotHubName)]"
             ],
             "properties": {
-                "workspaceId": "[parameters('workspaceId')]",
+                "workspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', parameters('omsSettings').omsWorkspaceName)]",
                 "logs": [
                     {
                       "category": "iothuboms",
