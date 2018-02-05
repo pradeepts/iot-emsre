@@ -7,6 +7,9 @@
         },
         "apiVersions": {
             "type": "object"
+        },
+        "workspaceId": {
+            "type": "string"
         }
     },
     "variables": {},
@@ -28,6 +31,30 @@
                     }
                 }
             }
-        }
+        },
+        {         
+            "name": "Microsoft.Insights/service",
+            "type": "providers/diagnosticSettings",
+            "apiVersion": "2015-07-01",
+            "dependsOn": [
+              "[concat('Microsoft.Devices/IotHubs/', parameters('iotHubSettings').iotHubName)]"
+            ],
+            "properties": {
+                "workspaceId": "[parameters('workspaceId')]",
+                "logs": [
+                    {
+                      "category": "IOThubEvents",
+                       "enabled": true
+                    }
+                ],
+                "metrics": [
+                    {
+                        "timeGrain": "AllMetrics",
+                        "category": "AllMetrics",
+                        "enabled": true
+                    }
+                ]
+            }
+        }   
     ]
 }
