@@ -25,10 +25,6 @@
                     "marketplaceName": "Updates"
                 },
                 {
-                    "name": "[concat('AzureAppGatewayAnalytics', '(', parameters('omsSettings').omsWorkspaceName, ')')]",
-                    "marketplaceName": "AzureAppGatewayAnalytics"
-                },
-                {
                     "name": "[concat('AzureNSGAnalytics', '(', parameters('omsSettings').omsWorkspaceName, ')')]",
                     "marketplaceName": "AzureNSGAnalytics"
                 },
