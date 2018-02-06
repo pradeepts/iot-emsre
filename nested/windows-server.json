@@ -10,11 +10,31 @@
         }   
     },
     "variables": {
-        "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', parameters('appServiceEnv').virtualNetworkName)]",
-        "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('appServiceEnv').subnetName2)]" 
+        "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', parameters('windowsServerSettings').virtualNetworkName)]",
+        "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('windowsServerSettings').subnetName)]" 
     },
     "resources": [
-
+        {
+            "name": "[parameters('windowsServerSettings').virtualNetworkName]",
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "[parameters('apiVersions').networkApiVerion]",
+            "location": "[parameters('windowsServerSettings').location]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[parameters('windowsServerSettings').addressPrefix]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[parameters('windowsServerSettings').subnetName]",
+                        "properties": {
+                            "addressPrefix": "[parameters('windowsServerSettings').subnetPrefix]"
+                        }
+                    }
+                ]
+            }
+        },
         {
             "name": "[parameters('windowsServerSettings').windowsDiagStgAcnt]",
             "type": "Microsoft.Storage/storageAccounts",

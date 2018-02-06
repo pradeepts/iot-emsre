@@ -448,6 +448,10 @@
         "windowsServerSettings": {
             "location": "[variables('location')]",
             "windowsVMName": "windowsServer",
+            "virtualNetworkName": "[concat('windowsVnet',variables('suffix'))]",
+            "subnetName": "windowssubnet",
+            "addressPrefix": "10.0.0.0/24",
+            "subnetPrefix": "10.0.1.0/24",
             "adminUsername": "[parameters('windowsAdminUserName')]",
             "adminPassword": "[parameters('windowsAdminPassword')]",
             "windowsNic": "windows-nic",
