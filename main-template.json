@@ -2,6 +2,16 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "solutionType": {
+            "type": "string",
+            "allowedValues": [
+                "physicalDevices",
+                "virtualEdgeGateway"
+            ],
+            "metadata": {
+                "description": "Specify the solution type for deployment"
+            }
+        },
         "omsWorkspaceRegion": {
             "type": "string",
             "defaultValue": "East US",
@@ -70,9 +80,45 @@
                 "description": "password for windows virtual machine"
             }
         },
-
-        
-               "websiteName": {
+        "windowsAdminUserName": {
+            "type": "string",
+            "metadata": {
+                "description": "username for windows Server"
+            }
+        },
+        "windowsAdminPassword": {
+            "type": "securestring",
+            "metadata": {
+                "description": "password for windows Server"
+            }
+        },
+           "windowsVMSize": {
+            "type": "string",
+            "defaultValue": "Standard_DS2_v2",
+            "allowedValues": [
+                "Standard_DS1",
+                "Standard_DS2",
+                "Standard_DS3",
+                "Standard_DS4",
+                "Standard_DS11",
+                "Standard_DS12",
+                "Standard_DS13",
+                "Standard_DS14",
+                "Standard_DS1_v2",
+                "Standard_DS2_v2",
+                "Standard_DS3_v2",
+                "Standard_DS4_v2",
+                "Standard_DS5_v2",
+                "Standard_DS11_v2",
+                "Standard_DS12_v2",
+                "Standard_DS13_v2",
+                "Standard_DS14_v2"
+            ],
+            "metadata": {
+                "description": "Bastion Virtual Machine size"
+            }
+        },
+          "websiteName": {
             "type": "string",
             "defaultValue": "",
             "metadata": {
@@ -315,8 +361,9 @@
             "computeApiVersion": "2016-04-30-preview",
             "appInsightsApiVersion": "2014-04-01",
             "omsApiVersion": "2017-03-15-preview",
-            "omsDataApiVersion": "2015-11-01-preview"    
-        },
+            "omsDataApiVersion": "2015-11-01-preview",
+            "windowsApiVersion": "2016-09-01"
+       },
         "iotEdgeServer": {
             "location": "[variables('location')]",
             "virtualNetworkName": "iotedge-vnet",
@@ -398,6 +445,30 @@
             "restServerPackageURI": "[concat(variables('restServerDeployPackageURI'), variables('sasToken'))]",
             "powerGridEntities": "[concat('metadata=res://*/Entities.PowergridModel.csdl|res://*/Entities.PowergridModel.ssdl|res://*/Entities.PowergridModel.msl;provider=System.Data.SqlClient;provider connection string=\"data source=',variables('azureSQL').serverName,'.database.windows.net;initial catalog=',variables('azureSQL').databaseName2,';persist security info=True;user id=',parameters('sqlAdministratorLogin'),';password=',parameters('sqlAdministratorLoginPassword'),';multipleactiveresultsets=True;application name=EntityFramework\"')]"
         },
+        "windowsServerSettings": {
+            "location": "[variables('location')]",
+            "windowsVMName": "windowsServer",
+            "adminUsername": "[parameters('windowsAdminUserName')]",
+            "adminPassword": "[parameters('windowsAdminPassword')]",
+            "windowsNic": "windows-nic",
+            "windowsNSG": "windows-nsg",
+            "windowsPublicIpName": "windows-pip",
+            "windowsDiagStgAcnt": "[concat('strg',variables('suffix'))]",
+            "windowsVMSize": "[parameters('windowsVMSize')]",
+            "windowsDnsLabelPrefix": "[concat('server',variables('suffix'))]",
+            "publisher": "MicrosoftWindowsServer",
+            "offer": "WindowsServer",
+            "sku": "2012-R2-Datacenter",
+            "version": "latest",
+            "storageAccountType": "[variables('storageAccountType')]",
+            "diagStorageAccountType": "Standard_LRS",
+            "publicIpAddressType": "Dynamic",
+            "powerBIScriptUrl": "[concat(variables('baseUrl'),'scripts/powerBiInstall1.ps1')]",
+            "powerBITemplatesUrl": "[concat(variables('dscScriptUrl'),'/powerBItemplates/PowerBI_Templates.zip')]",
+            "powerBIDesktopUrl": "https://projectiot.blob.core.windows.net/iotp2/PBIDesktop_x64.msi",
+            "lightSensor": "https://projectiot.blob.core.windows.net/iothub/LightSensor.msi"
+        },
+
         "appInsights": {
             "location": "[parameters('appInsightsLocation')]",
             "appInsightResourceName": "[concat('AppInsights', uniquestring(resourceGroup().id))]"
@@ -423,6 +494,7 @@
             "mlSkuName": "[parameters('MLskuName')]",
             "mlStorageName": "[concat('mlstr', variables('suffix'))]"
         },
+
         "omsSettings": {
             "omsWorkspaceName": "[concat('omsws', variables('suffix'))]",
             "omsWorkspaceRegion": "[parameters('omsWorkspaceRegion')]",
@@ -525,6 +597,7 @@
         {
             "type": "Microsoft.Resources/deployments",
             "name": "IotEdgeServer",
+            "condition": "[equals(parameters('solutionType'),'virtualEdgeGateway')]",
             "apiVersion": "[variables('deploymentApiVersion')]",
             "dependsOn": [
                 "OMSWorkSpace"
@@ -555,7 +628,29 @@
             }
             
         },
-
+        {
+            "type": "Microsoft.Resources/deployments",
+            "name": "windowsHost",
+            "apiVersion": "[variables('deploymentApiVersion')]",
+            "dependsOn": [
+                "OMSWorkSpace"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[concat(variables('baseUrl'), 'nested/windows-server.json')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "windowsServerSettings": {
+                        "value": "[variables('windowsServerSettings')]"
+                    },
+                    "apiVersions": {
+                        "value": "[variables('apiVersions')]"
+                    }
+               }
+           }
+        },
         {
             "type": "Microsoft.Resources/deployments",
             "name": "AppComponents",
