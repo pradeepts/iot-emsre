@@ -247,7 +247,7 @@
                     "computerName": "[parameters('dataAggregatorServerSettings').dataAggregatorVMName]",
                     "adminUsername": "[parameters('dataAggregatorServerSettings').adminUsername]",
                     "adminPassword": "[parameters('dataAggregatorServerSettings').adminPassword]",
-                    "dataAggregatorConfiguration": {
+                    "windowsConfiguration": {
                         "provisionVmAgent": "true"
                     }
                 },

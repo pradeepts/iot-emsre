@@ -641,7 +641,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[concat(variables('baseUrl'), 'nested/windows-server.json')]",
+                    "uri": "[concat(variables('baseUrl'), 'nested/data-aggregator.json')]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
