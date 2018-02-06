@@ -80,19 +80,19 @@
                 "description": "password for windows virtual machine"
             }
         },
-        "windowsAdminUserName": {
+        "dataAggregatorAdminUserName": {
             "type": "string",
             "metadata": {
                 "description": "username for windows Server"
             }
         },
-        "windowsAdminPassword": {
+        "dataAggregatorAdminPassword": {
             "type": "securestring",
             "metadata": {
                 "description": "password for windows Server"
             }
         },
-           "windowsVMSize": {
+        "dataAggregatorVMSize": {
             "type": "string",
             "defaultValue": "Standard_DS2_v2",
             "allowedValues": [
@@ -362,7 +362,7 @@
             "appInsightsApiVersion": "2014-04-01",
             "omsApiVersion": "2017-03-15-preview",
             "omsDataApiVersion": "2015-11-01-preview",
-            "windowsApiVersion": "2016-09-01"
+            "dataAggregatorApiVersion": "2016-09-01"
        },
         "iotEdgeServer": {
             "location": "[variables('location')]",
@@ -445,21 +445,21 @@
             "restServerPackageURI": "[concat(variables('restServerDeployPackageURI'), variables('sasToken'))]",
             "powerGridEntities": "[concat('metadata=res://*/Entities.PowergridModel.csdl|res://*/Entities.PowergridModel.ssdl|res://*/Entities.PowergridModel.msl;provider=System.Data.SqlClient;provider connection string=\"data source=',variables('azureSQL').serverName,'.database.windows.net;initial catalog=',variables('azureSQL').databaseName2,';persist security info=True;user id=',parameters('sqlAdministratorLogin'),';password=',parameters('sqlAdministratorLoginPassword'),';multipleactiveresultsets=True;application name=EntityFramework\"')]"
         },
-        "windowsServerSettings": {
+        "dataAggregatorServerSettings": {
             "location": "[variables('location')]",
-            "windowsVMName": "windowsServer",
-            "virtualNetworkName": "[concat('windowsVnet',variables('suffix'))]",
-            "subnetName": "winsubnet",
+            "dataAggregatorVMName": "dataaggregatorServer",
+            "virtualNetworkName": "[concat('dataAggregatorVnet',variables('suffix'))]",
+            "subnetName": "dataAggregatorsubnet",
             "addressPrefix": "10.0.0.0/16",
             "subnetPrefix": "10.0.1.0/24",
-            "adminUsername": "[parameters('windowsAdminUserName')]",
-            "adminPassword": "[parameters('windowsAdminPassword')]",
-            "windowsNic": "windows-nic",
-            "windowsNSG": "windows-nsg",
-            "windowsPublicIpName": "windows-pip",
-            "windowsDiagStgAcnt": "[concat('strg',variables('suffix'))]",
-            "windowsVMSize": "[parameters('windowsVMSize')]",
-            "windowsDnsLabelPrefix": "[concat('server',variables('suffix'))]",
+            "adminUsername": "[parameters('dataAggregatorAdminUserName')]",
+            "adminPassword": "[parameters('dataAggregatorAdminPassword')]",
+            "dataAggregatorNic": "windows-nic",
+            "dataAggregatorNSG": "windows-nsg",
+            "dataAggregatorPublicIpName": "windows-pip",
+            "dataAggregatorDiagStgAcnt": "[concat('strg',variables('suffix'))]",
+            "dataAggregatorVMSize": "[parameters('dataAggregatorVMSize')]",
+            "dataAggregatorDnsLabelPrefix": "[concat('server',variables('suffix'))]",
             "publisher": "MicrosoftWindowsServer",
             "offer": "WindowsServer",
             "sku": "2012-R2-Datacenter",
@@ -578,7 +578,7 @@
             "dependsOn": [
                 "IotEdgeServer",
                 "OMSWorkSpace",
-                "windowsHost"
+                "dataAggregator"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -633,7 +633,7 @@
         },
         {
             "type": "Microsoft.Resources/deployments",
-            "name": "windowsHost",
+            "name": "dataAggregator",
             "apiVersion": "[variables('deploymentApiVersion')]",
             "dependsOn": [
                 "OMSWorkSpace"
@@ -645,8 +645,8 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
-                    "windowsServerSettings": {
-                        "value": "[variables('windowsServerSettings')]"
+                    "dataAggregatorServerSettings": {
+                        "value": "[variables('dataAggregatorServerSettings')]"
                     },
                     "apiVersions": {
                         "value": "[variables('apiVersions')]"
@@ -698,7 +698,7 @@
                 "IotHub",
                 "AppComponents",
                 "OMSWorkSpace",
-                "windowsHost"
+                "dataAggregator"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -784,9 +784,9 @@
             "type": "string",
             "value": "[variables('webSiteSettings').webjobStorageName]"
         },
-        "windowsFQDN": {
+        "dataAggregatorFQDN": {
             "type": "string",
-            "value": "[reference('windowsHost').outputs.windowsFQDN.value]"
+            "value": "[reference('dataAggregator').outputs.dataAggregatorFQDN.value]"
         }
 
     }

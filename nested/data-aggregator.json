@@ -2,7 +2,7 @@
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "windowsServerSettings": {
+        "dataAggregatorServerSettings": {
             "type": "object"
         },
         "apiVersions": {
@@ -16,36 +16,36 @@
         }   
     },
     "variables": {
-        "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', parameters('windowsServerSettings').virtualNetworkName)]",
-        "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('windowsServerSettings').subnetName)]" 
+        "vnetId": "[resourceId('Microsoft.Network/virtualNetworks', parameters('dataAggregatorServerSettings').virtualNetworkName)]",
+        "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('dataAggregatorServerSettings').subnetName)]" 
     },
     "resources": [
         {
-            "name": "[parameters('windowsServerSettings').virtualNetworkName]",
+            "name": "[parameters('dataAggregatorServerSettings').virtualNetworkName]",
             "type": "Microsoft.Network/virtualNetworks",
             "apiVersion": "[parameters('apiVersions').networkApiVerion]",
-            "location": "[parameters('windowsServerSettings').location]",
+            "location": "[parameters('dataAggregatorServerSettings').location]",
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
-                        "[parameters('windowsServerSettings').addressPrefix]"
+                        "[parameters('dataAggregatorServerSettings').addressPrefix]"
                     ]
                 },
                 "subnets": [
                     {
-                        "name": "[parameters('windowsServerSettings').subnetName]",
+                        "name": "[parameters('dataAggregatorServerSettings').subnetName]",
                         "properties": {
-                            "addressPrefix": "[parameters('windowsServerSettings').subnetPrefix]"
+                            "addressPrefix": "[parameters('dataAggregatorServerSettings').subnetPrefix]"
                         }
                     }
                 ]
             }
         },
         {
-            "name": "[parameters('windowsServerSettings').windowsDiagStgAcnt]",
+            "name": "[parameters('dataAggregatorServerSettings').dataAggregatorDiagStgAcnt]",
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "[parameters('apiVersions').storageApiVersion1]",
-            "location": "[parameters('windowsServerSettings').location]",
+            "location": "[parameters('dataAggregatorServerSettings').location]",
             "sku": {
                 "name": "Standard_LRS"
             },
@@ -53,13 +53,13 @@
             "properties": {}
         },
         {
-            "name": "[parameters('windowsServerSettings').windowsNic]",
+            "name": "[parameters('dataAggregatorServerSettings').dataAggregatorNic]",
             "type": "Microsoft.Network/networkInterfaces",
-            "apiVersion": "[parameters('apiVersions').windowsApiVersion]",
-            "location": "[parameters('windowsServerSettings').location]",
+            "apiVersion": "[parameters('apiVersions').dataAggregatorApiVersion]",
+            "location": "[parameters('dataAggregatorServerSettings').location]",
             "dependsOn": [
-                "[concat('Microsoft.Network/publicIpAddresses/', parameters('windowsServerSettings').windowsPublicIpName)]",
-                "[concat('Microsoft.Network/networkSecurityGroups/', parameters('windowsServerSettings').windowsNSG)]"
+                "[concat('Microsoft.Network/publicIpAddresses/', parameters('dataAggregatorServerSettings').dataAggregatorPublicIpName)]",
+                "[concat('Microsoft.Network/networkSecurityGroups/', parameters('dataAggregatorServerSettings').dataAggregatorNSG)]"
             ],
             "properties": {
                 "ipConfigurations": [
@@ -71,33 +71,33 @@
                             },
                             "privateIPAllocationMethod": "Dynamic",
                             "publicIpAddress": {
-                                "id": "[resourceId('Microsoft.Network/publicIpAddresses', parameters('windowsServerSettings').windowsPublicIpName)]"
+                                "id": "[resourceId('Microsoft.Network/publicIpAddresses', parameters('dataAggregatorServerSettings').dataAggregatorPublicIpName)]"
                             }
                         }
                     }
                 ],
                 "networkSecurityGroup": {
-                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('windowsServerSettings').windowsNSG)]"
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('dataAggregatorServerSettings').dataAggregatorNSG)]"
                 }
             }
         },
         {
-            "name": "[parameters('windowsServerSettings').windowsPublicIpName]",
+            "name": "[parameters('dataAggregatorServerSettings').dataAggregatorPublicIpName]",
             "type": "Microsoft.Network/publicIpAddresses",
-            "apiVersion": "[parameters('apiVersions').windowsApiVersion]",
-            "location": "[parameters('windowsServerSettings').location]",
+            "apiVersion": "[parameters('apiVersions').dataAggregatorApiVersion]",
+            "location": "[parameters('dataAggregatorServerSettings').location]",
             "properties": {
-                "publicIpAllocationMethod": "[parameters('windowsServerSettings').publicIpAddressType]",
+                "publicIpAllocationMethod": "[parameters('dataAggregatorServerSettings').publicIpAddressType]",
                 "dnsSettings": {
-                    "domainNameLabel": "[parameters('windowsServerSettings').windowsDnsLabelPrefix]"
+                    "domainNameLabel": "[parameters('dataAggregatorServerSettings').dataAggregatorDnsLabelPrefix]"
                 }
             }
         },
         {
-            "name": "[parameters('windowsServerSettings').windowsNSG]",
+            "name": "[parameters('dataAggregatorServerSettings').dataAggregatorNSG]",
             "type": "Microsoft.Network/networkSecurityGroups",
-            "apiVersion": "[parameters('apiVersions').windowsApiVersion]",
-            "location": "[parameters('windowsServerSettings').location]",
+            "apiVersion": "[parameters('apiVersions').dataAggregatorApiVersion]",
+            "location": "[parameters('dataAggregatorServerSettings').location]",
             "properties": {
                 "securityRules": [
                     {
@@ -234,37 +234,37 @@
             }
         },
         {
-            "name": "[parameters('windowsServerSettings').windowsVMName]",
+            "name": "[parameters('dataAggregatorServerSettings').dataAggregatorVMName]",
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "[parameters('apiVersions').computeApiVersion]",
-            "location": "[parameters('windowsServerSettings').location]",
+            "location": "[parameters('dataAggregatorServerSettings').location]",
             "dependsOn": [
-                "[concat('Microsoft.Network/networkInterfaces/', parameters('windowsServerSettings').windowsNic)]",
-                "[concat('Microsoft.Storage/storageAccounts/', parameters('windowsServerSettings').windowsDiagStgAcnt)]"
+                "[concat('Microsoft.Network/networkInterfaces/', parameters('dataAggregatorServerSettings').dataAggregatorNic)]",
+                "[concat('Microsoft.Storage/storageAccounts/', parameters('dataAggregatorServerSettings').dataAggregatorDiagStgAcnt)]"
             ],
             "properties": {
                 "osProfile": {
-                    "computerName": "[parameters('windowsServerSettings').windowsVMName]",
-                    "adminUsername": "[parameters('windowsServerSettings').adminUsername]",
-                    "adminPassword": "[parameters('windowsServerSettings').adminPassword]",
-                    "windowsConfiguration": {
+                    "computerName": "[parameters('dataAggregatorServerSettings').dataAggregatorVMName]",
+                    "adminUsername": "[parameters('dataAggregatorServerSettings').adminUsername]",
+                    "adminPassword": "[parameters('dataAggregatorServerSettings').adminPassword]",
+                    "dataAggregatorConfiguration": {
                         "provisionVmAgent": "true"
                     }
                 },
                 "hardwareProfile": {
-                    "vmSize": "[parameters('windowsServerSettings').windowsVMSize]"
+                    "vmSize": "[parameters('dataAggregatorServerSettings').dataAggregatorVMSize]"
                 },
                 "storageProfile": {
                     "imageReference": {
-                        "publisher": "[parameters('windowsServerSettings').publisher]",
-                        "offer": "[parameters('windowsServerSettings').offer]",
-                        "sku": "[parameters('windowsServerSettings').sku]",
-                        "version": "[parameters('windowsServerSettings').version]"
+                        "publisher": "[parameters('dataAggregatorServerSettings').publisher]",
+                        "offer": "[parameters('dataAggregatorServerSettings').offer]",
+                        "sku": "[parameters('dataAggregatorServerSettings').sku]",
+                        "version": "[parameters('dataAggregatorServerSettings').version]"
                     },
                     "osDisk": {
                         "createOption": "fromImage",
                         "managedDisk": {
-                            "storageAccountType": "[parameters('windowsServerSettings').storageAccountType]"
+                            "storageAccountType": "[parameters('dataAggregatorServerSettings').storageAccountType]"
                         }
                     },
                     "dataDisks": []
@@ -272,26 +272,26 @@
                 "networkProfile": {
                     "networkInterfaces": [
                         {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('windowsServerSettings').windowsNic)]"
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('dataAggregatorServerSettings').dataAggregatorNic)]"
                         }
                     ]
                 },
                 "diagnosticsProfile": {
                     "bootDiagnostics": {
                         "enabled": true,
-                        "storageUri": "[reference(resourceId('Microsoft.Storage/storageAccounts', parameters('windowsServerSettings').windowsDiagStgAcnt)).primaryEndpoints['blob']]"
+                        "storageUri": "[reference(resourceId('Microsoft.Storage/storageAccounts', parameters('dataAggregatorServerSettings').dataAggregatorDiagStgAcnt)).primaryEndpoints['blob']]"
                     }
                 }
             }
         },
          
           {
-            "name": "[concat(parameters('windowsServerSettings').windowsVMName,'/CustomScriptExtension')]",
+            "name": "[concat(parameters('dataAggregatorServerSettings').dataAggregatorVMName,'/CustomScriptExtension')]",
             "type": "Microsoft.Compute/virtualMachines/extensions",
-            "location": "[parameters('windowsServerSettings').location]",
+            "location": "[parameters('dataAggregatorServerSettings').location]",
             "apiVersion": "[parameters('apiVersions').computeApiVersion]",
             "dependsOn": [
-                "[concat('Microsoft.Compute/virtualMachines/',parameters('windowsServerSettings').windowsVMName)]"
+                "[concat('Microsoft.Compute/virtualMachines/',parameters('dataAggregatorServerSettings').dataAggregatorVMName)]"
             ],
             "properties": {
                 "publisher": "Microsoft.Compute",
@@ -300,21 +300,21 @@
                 "autoUpgradeMinorVersion": true,
                 "settings": {
                     "fileUris": [
-                        "[parameters('windowsServerSettings').powerBIScriptUrl]"
+                        "[parameters('dataAggregatorServerSettings').powerBIScriptUrl]"
                     ]
                 },
                 "protectedSettings": {
-                    "commandToExecute": "[concat ('powershell -ExecutionPolicy Unrestricted -File powerBiInstall1.ps1',' ',parameters('windowsServerSettings').powerBITemplatesUrl,' ',parameters('windowsServerSettings').powerBIDesktopUrl,' ',parameters('windowsServerSettings').lightSensor,' ',parameters('windowsServerSettings').dataServiceApp)]"
+                    "commandToExecute": "[concat ('powershell -ExecutionPolicy Unrestricted -File powerBiInstall1.ps1',' ',parameters('dataAggregatorServerSettings').powerBITemplatesUrl,' ',parameters('dataAggregatorServerSettings').powerBIDesktopUrl,' ',parameters('dataAggregatorServerSettings').lightSensor,' ',parameters('dataAggregatorServerSettings').dataServiceApp)]"
                 }
             }
         },
         {
             "type": "Microsoft.Compute/virtualMachines/extensions",
-            "name": "[concat(parameters('windowsServerSettings').windowsVMName,'/omsextentions')]",
+            "name": "[concat(parameters('dataAggregatorServerSettings').dataAggregatorVMName,'/omsextentions')]",
             "apiVersion": "[parameters('apiVersions').computeApiVersion]",
-            "location": "[parameters('windowsServerSettings').location]",
+            "location": "[parameters('dataAggregatorServerSettings').location]",
             "dependsOn": [
-                "[concat('Microsoft.Compute/virtualMachines/', parameters('windowsServerSettings').windowsVMName,'/extensions/CustomScriptExtension')]"
+                "[concat('Microsoft.Compute/virtualMachines/', parameters('dataAggregatorServerSettings').dataAggregatorVMName,'/extensions/CustomScriptExtension')]"
             ],
             "properties": {
               "publisher": "Microsoft.EnterpriseCloud.Monitoring",
@@ -332,9 +332,9 @@
    
     ],
     "outputs": {
-        "windowsFQDN": {
+        "dataAggregatorFQDN": {
             "type": "string",
-            "value": "[reference(parameters('windowsServerSettings').windowsPublicIpName).dnsSettings.fqdn]"
+            "value": "[reference(parameters('dataAggregatorServerSettings').dataAggregatorPublicIpName).dnsSettings.fqdn]"
         }
     }
 }
