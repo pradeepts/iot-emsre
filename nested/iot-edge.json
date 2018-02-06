@@ -260,43 +260,8 @@
                         }
                     }
                 ]
-            },
-            "resources": [
-                {         
-                "name": "Microsoft.Insights/service",
-                "type": "providers/diagnosticSettings",
-                "apiVersion": "2015-07-01",
-                "dependsOn": [
-                   
-                        "[concat('Microsoft.Network/networkSecurityGroups/', parameters('iotEdgeServer').networkSecurityGroupName)]"
-                    
-                ],
-                "properties": {
-                    "workspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', parameters('omsSettings').omsWorkspaceName)]",
-                    "logs": [
-                        {
-                          "category": "NetworkSecurityGroupEvent",
-                          "enabled": true,
-                          "retentionPolicy": {
-                            "days": 0,
-                            "enabled": false
-                          }
-                        }
-                    ],
-                      "metrics": [
-                        {
-                          "timeGrain": "PT1M",
-                          "enabled": true,
-                          "retentionPolicy": {
-                            "enabled": false,
-                            "days": 0
-                          }
-                        }
-                    ]
-            
-                }
             }
-        ]
+           
         },
         {
             "name": "[parameters('iotEdgeServer').networkInterfaceName]",
