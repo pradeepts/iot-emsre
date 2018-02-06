@@ -7,6 +7,9 @@
         },
         "apiVersions": {
             "type": "object"
+        },
+        "omsSettings": {
+            "type": "object"
         }
     },
     "variables": {},
@@ -53,7 +56,46 @@
                                 "operationMode": "Import"
                             }
                         }
-                    ]
+                    ],
+                    "resources": [
+                        {         
+                        "name": "Microsoft.Insights/service",
+                        "type": "providers/diagnosticSettings",
+                        "apiVersion": "[parameters('apiVersions').omsExtApiVersion]",
+                        "dependsOn": [
+                           
+                                "[concat('Microsoft.Sql/servers/', parameters('azureSQL').serverName)]",
+                            
+    
+                            "[concat('Microsoft.Sql/servers/',parameters('azureSQL').serverName, '/databases/', parameters('azureSQL').databaseName1)]"
+                        ],
+                        "properties": {
+                            "workspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', parameters('omsSettings').omsWorkspaceName)]",
+                            "logs": [
+                                {
+                                  "category": "Timeouts",
+                                  "enabled": true,
+                                  "retentionPolicy": {
+                                    "days": 0,
+                                    "enabled": false
+                                  }
+                                }
+                            ],
+                              "metrics": [
+                                {
+                                  "timeGrain": "PT1M",
+                                  "enabled": true,
+                                  "retentionPolicy": {
+                                    "enabled": false,
+                                    "days": 0
+                                  }
+                                }
+                            ]
+                    
+                        }
+                    }
+                ]
+                   
                 },
                 {
                     "apiVersion": "[parameters('apiVersions').sqlDBApiVersion]",
@@ -91,13 +133,13 @@
                         {         
                         "name": "Microsoft.Insights/service",
                         "type": "providers/diagnosticSettings",
-                        "apiVersion": "2015-07-01",
+                        "apiVersion": "[parameters('apiVersions').omsExtApiVersion]",
                         "dependsOn": [
                            
                                 "[concat('Microsoft.Sql/servers/', parameters('azureSQL').serverName)]",
                             
     
-                            "[concat('Microsoft.Sql/servers/',parameters('azureSQL').serverName, '/databases/', parameters('azureSQL').databaseName1)]"
+                            "[concat('Microsoft.Sql/servers/',parameters('azureSQL').serverName, '/databases/', parameters('azureSQL').databaseName2)]"
                         ],
                         "properties": {
                             "workspaceId": "[resourceId('Microsoft.OperationalInsights/workspaces/', parameters('omsSettings').omsWorkspaceName)]",

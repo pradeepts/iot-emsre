@@ -314,7 +314,7 @@
             "appInsightsApiVersion": "2014-04-01",
             "omsApiVersion": "2017-03-15-preview",
             "omsDataApiVersion": "2015-11-01-preview",
-            "iotHubOmsApiVersion": "2015-07-01"    
+            "OmsExtApiVersion": "2015-07-01"    
         },
         "azureSQL": {
             "location": "[variables('location')]",
@@ -540,6 +540,9 @@
                     },
                     "apiVersions": {
                         "value": "[variables('apiVersions')]"
+                    },
+                    "omsSettings": {
+                        "value": "[variables('omsSettings')]"
                     }
                 }
             }
