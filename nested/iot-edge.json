@@ -13,9 +13,6 @@
         },
         "workspaceKey": {
             "type": "string"
-        },
-        "omsSettings": {
-            "type": "object"
         }
     },
     "variables": {

@@ -577,7 +577,8 @@
             "apiVersion": "[variables('deploymentApiVersion')]",
             "dependsOn": [
                 "IotEdgeServer",
-                "OMSWorkSpace"
+                "OMSWorkSpace",
+                "windowsHost"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -625,9 +626,6 @@
                     },
                     "workspaceKey": {
                         "value": "[reference('OMSWorkSpace').outputs.workspacePrimarySharedKey.value]"
-                    },
-                    "omsSettings": {
-                        "value": "[variables('omsSettings')]"
                     }
                 }
             }
@@ -652,6 +650,12 @@
                     },
                     "apiVersions": {
                         "value": "[variables('apiVersions')]"
+                    },
+                    "workspaceId": {
+                        "value": "[reference('OMSWorkSpace').outputs.workspaceCustomerId.value]"
+                    },
+                    "workspaceKey": {
+                        "value": "[reference('OMSWorkSpace').outputs.workspacePrimarySharedKey.value]"
                     }
                }
            }

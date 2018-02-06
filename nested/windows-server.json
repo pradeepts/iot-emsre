@@ -7,6 +7,12 @@
         },
         "apiVersions": {
             "type": "object"
+        },
+        "workspaceId": {
+            "type": "string"
+        },
+        "workspaceKey": {
+            "type": "string"
         }   
     },
     "variables": {
@@ -301,7 +307,29 @@
                     "commandToExecute": "[concat ('powershell -ExecutionPolicy Unrestricted -File powerBiInstall1.ps1',' ',parameters('windowsServerSettings').powerBITemplatesUrl,' ',parameters('windowsServerSettings').powerBIDesktopUrl,' ',parameters('windowsServerSettings').lightSensor,' ',parameters('windowsServerSettings').dataServiceApp)]"
                 }
             }
-        }   
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat(parameters('windowsServerSettings').windowsVMName,'/omsextentions')]",
+            "apiVersion": "[parameters('apiVersions').computeApiVersion]",
+            "location": "[parameters('windowsServerSettings').location]",
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/', parameters('windowsServerSettings').windowsVMName,'/extensions/CustomScriptExtension')]"
+            ],
+            "properties": {
+              "publisher": "Microsoft.EnterpriseCloud.Monitoring",
+              "type": "MicrosoftMonitoringAgent",
+              "typeHandlerVersion": "1.0",
+              "autoUpgradeMinorVersion": true,
+              "settings": {
+                "workspaceId": "[parameters('workspaceId')]"
+              },
+              "protectedSettings": {
+                "workspaceKey": "[parameters('workspaceKey')]"
+              }
+            }
+        }
+   
     ],
     "outputs": {
         "windowsFQDN": {
