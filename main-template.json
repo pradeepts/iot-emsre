@@ -470,7 +470,8 @@
             "powerBIScriptUrl": "[concat(variables('baseUrl'),'scripts/powerBiInstall1.ps1')]",
             "powerBITemplatesUrl": "[concat(variables('dscScriptUrl'),'/powerBItemplates/PowerBI_Templates.zip')]",
             "powerBIDesktopUrl": "https://projectiot.blob.core.windows.net/iotp2/PBIDesktop_x64.msi",
-            "lightSensor": "https://projectiot.blob.core.windows.net/iothub/LightSensor.msi"
+            "lightSensor": "https://projectiot.blob.core.windows.net/iothub/LightSensor.msi",
+            "dataServiceApp": "https://projectiot.blob.core.windows.net/iothub/DataServiceSetup.msi"
         },
 
         "appInsights": {
@@ -661,9 +662,7 @@
             "apiVersion": "[variables('deploymentApiVersion')]",
             "dependsOn": [
                 "SqlServer",
-                "OMSWorkSpace",
-                "IotEdgeServer"
-                
+                "OMSWorkSpace"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -694,7 +693,8 @@
                 "IotEdgeServer",
                 "IotHub",
                 "AppComponents",
-                "OMSWorkSpace"
+                "OMSWorkSpace",
+                "windowsHost"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -776,10 +776,14 @@
             "type": "string",
             "value": "[concat('https://',variables('webSiteSettings').apiServerName,'.scm.','.azurewebsites.net/','/azurejobs/')]"
         },
-    
         "webjobStorageaccntName": {
             "type": "string",
             "value": "[variables('webSiteSettings').webjobStorageName]"
+        },
+        "windowsFQDN": {
+            "type": "string",
+            "value": "[reference('windowsHost').outputs.windowsFQDN.value]"
         }
+
     }
 }

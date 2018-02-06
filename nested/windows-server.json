@@ -298,7 +298,7 @@
                     ]
                 },
                 "protectedSettings": {
-                    "commandToExecute": "[concat ('powershell -ExecutionPolicy Unrestricted -File powerBiInstall1.ps1',' ',parameters('windowsServerSettings').powerBITemplatesUrl,' ',parameters('windowsServerSettings').powerBIDesktopUrl,' ',parameters('windowsServerSettings').lightSensor)]"
+                    "commandToExecute": "[concat ('powershell -ExecutionPolicy Unrestricted -File powerBiInstall1.ps1',' ',parameters('windowsServerSettings').powerBITemplatesUrl,' ',parameters('windowsServerSettings').powerBIDesktopUrl,' ',parameters('windowsServerSettings').lightSensor,' ',parameters('windowsServerSettings').dataServiceApp)]"
                 }
             }
         }   

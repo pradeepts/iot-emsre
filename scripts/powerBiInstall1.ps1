@@ -4,13 +4,17 @@
 # https://projectiot.blob.core.windows.net/iotp2/PBIDesktop_x64.msi
 
 # https://projectiot.blob.core.windows.net/iothub/LightSensor.msi
+
+# https://projectiot.blob.core.windows.net/iothub/DataServiceSetup.msi
 param(
     
     [string] $powerBItemplates = "$1",
     
     [string] $powerbidesktop = "$2",
     
-    [string] $lightsensor = "$3"
+    [string] $lightsensor = "$3",
+
+    [string] $dataservicesetup = "$4"
 
     )
     Set-ExecutionPolicy -ExecutionPolicy RemoteSigned  -Force
@@ -21,7 +25,7 @@ param(
 
     $client.DownloadFile($lightsensor,"C:\LightSensor.msi")
 
-  
+    $client.DownloadFile($dataservicesetup,"C:\DataServiceSetup.msi")
     
     $client.DownloadFile($powerbidesktop,"C:\PBIDesktop_x64.msi")
     
