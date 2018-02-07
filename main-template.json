@@ -60,12 +60,14 @@
         },
         "iotEdgeAdminUserName": {
             "type": "string",
+            "defaultValue": "",
             "metadata": {
                 "description": "username for windows virtual machine"
             }
         },
         "iotEdgeAdminPassword": {
             "type": "securestring",
+            "defaultValue": "",
             "metadata": {
                 "description": "password for windows virtual machine"
             }
