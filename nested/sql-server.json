@@ -54,7 +54,6 @@
                             }
                         }
                     ]
-                   
                 },
                 {
                     "apiVersion": "[parameters('apiVersions').sqlDBApiVersion]",
@@ -70,7 +69,6 @@
                         "maxSizeBytes": "[parameters('azureSQL').maxSizeBytes]",
                         "requestedServiceObjectiveName": "[parameters('azureSQL').requestedServiceObjectiveName]"
                     },
-                 
                     "resources": [
                         {
                             "name": "myImport2",
@@ -89,8 +87,8 @@
                             }
                         }
                     ]
-               }  
-           ]     
+                }
+            ]
         },
         {
             "type": "Microsoft.Sql/servers/firewallRules",
@@ -105,7 +103,6 @@
                 "startIpAddress": "0.0.0.0"
             }
         }
-        
     ],
     "outputs": {
         "azureSQLServerName": {
