@@ -7,9 +7,6 @@
         },
         "apiVersions": {
             "type": "object"
-        },
-        "omsSettings": {
-            "type": "object"
         }
     },
     "variables": {},
